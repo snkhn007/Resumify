@@ -1,0 +1,13 @@
+resume.routes.js — resume CRUD (all protected)
+GET    /api/resumes            → get all resumes for logged-in user
+POST   /api/resumes            → create a new resume
+GET    /api/resumes/:id        → get one resume by ID
+PUT    /api/resumes/:id        → update a resume
+DELETE /api/resumes/:id        → delete a resume
+POST   /api/resumes/:id/duplicate  → duplicate a resume
+
+user.routes.js — account (all protected)
+GET    /api/user/profile       → get profile info
+PUT    /api/user/profile       → update name, email etc.
+PUT    /api/user/password      → change password
+DELETE /api/user/account       → delete account

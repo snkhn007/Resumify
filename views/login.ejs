@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Log In — ResumeBuilder</title>
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/auth.css">
+
+  <!-- TEMP FOR DESIGNING
+  <link rel="stylesheet" href="./css/utils.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/auth.css"> -->
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="../index.html" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/templates">Templates</a>
+        <a href="/user/features">Features</a>
+        <a href="/user/login">Login</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon">
+            <i class="bi bi-circle-half"></i>
+          </span>
+        </button>
+ 
+        <a href="/pages/builder.html" class="btn btn-primary">
+          Create Resume
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth-section">
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          <span class="logo-mark">R</span>
+          <span class="auth-logo-name">ResumeBuilder</span>
+        </div>
+
+        <h1 class="auth-heading">Welcome back</h1>
+        <p class="auth-sub">Log in to your account to continue</p>
+
+        <form class="auth-form" id="myForm" action="/api/login" method="POST" novalidate>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com">
+            <span class="err" id="mailErr"></span>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••">
+            <span class="err" id="passErr"></span>
+          </div>
+
+          <div class="forgot">
+            <a href="forgot-password.html">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Log in</button>
+
+        </form>
+
+        <p class="auth-footer">
+          Don't have an account? <a href="/user/signup">Sign up</a>
+        </p>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="../index.html#templates">Templates</a>
+        <a href="builder.html">Builder</a>
+      </nav>
+      <p class="copyright">© 2026 ResumeBuilder. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="/js/loginValidation.js" defer ></script>
+</body>
+</html>

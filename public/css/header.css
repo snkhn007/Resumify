@@ -1,0 +1,139 @@
+/* =============================================================
+   header.css — Site Header & Navigation
+   Requires: utils.css loaded before this file.
+   ============================================================= */
+
+
+/* ----- HEADER SHELL ----- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+}
+
+
+/* ----- NAVBAR ----- */
+
+.navbar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+
+/* ----- LOGO ----- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary) 0%, #60a5fa 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+}
+
+
+/* ----- NAV LINKS ----- */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  color: var(--muted);
+  font-weight: 500;
+  font-size: var(--text-base);
+}
+
+.nav-links a {
+  transition: color var(--ease);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--primary);
+}
+
+
+/* ----- NAV ACTIONS (CTA buttons) ----- */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+
+/* ----- RESPONSIVE ----- */
+
+@media (max-width: 820px) {
+  .site-header {
+    height: auto;
+    position: static;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--space-4) 0;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border-soft);
+  }
+}
+
+@media (max-width: 560px) {
+  .nav-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+
+/* For Dark Mode ->  */
+.btn-theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background var(--ease), border-color var(--ease), transform var(--ease);
+  flex-shrink: 0;
+}
+
+.btn-theme-toggle:hover {
+  background: var(--surface-soft);
+  transform: rotate(15deg);
+}

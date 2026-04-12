@@ -1,0 +1,242 @@
+/* =============================================================
+   utils.css — Design Tokens, Reset & Base Styles
+   Import this file FIRST on every page.
+   Usage: color: var(--primary);
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+
+/* ----- DESIGN TOKENS ----- */
+
+:root {
+
+  /* Brand */
+  --primary:        #2563eb;
+  --primary-dark:   #1d4ed8;
+  --primary-soft:   #dbeafe;
+
+  /* Backgrounds */
+  --bg:             #f5f7fb;
+  --surface:        #ffffff;
+  --surface-soft:   #f8fafc;
+
+  /* Borders */
+  --border:         #e5e7eb;
+  --border-soft:    #edf2f7;
+
+  /* Text */
+  --text:           #0f172a;
+  --muted:          #64748b;
+  --text-light:     #334155;
+
+  /* Feedback */
+  --success:        #16a34a;
+  --success-soft:   #dcfce7;
+  --error:          #dc2626;
+  --error-soft:     #fee2e2;
+  --warning:        #d97706;
+  --warning-soft:   #fef3c7;
+
+  /* Typography */
+  --font:           'Inter', sans-serif;
+  --text-xs:        0.80rem;
+  --text-sm:        0.88rem;
+  --text-base:      1rem;
+  --text-lg:        1.06rem;
+  --text-xl:        1.25rem;
+  --text-2xl:       1.8rem;
+  --text-hero:      clamp(2.4rem, 5vw, 4.3rem);
+
+  /* Spacing */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+
+  /* Border Radius */
+  --radius-xs:   8px;
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+  --radius-xl:   30px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px  rgba(15, 23, 42, 0.05);
+  --shadow-md:  0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-lg:  0 18px 36px rgba(15, 23, 42, 0.12);
+  --shadow-btn: 0 12px 24px rgba(37, 99, 235, 0.22);
+
+  /* Layout */
+  --max-width:     1200px;
+  --nav-height:    80px;
+  --section-py:    3.5rem;
+
+  /* Transitions */
+  --ease:          0.25s ease;
+}
+
+
+/* ----- RESET ----- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+main {
+  flex: 1;
+}
+
+
+/* ----- CONTAINER ----- */
+
+.container {
+  width: min(100% - 2rem, var(--max-width));
+  margin: 0 auto;
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: min(100% - 1rem, var(--max-width));
+  }
+}
+
+
+/* ----- BUTTONS ----- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.95rem 1.4rem;
+  font-family: var(--font);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--ease),
+              box-shadow var(--ease),
+              background var(--ease);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.28);
+}
+
+.btn-light {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+  background: var(--error);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+
+/* ----- UTILITY CLASSES ----- */
+
+.text-muted    { color: var(--muted); }
+.text-primary  { color: var(--primary); }
+.text-sm       { font-size: var(--text-sm); }
+.text-lg       { font-size: var(--text-lg); }
+.font-bold     { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.badge-primary { background: var(--primary-soft); color: var(--primary-dark); }
+.badge-success { background: var(--success-soft); color: var(--success); }
+.badge-error   { background: var(--error-soft);   color: var(--error); }
+
+.section {
+  padding: var(--section-py) 0;
+}
+
+.section-heading {
+  margin-bottom: var(--space-8);
+}
+
+.section-title {
+  font-size: var(--text-2xl);
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
+}
+
+.section-subtitle {
+  color: var(--muted);
+  max-width: 640px;
+  font-size: var(--text-base);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+}

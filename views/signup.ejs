@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Sign Up — ResumeBuilder</title>
+  
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/auth.css">
+
+  <!-- TEMP FOR DESIGNING
+  <link rel="stylesheet" href="./css/utils.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/auth.css"> -->
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="../index.html" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/templates">Templates</a>
+        <a href="/user/features">Features</a>
+        <a href="/user/login">Login</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon">
+            <i class="bi bi-circle-half"></i>
+          </span>
+        </button>
+ 
+        <a href="/pages/builder.html" class="btn btn-primary">
+          Create Resume
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth-section">
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          <span class="logo-mark">R</span>
+          <span class="auth-logo-name">ResumeBuilder</span>
+        </div>
+
+        <h1 class="auth-heading">Create your account</h1>
+        <p class="auth-sub">Free forever. No credit card needed.</p>
+
+        <form class="auth-form" action="/api/signup" method="POST" id="myForm" novalidate>
+
+          <div class="name-row">
+            <div class="field">
+              <label for="first-name">First name</label>
+              <input type="text" id="first-name" name="firstName" placeholder="Jane">
+              <span class="err" id="fnameErr"></span>
+            </div>
+            <div class="field">
+              <label for="last-name">Last name</label>
+              <input type="text" id="last-name" name="lastName" placeholder="Smith">
+              <span class="err" id="lnameErr"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com">
+            <span class="err" id="mailErr"></span>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Min. 8 characters" minlength="8">
+            <span class="err" id="passErr"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Create account</button>
+
+        </form>
+
+        <p class="auth-footer">
+          Already have an account? <a href="/user/login">Log in</a>
+        </p>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="../index.html#templates">Templates</a>
+        <a href="builder.html">Builder</a>
+      </nav>
+      <p class="copyright">© 2026 ResumeBuilder. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="/js/signupValidation.js" defer></script>
+</body>
+</html>
