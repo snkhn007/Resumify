@@ -1,0 +1,138 @@
+/* =============================================================
+   transitions.css — Scroll-reveal & Motion for index.ejs
+   Import LAST, after all other stylesheets.
+
+   Strategy:
+   - Elements start invisible / slightly translated
+   - The JS IntersectionObserver (inline at bottom of file comment)
+     adds .is-visible once an element enters the viewport
+   - All motion respects prefers-reduced-motion
+   ============================================================= */
+
+
+/* ─── BASE REVEAL STATE ──────────────────────────────────────── */
+
+.reveal {
+  opacity:    0;
+  transform:  translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+
+/* ─── STAGGER VARIANTS ───────────────────────────────────────── */
+/*
+   Add data-delay="1" … data-delay="6" on siblings to stagger them.
+   The JS sets --stagger-delay based on the attribute.
+*/
+
+.reveal[data-delay="1"] { transition-delay: 0.05s; }
+.reveal[data-delay="2"] { transition-delay: 0.12s; }
+.reveal[data-delay="3"] { transition-delay: 0.19s; }
+.reveal[data-delay="4"] { transition-delay: 0.26s; }
+.reveal[data-delay="5"] { transition-delay: 0.33s; }
+.reveal[data-delay="6"] { transition-delay: 0.40s; }
+
+
+/* ─── DIRECTION VARIANTS ─────────────────────────────────────── */
+
+.reveal-left {
+  opacity:    0;
+  transform:  translateX(-28px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left.is-visible {
+  opacity:   1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity:    0;
+  transform:  translateX(28px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-right.is-visible {
+  opacity:   1;
+  transform: translateX(0);
+}
+
+/* Fade only — for headings / eyebrows that shouldn't shift */
+.reveal-fade {
+  opacity:    0;
+  transition: opacity 0.6s ease;
+}
+
+.reveal-fade.is-visible {
+  opacity: 1;
+}
+
+
+/* ─── HERO ENTRANCE (runs once on load, no JS needed) ────────── */
+
+.hero-badge {
+  animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.hero h1 {
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.hero p {
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.hero-actions {
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+.hero-stats {
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.hero-visual {
+  animation: fadeSlideRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideRight {
+  from { opacity: 0; transform: translateX(22px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+
+/* ─── REDUCED MOTION OVERRIDE ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-fade {
+    opacity:    1;
+    transform:  none;
+    transition: none;
+  }
+
+  .hero-badge,
+  .hero h1,
+  .hero p,
+  .hero-actions,
+  .hero-stats,
+  .hero-visual {
+    animation: none;
+    opacity:   1;
+    transform: none;
+  }
+}

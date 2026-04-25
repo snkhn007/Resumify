@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+  <link rel="stylesheet" href="/css/404.css">
+
+  <link rel="stylesheet" href="/css/navbar.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="/user/" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/gallery">Templates</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
+        </button>
+        <a href="/user/login" class="btn btn-primary">Log In</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="error-page">
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page not found</h1>
+      <p class="error-sub">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      <div class="error-actions">
+        <a href="/user/" class="btn btn-primary">
+          <i class="bi bi-house"></i> Back to Home
+        </a>
+        <a href="/user/gallery" class="btn btn-light">
+          <i class="bi bi-file-earmark-text"></i> Browse Templates
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-inner">
+
+      <!-- Col 1: Brand -->
+      <div class="footer-brand">
+        <a href="/user/" class="footer-logo">
+          <span class="logo-mark">R</span>
+          <span>ResumeBuilder</span>
+        </a>
+        <p class="footer-tagline">
+          Build a polished, ATS-ready resume in minutes.
+          Free forever, no credit card needed.
+        </p>
+        <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+      </div>
+
+      <!-- Col 2: Product -->
+      <div class="footer-col">
+        <h4>Product</h4>
+        <nav class="footer-links">
+          <a href="/user/">Home</a>
+          <a href="/user/gallery">Templates</a>
+          <a href="/user/templates">Builder</a>
+          <% if (user) { %>
+          <a href="/user/dashboard">Dashboard</a>
+          <% } %>
+        </nav>
+      </div>
+
+      <!-- Col 3: Company -->
+      <div class="footer-col">
+        <h4>Company</h4>
+        <nav class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">About</a>
+      </div>
+      <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
+    </div>
+
+  </div>
+</footer>
+
+  <script src="/js/darkmode.js"></script>
+
+</body>
+</html>

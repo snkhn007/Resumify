@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Templates — ResumeBuilder</title>
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+  <link rel="stylesheet" href="/css/templateGallery.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="/user/" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/gallery" class="active">Templates</a>
+        <% if (!user) { %>
+          <a href="/user/login">Login</a>
+        <% } else { %>
+          <a href="/user/dashboard">Dashboard</a>
+        <% } %>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i class="bi bi-sun-fill"></i></span>
+        </button>
+        <% if (user) { %>
+          <div class="user-menu">
+            <button class="user-avatar-btn" id="userMenuBtn">
+              <span class="user-avatar"><%= user.firstName.charAt(0).toUpperCase() %></span>
+              <span class="user-name-nav"><%= user.firstName %></span>
+              <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="dropdown-header">
+                <strong><%= user.firstName %> <%= user.lastName %></strong>
+                <span><%= user.email %></span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="/user/dashboard" class="dropdown-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+              <button class="dropdown-item logout-btn" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Log out
+              </button>
+            </div>
+          </div>
+        <% } else { %>
+          <a href="/user/signup" class="btn btn-primary">Get Started Free</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <section class="tg-hero">
+      <div class="container">
+        <span class="tg-eyebrow">Resume Templates</span>
+        <h1>Built for the role you want</h1>
+        <p>Every template is tailored to the expectations of a specific role or company — optimised layout, the right sections, ATS-safe formatting.</p>
+      </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="tg-filter-bar">
+      <div class="container">
+        <div class="tg-filters">
+          <button class="tg-filter-btn active" data-filter="all">All</button>
+          <button class="tg-filter-btn" data-filter="available">Available</button>
+          <button class="tg-filter-btn" data-filter="coming-soon">Coming Soon</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATE GRID -->
+    <section class="tg-grid-section">
+      <div class="container">
+        <div class="tg-grid" id="templateGrid">
+
+          <!-- ① CLASSIC SWE (AVAILABLE) -->
+          <div class="tg-card" data-status="available">
+            <div class="tg-preview tg-preview--classic">
+              <div class="tg-mock">
+                <div class="tg-mock-name"></div>
+                <div class="tg-mock-sub"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-row">
+                  <div class="tg-mock-pill"></div>
+                  <div class="tg-mock-pill"></div>
+                  <div class="tg-mock-pill"></div>
+                </div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w70"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w80"></div>
+                <div class="tg-mock-line w60"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--available"><i class="bi bi-check-circle-fill"></i> Available</span>
+                <span class="tg-role-tag"><i class="bi bi-code-slash"></i> Software Engineer</span>
+              </div>
+              <h3>Classic SWE</h3>
+              <p>Clean single-column layout built for engineering roles. Strong on technical skills, projects, and impact metrics.</p>
+              <div class="tg-card-chips">
+                <span>ATS Safe</span><span>Projects</span><span>Skills Matrix</span>
+              </div>
+              <a href="/user/templates" class="btn btn-primary tg-btn">
+                Use Template <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- ② GOOGLE SWE (AVAILABLE) -->
+          <div class="tg-card" data-status="available">
+            <div class="tg-preview tg-preview--google">
+              <div class="tg-mock">
+                <div class="tg-mock-name w60"></div>
+                <div class="tg-mock-sub w40"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w70"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w80"></div>
+                <div class="tg-mock-line w60"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--available"><i class="bi bi-check-circle-fill"></i> Available</span>
+                <span class="tg-role-tag"><i class="bi bi-google"></i> Google</span>
+              </div>
+              <h3>Google SWE</h3>
+              <p>Engineered for L4–L6 Google interviews. Emphasises impact, scale, and Googleyness across FAANG-preferred sections.</p>
+              <div class="tg-card-chips">
+                <span>Impact Metrics</span><span>FAANG</span><span>L-level Ready</span>
+              </div>
+              <a href="/user/template02" class="btn btn-primary tg-btn">
+                Use Template <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- ③ AMAZON SWE (AVAILABLE) -->
+          <div class="tg-card" data-status="available">
+            <div class="tg-preview tg-preview--amazon">
+              <div class="tg-mock">
+                <div class="tg-mock-name w55"></div>
+                <div class="tg-mock-sub w35"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w75"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w85"></div>
+                <div class="tg-mock-line w60"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--available"><i class="bi bi-check-circle-fill"></i> Available</span>
+                <span class="tg-role-tag"><i class="bi bi-box-seam"></i> Amazon</span>
+              </div>
+              <h3>Amazon SWE</h3>
+              <p>Structured around Amazon's Leadership Principles. Highlights ownership, customer obsession, and measurable outcomes.</p>
+              <div class="tg-card-chips">
+                <span>Leadership Principles</span><span>Ownership</span><span>Metrics</span>
+              </div>
+              <a href="/user/template03" class="btn btn-primary tg-btn">
+                Use Template <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- ④ McKINSEY CONSULTANT (COMING SOON) -->
+          <div class="tg-card" data-status="coming-soon">
+            <div class="tg-preview tg-preview--mckinsey">
+              <div class="tg-coming-soon-overlay">
+                <div class="tg-cs-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                <span>Coming Soon</span>
+              </div>
+              <div class="tg-mock tg-mock--blurred">
+                <div class="tg-mock-name w50"></div>
+                <div class="tg-mock-sub w40"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w65"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w80"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--soon"><i class="bi bi-clock"></i> Coming Soon</span>
+                <span class="tg-role-tag"><i class="bi bi-building"></i> Consulting</span>
+              </div>
+              <h3>McKinsey Consultant</h3>
+              <p>Consulting-grade layout used by MBB applicants. Bullet-driven, quantified impact, and structured for case-interview culture.</p>
+              <div class="tg-card-chips">
+                <span>MBB Ready</span><span>Bullet-driven</span><span>Quantified</span>
+              </div>
+              <button class="btn btn-light tg-btn" disabled>Notify Me <i class="bi bi-bell"></i></button>
+            </div>
+          </div>
+
+          <!-- ⑤ GOLDMAN SACHS (COMING SOON) -->
+          <div class="tg-card" data-status="coming-soon">
+            <div class="tg-preview tg-preview--goldman">
+              <div class="tg-coming-soon-overlay">
+                <div class="tg-cs-icon"><i class="bi bi-bank"></i></div>
+                <span>Coming Soon</span>
+              </div>
+              <div class="tg-mock tg-mock--blurred">
+                <div class="tg-mock-name w45"></div>
+                <div class="tg-mock-sub w35"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w70"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w85"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--soon"><i class="bi bi-clock"></i> Coming Soon</span>
+                <span class="tg-role-tag"><i class="bi bi-currency-dollar"></i> Finance</span>
+              </div>
+              <h3>Goldman Sachs</h3>
+              <p>Finance-industry standard. Clean, formal, and dense — built for Investment Banking and Asset Management applications.</p>
+              <div class="tg-card-chips">
+                <span>IB Ready</span><span>Formal</span><span>Finance</span>
+              </div>
+              <button class="btn btn-light tg-btn" disabled>Notify Me <i class="bi bi-bell"></i></button>
+            </div>
+          </div>
+
+          <!-- ⑥ STARTUP FOUNDER (COMING SOON) -->
+          <div class="tg-card" data-status="coming-soon">
+            <div class="tg-preview tg-preview--startup">
+              <div class="tg-coming-soon-overlay">
+                <div class="tg-cs-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                <span>Coming Soon</span>
+              </div>
+              <div class="tg-mock tg-mock--blurred">
+                <div class="tg-mock-name w65"></div>
+                <div class="tg-mock-sub w45"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w75"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w80"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--soon"><i class="bi bi-clock"></i> Coming Soon</span>
+                <span class="tg-role-tag"><i class="bi bi-rocket"></i> Startup</span>
+              </div>
+              <h3>Startup Founder</h3>
+              <p>For founders and early employees. Highlights ventures built, teams led, and traction metrics — built for VC-backed hiring.</p>
+              <div class="tg-card-chips">
+                <span>Founder Story</span><span>Traction</span><span>Ventures</span>
+              </div>
+              <button class="btn btn-light tg-btn" disabled>Notify Me <i class="bi bi-bell"></i></button>
+            </div>
+          </div>
+
+          <!-- ⑦ RESEARCH SCIENTIST (COMING SOON) -->
+          <div class="tg-card" data-status="coming-soon">
+            <div class="tg-preview tg-preview--research">
+              <div class="tg-coming-soon-overlay">
+                <div class="tg-cs-icon"><i class="bi bi-journal-text"></i></div>
+                <span>Coming Soon</span>
+              </div>
+              <div class="tg-mock tg-mock--blurred">
+                <div class="tg-mock-name w55"></div>
+                <div class="tg-mock-sub w40"></div>
+                <div class="tg-mock-hr"></div>
+                <div class="tg-mock-label"></div>
+                <div class="tg-mock-line w90"></div>
+                <div class="tg-mock-line w80"></div>
+                <div class="tg-mock-label mt"></div>
+                <div class="tg-mock-line w70"></div>
+              </div>
+            </div>
+            <div class="tg-card-body">
+              <div class="tg-card-meta">
+                <span class="tg-badge tg-badge--soon"><i class="bi bi-clock"></i> Coming Soon</span>
+                <span class="tg-role-tag"><i class="bi bi-lightbulb"></i> Research</span>
+              </div>
+              <h3>Research Scientist</h3>
+              <p>Academic and industry research layout. Publications, citations, conferences, and grants — structured for PhD and postdoc applications.</p>
+              <div class="tg-card-chips">
+                <span>Publications</span><span>Citations</span><span>Academic</span>
+              </div>
+              <button class="btn btn-light tg-btn" disabled>Notify Me <i class="bi bi-bell"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-tagline">Build a polished, ATS-ready resume in minutes. Free forever, no credit card needed.</p>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <nav class="footer-links">
+            <a href="/user/">Home</a>
+            <a href="/user/gallery">Templates</a>
+            <a href="/user/templates">Builder</a>
+            <% if (user) { %>
+              <a href="/user/dashboard">Dashboard</a>
+            <% } %>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <nav class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">About</a>
+        </div>
+        <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/darkmode.js"></script>
+  <% if (user) { %>
+    <script src="/js/navbar.js" defer></script>
+  <% } %>
+  <script src="/js/templateGallery.js"></script>
+
+</body>
+</html>

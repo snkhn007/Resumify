@@ -9,37 +9,25 @@
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/auth.css">
-
-  <!-- TEMP FOR DESIGNING
-  <link rel="stylesheet" href="./css/utils.css">
-  <link rel="stylesheet" href="./css/header.css">
-  <link rel="stylesheet" href="./css/footer.css">
-  <link rel="stylesheet" href="./css/auth.css"> -->
+  <link rel="stylesheet" href="/css/darkmode.css">
 </head>
 <body>
-
   <header class="site-header">
     <div class="container navbar">
-      <a href="../index.html" class="logo">
+      <a href="/user/" class="logo">
         <span class="logo-mark">R</span>
         <span>ResumeBuilder</span>
       </a>
       <nav class="nav-links">
         <a href="/user/">Home</a>
-        <a href="/user/templates">Templates</a>
-        <a href="/user/features">Features</a>
-        <a href="/user/login">Login</a>
+        <a href="/user/gallery">Templates</a>
+        <a href="/user/login" class="active">Login</a>
       </nav>
       <div class="nav-actions">
         <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-          <span class="theme-icon">
-            <i class="bi bi-circle-half"></i>
-          </span>
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
         </button>
- 
-        <a href="/pages/builder.html" class="btn btn-primary">
-          Create Resume
-        </a>
+        <a href="/user/signup" class="btn btn-primary">Sign Up</a>
       </div>
     </div>
   </header>
@@ -47,57 +35,102 @@
   <main>
     <section class="auth-section">
       <div class="auth-card">
-
         <div class="auth-logo">
           <span class="logo-mark">R</span>
           <span class="auth-logo-name">ResumeBuilder</span>
         </div>
-
         <h1 class="auth-heading">Welcome back</h1>
         <p class="auth-sub">Log in to your account to continue</p>
 
-        <form class="auth-form" id="myForm" action="/api/login" method="POST" novalidate>
+        <!-- Global backend error banner -->
+        <div class="server-error" id="serverError" style="display:none;">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span id="serverErrorMsg"></span>
+        </div>
 
+        <form class="auth-form" id="myForm" novalidate>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com">
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
             <span class="err" id="mailErr"></span>
           </div>
-
           <div class="field">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="••••••••">
+            <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password">
             <span class="err" id="passErr"></span>
           </div>
-
           <div class="forgot">
-            <a href="forgot-password.html">Forgot password?</a>
+            <a href="#">Forgot password?</a>
           </div>
-
-          <button type="submit" class="btn btn-primary btn-full">Log in</button>
-
+          <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+            <span id="submitText">Log in</span>
+            <span id="submitSpinner" style="display:none;"><i class="bi bi-arrow-repeat spin"></i></span>
+          </button>
         </form>
-
         <p class="auth-footer">
           Don't have an account? <a href="/user/signup">Sign up</a>
         </p>
-
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <nav class="footer-links">
-        <a href="#">About</a>
+  <div class="container">
+
+    <div class="footer-inner">
+
+      <!-- Col 1: Brand -->
+      <div class="footer-brand">
+        <a href="/user/" class="footer-logo">
+          <span class="logo-mark">R</span>
+          <span>ResumeBuilder</span>
+        </a>
+        <p class="footer-tagline">
+          Build a polished, ATS-ready resume in minutes.
+          Free forever, no credit card needed.
+        </p>
+        <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+      </div>
+
+      <!-- Col 2: Product -->
+      <div class="footer-col">
+        <h4>Product</h4>
+        <nav class="footer-links">
+          <a href="/user/">Home</a>
+          <a href="/user/gallery">Templates</a>
+          <a href="/user/templates">Builder</a>
+          <% if (user) { %>
+          <a href="/user/dashboard">Dashboard</a>
+          <% } %>
+        </nav>
+      </div>
+
+      <!-- Col 3: Company -->
+      <div class="footer-col">
+        <h4>Company</h4>
+        <nav class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
-        <a href="../index.html#templates">Templates</a>
-        <a href="builder.html">Builder</a>
-      </nav>
-      <p class="copyright">© 2026 ResumeBuilder. All rights reserved.</p>
+        <a href="#">About</a>
+      </div>
+      <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
     </div>
-  </footer>
-  <script src="/js/loginValidation.js" defer ></script>
+
+  </div>
+</footer>
+
+  <script src="/js/loginValidation.js" defer></script>
+  <script src="/js/darkmode.js"></script>
 </body>
 </html>

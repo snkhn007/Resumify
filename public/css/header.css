@@ -1,11 +1,3 @@
-/* =============================================================
-   header.css — Site Header & Navigation
-   Requires: utils.css loaded before this file.
-   ============================================================= */
-
-
-/* ----- HEADER SHELL ----- */
-
 .site-header {
   position: sticky;
   top: 0;

@@ -1,0 +1,238 @@
+/* =============================================================
+   template02.css — Google SWE Resume Preview Styles
+   Loads AFTER template.css — overrides .resume styles only.
+   Form, modal, layout styles all inherited from template.css.
+   ============================================================= */
+
+
+/* ── Override the resume panel ── */
+
+.g-resume {
+  background: #ffffff;
+  border: 1px solid #e8eaed;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 52px 44px;
+  min-height: 900px;
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #202124;
+}
+
+
+/* ── Name block ── */
+
+.g-heading {
+  margin-bottom: 18px;
+}
+
+.g-resume h1 {
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #202124;
+  letter-spacing: -0.3px;
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+
+.g-tagline {
+  font-size: 12px;
+  color: #5f6368;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.g-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  padding: 8px 0;
+  border-top: 1px solid #e8eaed;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.g-contact span {
+  font-size: 10px;
+  color: #5f6368;
+}
+
+
+/* ── Sections ── */
+
+.g-sec {
+  margin-top: 18px;
+}
+
+.g-sec-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a73e8;
+  border-bottom: 1.5px solid #1a73e8;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}
+
+.g-body {
+  font-size: 10.5px;
+  color: #3c4043;
+  line-height: 1.65;
+}
+
+
+/* ── Entries ── */
+
+.g-entry {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.g-entry:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.g-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.g-entry-org {
+  font-size: 11px;
+  font-weight: 700;
+  color: #202124;
+}
+
+.g-entry-date {
+  font-size: 9.5px;
+  color: #80868b;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.g-entry-role {
+  font-size: 10.5px;
+  color: #5f6368;
+  font-style: italic;
+  margin: 2px 0 4px;
+}
+
+.g-entry-link {
+  font-size: 9.5px;
+  color: #1a73e8;
+  margin-bottom: 3px;
+}
+
+.g-entry-desc {
+  padding-left: 13px;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.g-entry-desc li {
+  font-size: 10px;
+  color: #3c4043;
+  line-height: 1.55;
+}
+
+
+/* ── Skill chips — Google blue ── */
+
+.g-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.g-chip {
+  background: #e8f0fe;
+  color: #1967d2;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid #c5d6fb;
+  font-family: 'Arial', sans-serif;
+}
+
+
+/* ── Resume actions ── */
+
+.g-resume .resumeActions {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid #e8eaed;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* ── Print ── */
+
+@media print {
+  .site-header,
+  .site-footer,
+  .formArea,
+  .resumeActions {
+    display: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm 18mm;
+  }
+
+  main {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .g-resume {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    min-height: unset;
+    width: 100%;
+    font-size: 10px;
+  }
+}
+
+
+/* ── Dark mode overrides ── */
+
+[data-theme="dark"] .g-resume {
+  background: #1a2332;
+  border-color: var(--border);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .g-resume h1      { color: #f1f5f9; }
+[data-theme="dark"] .g-tagline        { color: #94a3b8; }
+[data-theme="dark"] .g-contact        { border-color: #334155; }
+[data-theme="dark"] .g-contact span   { color: #94a3b8; }
+[data-theme="dark"] .g-sec-title      { color: #60a5fa; border-bottom-color: #60a5fa; }
+[data-theme="dark"] .g-body           { color: #cbd5e1; }
+[data-theme="dark"] .g-entry          { border-bottom-color: #1e293b; }
+[data-theme="dark"] .g-entry-org      { color: #f1f5f9; }
+[data-theme="dark"] .g-entry-date     { color: #64748b; }
+[data-theme="dark"] .g-entry-role     { color: #94a3b8; }
+[data-theme="dark"] .g-entry-link     { color: #60a5fa; }
+[data-theme="dark"] .g-entry-desc li  { color: #cbd5e1; }
+[data-theme="dark"] .g-chip {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+[data-theme="dark"] .g-resume .resumeActions { border-top-color: #334155; }

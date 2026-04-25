@@ -1,0 +1,242 @@
+/* =============================================================
+   darkmode.css — Dark Theme Token Overrides
+   Import AFTER utils.css on every page.
+   Activated by:  <html data-theme="dark">
+   ============================================================= */
+
+[data-theme="dark"] {
+  /* Brand (keep primary blue, slightly lighter for dark bg) */
+  --primary:        #3b82f6;
+  --primary-dark:   #2563eb;
+  --primary-soft:   rgba(59, 130, 246, 0.15);
+
+  /* Backgrounds */
+  --bg:             #0f172a;
+  --surface:        #1e293b;
+  --surface-soft:   #263347;
+
+  /* Borders */
+  --border:         #334155;
+  --border-soft:    #1e293b;
+
+  /* Text */
+  --text:           #f1f5f9;
+  --muted:          #94a3b8;
+  --text-light:     #cbd5e1;
+
+  /* Feedback */
+  --success:        #4ade80;
+  --success-soft:   rgba(74, 222, 128, 0.12);
+  --error:          #f87171;
+  --error-soft:     rgba(248, 113, 113, 0.12);
+  --warning:        #fbbf24;
+  --warning-soft:   rgba(251, 191, 36, 0.12);
+
+  /* Shadows — deeper on dark */
+  --shadow-sm:  0 2px 8px  rgba(0, 0, 0, 0.3);
+  --shadow-md:  0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg:  0 18px 36px rgba(0, 0, 0, 0.5);
+  --shadow-btn: 0 12px 24px rgba(59, 130, 246, 0.3);
+}
+
+/* ── Header ── */
+[data-theme="dark"] .site-header {
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom-color: #1e293b;
+}
+
+/* ── Footer ── */
+[data-theme="dark"] .site-footer {
+  background: rgba(15, 23, 42, 0.8);
+  border-top-color: #1e293b;
+}
+
+/* ── Logo mark stays vibrant ── */
+[data-theme="dark"] .logo-mark {
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.3);
+}
+
+/* ── Nav links ── */
+[data-theme="dark"] .nav-links a {
+  color: var(--muted);
+}
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .nav-links a.active {
+  color: var(--primary);
+}
+
+/* ── Theme toggle button ── */
+[data-theme="dark"] .btn-theme-toggle {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* ── Buttons ── */
+[data-theme="dark"] .btn-light {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+[data-theme="dark"] .btn-light:hover {
+  background: var(--surface-soft);
+}
+
+/* ── Auth card ── */
+[data-theme="dark"] .auth-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .field input {
+  background: var(--surface-soft);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .field input::placeholder { color: #475569; }
+[data-theme="dark"] .field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  background: var(--surface);
+}
+[data-theme="dark"] .field input.input-error {
+  border-color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+}
+
+/* ── Form area (templates page) ── */
+[data-theme="dark"] .formArea {
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .field textarea,
+[data-theme="dark"] .modalField input,
+[data-theme="dark"] .modalField textarea {
+  background: var(--surface-soft);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .field textarea::placeholder,
+[data-theme="dark"] .modalField input::placeholder,
+[data-theme="dark"] .modalField textarea::placeholder { color: #475569; }
+[data-theme="dark"] .field textarea:focus,
+[data-theme="dark"] .modalField input:focus,
+[data-theme="dark"] .modalField textarea:focus {
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* ── Resume preview (right panel) — keep white for print realism ── */
+[data-theme="dark"] .resume {
+  background: #1a2332;
+  border-color: var(--border);
+  color: #e2e8f0;
+}
+[data-theme="dark"] .resume .heading h1     { color: #f1f5f9; }
+[data-theme="dark"] .resume .heading #resTagline { color: #94a3b8; }
+[data-theme="dark"] .resume hr              { border-top-color: #334155; }
+[data-theme="dark"] .resume .contactUtils   { color: #cbd5e1; }
+[data-theme="dark"] .resume .sec h2         { color: #60a5fa; }
+[data-theme="dark"] .resume .sec p,
+[data-theme="dark"] .resume .sec #resSkills p { color: #cbd5e1; }
+[data-theme="dark"] .expTitle               { color: #f1f5f9 !important; }
+[data-theme="dark"] .expCompany             { color: #94a3b8 !important; }
+[data-theme="dark"] .expDuration            { color: #64748b !important; }
+[data-theme="dark"] .expDesc li             { color: #cbd5e1 !important; }
+
+/* ── Modal/Overlay ── */
+[data-theme="dark"] .model {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+[data-theme="dark"] .model h3  { color: var(--text); border-bottom-color: var(--border); }
+[data-theme="dark"] .cancelBtn {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--muted);
+}
+[data-theme="dark"] .cancelBtn:hover { background: var(--surface-soft); }
+
+/* ── Dashboard ── */
+[data-theme="dark"] .dash-hero { border-bottom-color: var(--border); }
+
+[data-theme="dark"] .resume-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .resume-card:hover { border-color: #3b82f6; }
+
+[data-theme="dark"] .resume-card-preview {
+  background: linear-gradient(160deg, #1a2d4a 0%, #1e293b 100%);
+}
+
+[data-theme="dark"] .resume-count {
+  background: var(--surface-soft);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .dash-empty-icon { color: var(--border); }
+
+/* ── User dropdown ── */
+[data-theme="dark"] .user-avatar-btn {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .user-avatar-btn:hover { background: var(--surface-soft); }
+
+[data-theme="dark"] .user-dropdown {
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .dropdown-header strong { color: var(--text); }
+[data-theme="dark"] .dropdown-header span   { color: var(--muted); }
+[data-theme="dark"] .dropdown-divider       { border-top-color: var(--border); }
+[data-theme="dark"] .dropdown-item         { color: var(--text-light); }
+[data-theme="dark"] .dropdown-item:hover   { background: var(--surface-soft); color: var(--primary); }
+
+/* ── Hero section ── */
+[data-theme="dark"] .hero-badge {
+  background: var(--primary-soft);
+  color: #93c5fd;
+}
+[data-theme="dark"] .ht-eyebrow {
+  background: var(--primary-soft);
+  color: #93c5fd;
+}
+
+/* ── Template cards (home page) ── */
+[data-theme="dark"] .ht-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .ht-card:hover { border-color: #3b82f6; }
+[data-theme="dark"] .ht-preview {
+  background: linear-gradient(160deg, #1a2d4a 0%, #1e293b 100%);
+}
+[data-theme="dark"] .ht-sheet {
+  background: var(--surface-soft);
+  border-color: var(--border);
+}
+[data-theme="dark"] .ht-name    { background: var(--text); }
+[data-theme="dark"] .ht-line    { background: var(--border); }
+
+/* ── Server error banner ── */
+[data-theme="dark"] .server-error {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: #f87171;
+}
+
+/* ── Save login prompt ── */
+[data-theme="dark"] .save-login-prompt {
+  background: var(--surface-soft);
+}
+
+/* ── Scrollbar ── */
+[data-theme="dark"] * {
+  scrollbar-color: var(--border) transparent;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--border);
+}

@@ -126,3 +126,295 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+/* =============================================================
+   homeTemplates.css — Templates Section on Home Page
+   Extends: mainIndex.css
+   Requires: utils.css loaded before this file.
+   ============================================================= */
+
+
+/* ----- SECTION WRAPPER ----- */
+
+.home-templates {
+  padding: var(--space-16) 0;
+  background: var(--bg);
+}
+
+
+/* ----- SECTION HEADING ----- */
+
+.ht-heading {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.ht-eyebrow {
+  display: inline-block;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+}
+
+.ht-heading h2 {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-3);
+}
+
+.ht-heading p {
+  color: var(--muted);
+  font-size: var(--text-base);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+
+/* ----- CARD GRID ----- */
+
+.ht-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+
+/* ----- TEMPLATE CARD ----- */
+
+.ht-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--ease),
+              box-shadow var(--ease),
+              border-color var(--ease);
+}
+
+.ht-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: #bfdbfe;
+}
+
+
+/* ----- CARD PREVIEW (thumbnail mockup) ----- */
+
+.ht-preview {
+  background: linear-gradient(160deg, #f0f7ff 0%, #f8fafc 100%);
+  padding: var(--space-5);
+  height: 220px;          /* fixed height — all cards same */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;       /* clip anything that overflows */
+}
+
+/* If you use <img> tags inside .ht-preview */
+.ht-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* fills the box, crops edges */
+  object-position: top;   /* show top of resume, not bottom */
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+.ht-sheet {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  width: 90%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+  position: relative;
+}
+
+/* Coming soon overlay on thumbnail */
+.ht-sheet--overlay::after {
+  content: 'Coming Soon';
+  position: absolute;
+  inset: 0;
+  background: rgba(248, 250, 252, 0.85);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+}
+
+
+/* Skeleton bars inside thumbnail */
+
+.ht-bar {
+  border-radius: var(--radius-full);
+  margin-bottom: 5px;
+}
+
+.ht-name {
+  height: 9px;
+  width: 55%;
+  background: var(--text);
+}
+
+.ht-subtitle {
+  height: 5px;
+  width: 38%;
+  background: var(--muted);
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+.ht-divider {
+  height: 1.5px;
+  margin-bottom: 8px;
+}
+
+.ht-divider--blue { background: var(--primary); }
+.ht-divider--dark { background: var(--text); }
+
+.ht-label {
+  height: 4px;
+  width: 28%;
+  margin-bottom: 6px;
+}
+
+.ht-label--blue { background: var(--primary); }
+.ht-label--dark { background: var(--text); }
+
+.ht-line {
+  height: 4px;
+  background: var(--border);
+  margin-bottom: 4px;
+}
+
+.w-90 { width: 90%; }
+.w-80 { width: 80%; }
+.w-70 { width: 70%; }
+
+.ht-gap {
+  height: 8px;
+}
+
+.ht-skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.ht-skill {
+  height: 12px;
+  width: 30px;
+  background: var(--primary-soft);
+  border-radius: var(--radius-full);
+  border: 1px solid #bfdbfe;
+}
+
+
+/* ----- CARD FOOTER ----- */
+
+.ht-footer {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.ht-tag {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-2);
+}
+
+.ht-tag--available {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.ht-tag--soon {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.ht-footer h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+.ht-footer p {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.ht-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.ht-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ----- VIEW ALL CTA ----- */
+
+.ht-cta {
+  text-align: center;
+}
+
+
+/* ----- RESPONSIVE ----- */
+
+@media (max-width: 900px) {
+  .ht-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .ht-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-templates {
+    padding: var(--space-12) 0;
+  }
+}
+
+.ht-sheet--amazon {
+  padding: 0;
+  overflow: hidden;
+}
+
+.ht-amazon-band {
+  background: #232f3e;
+  padding: 10px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ht-name--white    { background: #fff; opacity: 0.9; }
+.ht-subtitle--orange { background: #ff9900; width: 45%; height: 5px; border-radius: 99px; }
+
+.ht-amazon-body {
+  padding: 10px 12px;
+}

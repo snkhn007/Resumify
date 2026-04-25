@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — ResumeBuilder</title>
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="/user/" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/gallery">Templates</a>
+        <a href="/user/dashboard" class="active">Dashboard</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
+        </button>
+        <div class="user-menu">
+          <button class="user-avatar-btn" id="userMenuBtn" aria-label="User menu">
+            <span class="user-avatar"><%= user.firstName.charAt(0).toUpperCase() %></span>
+            <span class="user-name-nav"><%= user.firstName %></span>
+            <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <strong><%= user.firstName %> <%= user.lastName %></strong>
+              <span><%= user.email %></span>
+            </div>
+            <hr class="dropdown-divider">
+            <button class="dropdown-item logout-btn" id="logoutBtn">
+              <i class="bi bi-box-arrow-right"></i> Log out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- WELCOME CARD -->
+    <section class="dash-hero">
+      <div class="container">
+        <div class="dash-welcome">
+          <div class="dash-avatar"><%= user.firstName.charAt(0).toUpperCase() %></div>
+          <div>
+            <h1>Welcome back, <span class="text-primary"><%= user.firstName %></span> 👋</h1>
+            <p class="text-muted">Manage your resumes, create new ones, or continue where you left off.</p>
+          </div>
+          <a href="/user/templates" class="btn btn-primary dash-cta">
+            <i class="bi bi-plus-lg"></i> New Resume
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMES SECTION -->
+    <section class="dash-resumes">
+      <div class="container">
+        <div class="dash-section-head">
+          <h2>Your Resumes</h2>
+          <span class="resume-count" id="resumeCount">Loading...</span>
+        </div>
+
+        <!-- Loading state -->
+        <div id="resumesLoading" class="dash-loading">
+          <i class="bi bi-arrow-repeat spin"></i> Loading your resumes...
+        </div>
+
+        <!-- Empty state -->
+        <div id="resumesEmpty" class="dash-empty" style="display:none;">
+          <i class="bi bi-file-earmark-text dash-empty-icon"></i>
+          <h3>No resumes yet</h3>
+          <p>Create your first resume and it will appear here.</p>
+          <a href="/user/templates" class="btn btn-primary">Create Resume</a>
+        </div>
+
+        <!-- Error state -->
+        <div id="resumesError" class="dash-error" style="display:none;">
+          <i class="bi bi-exclamation-circle"></i>
+          <span id="resumesErrorMsg">Could not load resumes.</span>
+        </div>
+
+        <!-- Resume grid -->
+        <div class="resume-grid" id="resumeGrid" style="display:none;"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-inner">
+
+      <!-- Col 1: Brand -->
+      <div class="footer-brand">
+        <a href="/user/" class="footer-logo">
+          <span class="logo-mark">R</span>
+          <span>ResumeBuilder</span>
+        </a>
+        <p class="footer-tagline">
+          Build a polished, ATS-ready resume in minutes.
+          Free forever, no credit card needed.
+        </p>
+        <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+      </div>
+
+      <!-- Col 2: Product -->
+      <div class="footer-col">
+        <h4>Product</h4>
+        <nav class="footer-links">
+          <a href="/user/">Home</a>
+          <a href="/user/gallery">Templates</a>
+          <a href="/user/templates">Builder</a>
+          <% if (user) { %>
+          <a href="/user/dashboard">Dashboard</a>
+          <% } %>
+        </nav>
+      </div>
+
+      <!-- Col 3: Company -->
+      <div class="footer-col">
+        <h4>Company</h4>
+        <nav class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">About</a>
+      </div>
+      <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
+    </div>
+
+  </div>
+</footer>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="overlay" id="deleteOverlay">
+    <div class="model" style="max-width:400px;">
+      <h3>Delete Resume</h3>
+      <p style="color:var(--muted);font-size:var(--text-sm);">Are you sure you want to delete <strong id="deleteResumeName"></strong>? This cannot be undone.</p>
+      <div class="modalActions">
+        <button class="cancelBtn" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/navbar.js" defer></script>
+  <script src="/js/darkmode.js"></script>
+</body>
+</html>

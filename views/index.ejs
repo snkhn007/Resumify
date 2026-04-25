@@ -3,106 +3,414 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Title — ResumeBuilder</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/header.css">
+  <title>ResumeBuilder — Build Your Resume in Minutes</title>
   <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/mainIndex.css">
-
-  <!-- TEMP FOR DESIGNING
-  <link rel="stylesheet" href="./css/footer.css">
-  <link rel="stylesheet" href="./css/header.css">
-  <link rel="stylesheet" href="./css/utils.css">
-  <link rel="stylesheet" href="./css/mainIndex.css"> -->
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/landingExtra.css">
+  <link rel="stylesheet" href="/css/transitions.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
+
   <header class="site-header">
     <div class="container navbar">
- 
-      <a href="/index.html" class="logo">
+      <a href="/user/" class="logo">
         <span class="logo-mark">R</span>
         <span>ResumeBuilder</span>
       </a>
-
       <nav class="nav-links">
-        <a href="/user/">Home</a>
-        <a href="/user/templates">Templates</a>
-        <a href="/user/features">Features</a>
-        <a href="/user/login">Login</a>
+        <a href="/user/" class="active">Home</a>
+        <a href="#templates">Templates</a>
+        <a href="#features">Features</a>
+        <% if (!user) { %>
+          <a href="/user/login">Login</a>
+        <% } %>
       </nav>
- 
       <div class="nav-actions">
         <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-          <span class="theme-icon">
-            <i class="bi bi-circle-half"></i>
-          </span>
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
         </button>
- 
-        <a href="/pages/builder.html" class="btn btn-primary">
-          Create Resume
-        </a>
+        <% if (user) { %>
+          <div class="user-menu">
+            <button class="user-avatar-btn" id="userMenuBtn">
+              <span class="user-avatar"><%= user.firstName.charAt(0).toUpperCase() %></span>
+              <span class="user-name-nav"><%= user.firstName %></span>
+              <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="dropdown-header">
+                <strong><%= user.firstName %> <%= user.lastName %></strong>
+                <span><%= user.email %></span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="/user/dashboard" class="dropdown-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+              <button class="dropdown-item logout-btn" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Log out
+              </button>
+            </div>
+          </div>
+          <a href="/user/gallery" class="btn btn-primary">Create Resume</a>
+        <% } else { %>
+          <a href="/user/signup" class="btn btn-primary">Get Started Free</a>
+        <% } %>
       </div>
- 
     </div>
   </header>
+
   <main>
+
+    <!-- ══════════════════════════════════════════════════════════
+         HERO  (CSS keyframe animation — no reveal class needed)
+    ══════════════════════════════════════════════════════════ -->
     <section class="hero">
       <div class="container hero-grid">
         <div>
           <div class="hero-badge">Professional • Fast • Easy to Customize</div>
           <h1>Build Your Professional Resume in Minutes</h1>
-          <p>
-            Create a polished resume with a clean builder experience, elegant templates,
-            and a live preview panel designed for modern job seekers.
-          </p>
-
+          <p>Create a polished resume with a clean builder experience, elegant templates, and a live preview panel designed for modern job seekers.</p>
           <div class="hero-actions">
-            <a href="#builder" class="btn btn-primary">Start Now</a>
-            <a href="#templates" class="btn btn-light">Browse Templates</a>
+            <% if (user) { %>
+              <a href="/user/gallery" class="btn btn-primary">Start Building</a>
+              <a href="/user/dashboard" class="btn btn-light">My Resumes</a>
+            <% } else { %>
+              <a href="/user/signup" class="btn btn-primary">Start Now — It's Free</a>
+              <a href="#templates" class="btn btn-light">Browse Templates</a>
+            <% } %>
           </div>
-
-          <div class="hero-stats">
-            <div>
-              <strong>3+</strong>
-              Resume layouts
-            </div>
-            <div>
-              <strong>ATS-ready</strong>
-              Clean formatting
-            </div>
-            <div>
-              <strong>Responsive</strong>
-              Desktop and mobile
-            </div>
-          </div>
+          <!-- <div class="hero-stats">
+            <div><strong>3+</strong> Resume layouts</div>
+            <div><strong>ATS-ready</strong> Clean formatting</div>
+            <div><strong>Responsive</strong> Desktop and mobile</div>
+          </div> -->
         </div>
-
         <div class="hero-visual">
-          <img 
-            src="http://localhost:3000/img/undraw_online-cv_4iq9.svg"
-            alt="Resume builder illustration"
-            style="width: 100%; max-width: 520px;"
-          />
+          <img src="/img/undraw_online-cv_4iq9.svg" alt="Resume builder illustration" style="width:100%;max-width:520px;" />
         </div>
       </div>
     </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         STATS BAR
+    ══════════════════════════════════════════════════════════ -->
+    <section class="landing-section" style="padding-top:0; padding-bottom:0;">
+      <div class="container">
+        <div class="stats-bar reveal">
+          <div class="stat" data-delay="1">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Resume templates</div>
+          </div>
+          <div class="stat" data-delay="2">
+            <div class="stat-num">ATS</div>
+            <div class="stat-label">Optimised formatting</div>
+          </div>
+          <div class="stat" data-delay="3">
+            <div class="stat-num">Free</div>
+            <div class="stat-label">No credit card needed</div>
+          </div>
+          <div class="stat" data-delay="4">
+            <div class="stat-num">PDF</div>
+            <div class="stat-label">One-click export</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         TEMPLATES
+    ══════════════════════════════════════════════════════════ -->
+    <section class="home-templates" id="templates">
+      <div class="container">
+
+        <div class="ht-heading reveal-fade">
+          <span class="ht-eyebrow">Templates</span>
+          <h2>Pick a template, make it yours</h2>
+          <p>Every template is ATS-friendly, fully customizable, and ready to download as PDF.</p>
+        </div>
+
+        <div class="ht-grid">
+          <div class="ht-card reveal" data-delay="1">
+            <div class="ht-preview">
+              <img src="/img/temp1.svg" alt="Classic template preview" />
+            </div>
+            <div class="ht-footer">
+              <span class="ht-tag ht-tag--available">Available</span>
+              <h3>Classic SWE</h3>
+              <p>Clean single-column layout. Timeless and ATS-safe.</p>
+              <a href="/user/templates" class="btn btn-primary ht-btn">Use this template</a>
+            </div>
+          </div>
+
+          <div class="ht-card reveal" data-delay="2">
+            <div class="ht-preview">
+              <img src="/img/undraw_file-analysis_nbtc.svg" alt="Google SWE template preview" />
+            </div>
+            <div class="ht-footer">
+              <span class="ht-tag ht-tag--available">Available</span>
+              <h3>Google SWE</h3>
+              <p>Engineered for L4–L6 interviews. Impact-focused, FAANG-ready.</p>
+              <a href="/user/templates" class="btn btn-primary ht-btn">Use this template</a>
+            </div>
+          </div>
+
+          <div class="ht-card reveal" data-delay="3">
+            <div class="ht-preview">
+              <img src="/img/temp3.svg" alt="Amazon SWE template preview" />
+            </div>
+            <div class="ht-footer">
+              <span class="ht-tag ht-tag--available">Available</span>
+              <h3>Amazon SWE</h3>
+              <p>Leadership Principles aligned. Ownership and metrics focused.</p>
+              <a href="/user/templates" class="btn btn-primary ht-btn">Use this template</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="ht-cta reveal">
+          <a href="/user/gallery" class="btn btn-light">
+            View All Templates <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         HOW IT WORKS
+    ══════════════════════════════════════════════════════════ -->
+    <section class="landing-section" id="how-it-works">
+      <div class="container">
+        <div class="sec-header reveal-fade">
+          <span class="sec-eyebrow">How it works</span>
+          <h2 class="sec-title">From blank page to PDF in minutes</h2>
+          <p class="sec-sub">Three steps. No design skills needed. No account required to get started.</p>
+        </div>
+        <div class="how-steps">
+          <div class="how-step reveal" data-delay="1">
+            <div class="step-num">1</div>
+            <div class="step-title">Pick a template</div>
+            <p class="step-desc">Choose from Classic SWE, Google SWE, or Amazon SWE — each optimised for a specific role and hiring culture.</p>
+          </div>
+          <div class="how-step reveal" data-delay="2">
+            <div class="step-num">2</div>
+            <div class="step-title">Fill in your details</div>
+            <p class="step-desc">Type into the form on the left. The live preview on the right updates instantly with every keystroke.</p>
+          </div>
+          <div class="how-step reveal" data-delay="3">
+            <div class="step-num">3</div>
+            <div class="step-title">Download as PDF</div>
+            <p class="step-desc">Hit Download PDF. Your browser prints it cleanly — no watermarks, no branding, ready to send.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FEATURES
+    ══════════════════════════════════════════════════════════ -->
+    <section class="landing-section features-section" id="features">
+      <div class="container">
+        <div class="sec-header reveal-fade">
+          <span class="sec-eyebrow">Features</span>
+          <h2 class="sec-title">Everything you need, nothing you don't</h2>
+        </div>
+        <div class="feat-grid">
+          <div class="feat-card reveal" data-delay="1">
+            <div class="feat-icon feat-icon--blue"><i class="bi bi-eye"></i></div>
+            <div class="feat-title">Live preview</div>
+            <p class="feat-desc">See your resume update in real time as you type. What you see is exactly what gets exported.</p>
+          </div>
+          <div class="feat-card reveal" data-delay="2">
+            <div class="feat-icon feat-icon--green"><i class="bi bi-check-lg"></i></div>
+            <div class="feat-title">ATS-safe formatting</div>
+            <p class="feat-desc">Clean HTML, no tables, no columns — structured so applicant tracking systems can parse it without errors.</p>
+          </div>
+          <div class="feat-card reveal" data-delay="3">
+            <div class="feat-icon feat-icon--yellow"><i class="bi bi-cloud-check"></i></div>
+            <div class="feat-title">Save to account</div>
+            <p class="feat-desc">Log in to save multiple resumes. Come back anytime to edit, duplicate, or download a fresh copy.</p>
+          </div>
+          <div class="feat-card reveal" data-delay="1">
+            <div class="feat-icon feat-icon--red"><i class="bi bi-building"></i></div>
+            <div class="feat-title">Company-specific layouts</div>
+            <p class="feat-desc">Templates tuned for Google L4–L6, Amazon LP-aligned roles, and classic SWE applications.</p>
+          </div>
+          <div class="feat-card reveal" data-delay="2">
+            <div class="feat-icon feat-icon--purple"><i class="bi bi-moon-stars"></i></div>
+            <div class="feat-title">Dark mode</div>
+            <p class="feat-desc">Build your resume at 2am without burning your eyes. Full dark mode across every page.</p>
+          </div>
+          <div class="feat-card reveal" data-delay="3">
+            <div class="feat-icon feat-icon--blue"><i class="bi bi-phone"></i></div>
+            <div class="feat-title">Works on mobile</div>
+            <p class="feat-desc">Fully responsive — edit on your phone and download on your laptop. Your data stays synced.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         TESTIMONIALS
+    ══════════════════════════════════════════════════════════ -->
+    <section class="landing-section">
+      <div class="container">
+        <div class="sec-header reveal-fade">
+          <span class="sec-eyebrow">Reviews</span>
+          <h2 class="sec-title">Used by job seekers everywhere</h2>
+        </div>
+        <div class="testi-grid">
+          <div class="testi-card reveal" data-delay="1">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Got an interview at Google within a week of using the Google SWE template. The format was exactly what recruiters expected."</p>
+            <div class="testi-author">
+              <div class="testi-avatar testi-avatar--blue">A</div>
+              <div>
+                <div class="testi-name">Arjun M.</div>
+                <div class="testi-role">SWE, Google</div>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card reveal" data-delay="2">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The live preview made it so easy. I could see exactly how my resume looked while typing — no back and forth."</p>
+            <div class="testi-author">
+              <div class="testi-avatar testi-avatar--green">S</div>
+              <div>
+                <div class="testi-name">Sara K.</div>
+                <div class="testi-role">Product Manager</div>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card reveal" data-delay="3">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Free, clean, and no account needed to start. I made my resume in 20 minutes and downloaded a perfect PDF."</p>
+            <div class="testi-author">
+              <div class="testi-avatar testi-avatar--yellow">R</div>
+              <div>
+                <div class="testi-name">Rohan T.</div>
+                <div class="testi-role">Recent Graduate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FAQ
+    ══════════════════════════════════════════════════════════ -->
+    <section class="landing-section faq-section">
+      <div class="container">
+        <div class="sec-header reveal-fade">
+          <span class="sec-eyebrow">FAQ</span>
+          <h2 class="sec-title">Common questions</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item reveal" data-delay="1">
+            <div class="faq-q">Is ResumeBuilder really free?</div>
+            <p class="faq-a">Yes. Building, previewing, and downloading your resume is completely free. No credit card, no trial period.</p>
+          </div>
+          <div class="faq-item reveal" data-delay="2">
+            <div class="faq-q">Do I need to create an account?</div>
+            <p class="faq-a">No. You can build and download without signing up. Create an account only if you want to save resumes and come back to them later.</p>
+          </div>
+          <div class="faq-item reveal" data-delay="3">
+            <div class="faq-q">Are the resumes ATS-compatible?</div>
+            <p class="faq-a">Yes. All templates use clean single-column HTML with no tables or multi-column layouts — the format that ATS systems parse most reliably.</p>
+          </div>
+          <div class="faq-item reveal" data-delay="4">
+            <div class="faq-q">Can I edit a saved resume later?</div>
+            <p class="faq-a">Yes. Log in, go to your Dashboard, and click Edit on any saved resume. All your data loads back into the builder instantly.</p>
+          </div>
+          <div class="faq-item reveal" data-delay="5">
+            <div class="faq-q">What formats can I download?</div>
+            <p class="faq-a">PDF via browser print. This gives you the most accurate, print-ready output without any server-side processing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
-  <footer class="site-footer" id="features">
-    <div class="container footer-inner">
 
-      <nav class="footer-links">
-        <a href="#">About</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="/index.html#templates">Templates</a>
-        <a href="/pages/builder.html">Builder</a>
-      </nav>
-
-      <p class="copyright">© 2026 ResumeBuilder. All rights reserved.</p>
-
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-tagline">Build a polished, ATS-ready resume in minutes. Free forever, no credit card needed.</p>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <nav class="footer-links">
+            <a href="/user/">Home</a>
+            <a href="/user/gallery">Templates</a>
+            <a href="/user/templates">Builder</a>
+            <% if (user) { %>
+              <a href="/user/dashboard">Dashboard</a>
+            <% } %>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <nav class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">About</a>
+        </div>
+        <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
+      </div>
     </div>
   </footer>
+
+  <% if (user) { %>
+    <script src="/js/navbar.js" defer></script>
+  <% } %>
+  <script src="/js/darkmode.js"></script>
+
+  <!-- ── Scroll-reveal IntersectionObserver ── -->
+  <script>
+    (function () {
+      const CLASSES = ['reveal', 'reveal-left', 'reveal-right', 'reveal-fade'];
+      const selector = CLASSES.map(c => '.' + c).join(', ');
+
+      // Bail out for users who prefer reduced motion — CSS already handles it,
+      // but we also skip adding the observer entirely.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll(selector).forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target); // animate once only
+            }
+          });
+        },
+        { threshold: 0.12 }  // trigger when 12% of element is visible
+      );
+
+      document.querySelectorAll(selector).forEach(el => observer.observe(el));
+    })();
+  </script>
+
 </body>
 </html>
-

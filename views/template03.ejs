@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon SWE Resume — ResumeBuilder</title>
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/template.css">
+  <link rel="stylesheet" href="/css/template03.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="/user/" class="logo">
+        <span class="logo-mark"><i class="bi-briefcase"></i></span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/gallery" class="active">Templates</a>
+        <% if (!user) { %>
+          <a href="/user/login">Login</a>
+        <% } else { %>
+          <a href="/user/dashboard">Dashboard</a>
+        <% } %>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
+        </button>
+        <% if (user) { %>
+          <div class="user-menu">
+            <button class="user-avatar-btn" id="userMenuBtn">
+              <span class="user-avatar"><%= user.firstName.charAt(0).toUpperCase() %></span>
+              <span class="user-name-nav"><%= user.firstName %></span>
+              <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="dropdown-header">
+                <strong><%= user.firstName %> <%= user.lastName %></strong>
+                <span><%= user.email %></span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="/user/dashboard" class="dropdown-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+              <button class="dropdown-item logout-btn" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Log out
+              </button>
+            </div>
+          </div>
+        <% } else { %>
+          <a href="/user/signup" class="btn btn-primary">Sign Up Free</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="formArea">
+      <form id="myForm">
+        <h2>Amazon SWE Resume</h2>
+
+        <!-- Personal Info -->
+        <div class="header">
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Jane Smith">
+          </div>
+          <div class="field">
+            <label for="details">Title / Tagline</label>
+            <input type="text" id="details" name="details" placeholder="Software Development Engineer">
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" placeholder="+1 206 555 0100">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@email.com">
+          </div>
+          <div class="field">
+            <label for="linkedin">LinkedIn</label>
+            <input type="text" id="linkedin" name="linkedin" placeholder="linkedin.com/in/jane">
+          </div>
+          <div class="field">
+            <label for="github">GitHub</label>
+            <input type="text" id="github" name="github" placeholder="github.com/jane">
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary section">
+          <div class="field">
+            <label for="summary">Summary</label>
+            <textarea name="summary" id="summary" rows="4" placeholder="Results-driven SDE with experience building high-throughput microservices. Customer obsessed, data-driven..."></textarea>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="experience section">
+          <div class="sectionHeader">
+            <label>Experience</label>
+            <button type="button" class="addBtn" id="addExp">+</button>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="projects section">
+          <div class="sectionHeader">
+            <label>Projects</label>
+            <button type="button" class="addBtn" id="addProj">+</button>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="education section">
+          <div class="sectionHeader">
+            <label>Education</label>
+            <button type="button" class="addBtn" id="addEdu">+</button>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="skills section">
+          <div class="field">
+            <label for="skills">Skills <span style="font-weight:400;color:var(--muted);font-size:var(--text-xs);">comma separated</span></label>
+            <input type="text" id="skills" name="skills" placeholder="Java, Python, AWS, DynamoDB, Kafka, Microservices">
+          </div>
+        </div>
+
+        <!-- Save -->
+        <% if (user) { %>
+        <div class="save-section section">
+          <div class="sectionHeader" style="margin-bottom:var(--space-3);">
+            <label>Save Resume</label>
+          </div>
+          <div class="field">
+            <label for="resumeTitle">Resume Title</label>
+            <input type="text" id="resumeTitle" placeholder="e.g. Amazon SDE II Application">
+          </div>
+          <div class="save-actions">
+            <button type="button" class="btn btn-primary" id="saveResumeBtn" style="width:100%;justify-content:center;">
+              <i class="bi bi-cloud-upload"></i> Save Resume
+            </button>
+            <div class="save-status" id="saveStatus"></div>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="save-section section">
+          <div class="save-login-prompt">
+            <i class="bi bi-lock-fill"></i>
+            <p>Log in to save your resume and access it anytime.</p>
+            <a href="/user/login" class="btn btn-primary" style="width:100%;justify-content:center;">Log in to Save</a>
+          </div>
+        </div>
+        <% } %>
+
+      </form>
+    </div>
+
+    <!-- RESUME PREVIEW -->
+    <div class="resume a-resume" id="resumePreview">
+
+      <div class="a-header-band">
+        <h1 id="resName">Jane Smith</h1>
+        <p class="a-tagline" id="resTagline">Software Development Engineer</p>
+        <div class="a-contact" id="resContact">
+          <span id="resPhone">+1 206 555 0100</span>
+          <span id="resEmail">jane@email.com</span>
+          <span id="resLinkedin">linkedin.com/in/jane</span>
+          <span id="resGithub">github.com/jane</span>
+        </div>
+      </div>
+
+      <div class="a-body">
+
+        <div class="a-sec">
+          <div class="a-sec-title">Summary</div>
+          <p id="resSummary" class="a-body-text">Results-driven SDE with experience building high-throughput microservices. Customer obsessed, data-driven, and passionate about ownership at scale.</p>
+        </div>
+
+        <div class="a-sec">
+          <div class="a-sec-title">Experience</div>
+          <div id="resExperience"></div>
+        </div>
+
+        <div class="a-sec">
+          <div class="a-sec-title">Projects</div>
+          <div id="resProjects"></div>
+        </div>
+
+        <div class="a-sec">
+          <div class="a-sec-title">Education</div>
+          <div id="resEducation"></div>
+        </div>
+
+        <div class="a-sec">
+          <div class="a-sec-title">Skills</div>
+          <div class="a-chips" id="resSkills">
+            <span class="a-chip">Java</span>
+            <span class="a-chip">Python</span>
+            <span class="a-chip">AWS</span>
+            <span class="a-chip">Microservices</span>
+          </div>
+        </div>
+
+        <div class="resumeActions">
+          <button class="btn btn-primary" onclick="window.print()">
+            <i class="bi bi-download"></i> Download PDF
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-tagline">Build a polished, ATS-ready resume in minutes. Free forever, no credit card needed.</p>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <nav class="footer-links">
+            <a href="/user/">Home</a>
+            <a href="/user/gallery">Templates</a>
+            <a href="/user/templates">Builder</a>
+            <% if (user) { %><a href="/user/dashboard">Dashboard</a><% } %>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <nav class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a><a href="#">Terms</a><a href="#">About</a>
+        </div>
+        <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Experience Modal -->
+  <div class="overlay" id="overlayExp">
+    <div class="model">
+      <h3>Add Experience</h3>
+      <div class="modalField">
+        <label>Job Title</label>
+        <input type="text" id="expTitle" placeholder="SDE II">
+      </div>
+      <div class="modalField">
+        <label>Company / Team</label>
+        <input type="text" id="expCompany" placeholder="Amazon · Prime Video">
+      </div>
+      <div class="modalRow">
+        <div class="modalField">
+          <label>Start Date</label>
+          <input type="text" id="expStart" placeholder="Jul 2021">
+        </div>
+        <div class="modalField">
+          <label>End Date</label>
+          <input type="text" id="expEnd" placeholder="Present">
+        </div>
+      </div>
+      <div class="modalField">
+        <label>Description</label>
+        <textarea id="expDesc" rows="4" placeholder="Lead with ownership and impact metrics — +X% CTR, reduced latency by Yms..."></textarea>
+      </div>
+      <div class="modalActions">
+        <button id="cancelExpBtn" type="button" class="cancelBtn">Cancel</button>
+        <button id="saveExpBtn" type="button" class="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects Modal -->
+  <div class="overlay" id="overlayProj">
+    <div class="model">
+      <h3>Add Project</h3>
+      <div class="modalField">
+        <label>Project Name</label>
+        <input type="text" id="projName" placeholder="StreamMetrics">
+      </div>
+      <div class="modalField">
+        <label>Tech Stack</label>
+        <input type="text" id="projTech" placeholder="Java, Kafka, DynamoDB">
+      </div>
+      <div class="modalField">
+        <label>Link (optional)</label>
+        <input type="text" id="projLink" placeholder="github.com/jane/streammetrics">
+      </div>
+      <div class="modalField">
+        <label>Description</label>
+        <textarea id="projDesc" rows="3" placeholder="What you built and its impact... One point per line"></textarea>
+      </div>
+      <div class="modalActions">
+        <button id="cancelProjBtn" type="button" class="cancelBtn">Cancel</button>
+        <button id="saveProjBtn" type="button" class="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Education Modal -->
+  <div class="overlay" id="overlayEdu">
+    <div class="model">
+      <h3>Add Education</h3>
+      <div class="modalField">
+        <label>Degree / Course</label>
+        <input type="text" id="eduDegree" placeholder="B.S. Computer Science">
+      </div>
+      <div class="modalField">
+        <label>Institution</label>
+        <input type="text" id="eduInstitute" placeholder="University of Washington">
+      </div>
+      <div class="modalRow">
+        <div class="modalField">
+          <label>Start</label>
+          <input type="text" id="eduStart" placeholder="2017">
+        </div>
+        <div class="modalField">
+          <label>End</label>
+          <input type="text" id="eduEnd" placeholder="2021">
+        </div>
+      </div>
+      <div class="modalField">
+        <label>Description</label>
+        <textarea id="eduDesc" rows="3" placeholder="Relevant coursework, GPA, honours..."></textarea>
+      </div>
+      <div class="modalActions">
+        <button id="cancelEduBtn" type="button" class="cancelBtn">Cancel</button>
+        <button id="saveEduBtn" type="button" class="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/template03.js"></script>
+  <% if (user) { %>
+    <script src="/js/resumeSave03.js"></script>
+    <script src="/js/navbar.js" defer></script>
+  <% } %>
+  <script src="/js/darkmode.js"></script>
+
+</body>
+</html>

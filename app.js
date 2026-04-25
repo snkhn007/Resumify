@@ -1,19 +1,50 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// Database
+const connectDB = require('./config/db');
+connectDB();
 
-app.use(express.static(path.join(__dirname, "public")));
+// Parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
 
-const pageRouter = require('./routes/pageRoutes');
-const authRouter = require('./routes/authRoutes');
+// EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.use('/user', pageRouter);
-app.use('/api/auth', authRouter);
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-let PORT = 3000;
-app.listen(PORT, ()=>{
-    console.log("Working");
-})
+// Routes
+const pageRouter   = require('./routes/pageRoutes');
+const authRouter   = require('./routes/authRoutes');
+const resumeRouter = require('./routes/resumeRoutes');
+
+app.use('/user',        pageRouter);
+app.use('/api/auth',    authRouter);
+app.use('/api/resumes', resumeRouter);
+
+// Root redirect → /user/
+app.get('/', (req, res) => res.redirect('/user/'));
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).render('404', { user: null });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong', error: err.message });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Resumify running on http://localhost:${PORT}`);
+});

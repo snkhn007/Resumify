@@ -1,0 +1,19 @@
+While LOGGED OUT:
+→ go to localhost:3000/user/dashboard
+  ✓ should redirect to /user/login
+
+→ go to localhost:3000/user/login
+  ✓ should show login page
+
+→ go to localhost:3000/user/templates
+  ✓ should show builder (guests allowed)
+
+While LOGGED IN:
+→ go to localhost:3000/user/login
+  ✓ should redirect to /user/dashboard
+
+→ go to localhost:3000/user/signup
+  ✓ should redirect to /user/dashboard
+
+→ go to localhost:3000/user/dashboard
+  ✓ should show dashboard normally

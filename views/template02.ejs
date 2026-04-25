@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Builder — ResumeBuilder</title>
+  <title>Google SWE Resume — ResumeBuilder</title>
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/utils.css">
   <link rel="stylesheet" href="/css/template.css">
-  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/template02.css">
   <link rel="stylesheet" href="/css/darkmode.css">
 </head>
 <body>
+
   <header class="site-header">
     <div class="container navbar">
       <a href="/user/" class="logo">
@@ -22,7 +23,7 @@
       </a>
       <nav class="nav-links">
         <a href="/user/">Home</a>
-        <a href="/user/templates" class="active">Builder</a>
+        <a href="/user/gallery" class="active">Templates</a>
         <% if (!user) { %>
           <a href="/user/login">Login</a>
         <% } else { %>
@@ -62,55 +63,77 @@
   <main>
     <div class="formArea">
       <form id="myForm">
-        <h2>Resume Form</h2>
+        <h2>Google SWE Resume</h2>
+
+        <!-- Personal Info -->
         <div class="header">
           <div class="field">
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName" placeholder="Jane Brown">
+            <input type="text" id="fullName" name="fullName" placeholder="Jane Smith">
           </div>
           <div class="field">
             <label for="details">Title / Tagline</label>
-            <input type="text" id="details" name="details" placeholder="Frontend Developer, Chennai">
+            <input type="text" id="details" name="details" placeholder="Software Engineer · Mountain View, CA">
           </div>
           <div class="field">
-            <label for="phone">Phone Number</label>
-            <input type="text" id="phone" name="phone" placeholder="+91 9876543210">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" placeholder="+1 650 555 0100">
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="jane@email.com">
+            <input type="email" id="email" name="email" placeholder="jane@gmail.com">
           </div>
           <div class="field">
             <label for="linkedin">LinkedIn</label>
-            <input type="text" id="linkedin" name="linkedin" placeholder="linkedin.com/in/janebrown">
+            <input type="text" id="linkedin" name="linkedin" placeholder="linkedin.com/in/jane">
+          </div>
+          <div class="field">
+            <label for="github">GitHub</label>
+            <input type="text" id="github" name="github" placeholder="github.com/jane">
           </div>
         </div>
+
+        <!-- Summary -->
         <div class="summary section">
           <div class="field">
             <label for="summary">Summary</label>
-            <textarea name="summary" id="summary" rows="4" placeholder="Write a short professional summary..."></textarea>
+            <textarea name="summary" id="summary" rows="4" placeholder="Software engineer with X years building distributed systems at scale..."></textarea>
           </div>
         </div>
+
+        <!-- Experience -->
         <div class="experience section">
           <div class="sectionHeader">
             <label>Experience</label>
             <button type="button" class="addBtn" id="addExp">+</button>
           </div>
         </div>
+
+        <!-- Projects -->
+        <div class="projects section">
+          <div class="sectionHeader">
+            <label>Projects</label>
+            <button type="button" class="addBtn" id="addProj">+</button>
+          </div>
+        </div>
+
+        <!-- Education -->
         <div class="education section">
           <div class="sectionHeader">
             <label>Education</label>
             <button type="button" class="addBtn" id="addEdu">+</button>
           </div>
         </div>
+
+        <!-- Skills -->
         <div class="skills section">
           <div class="field">
-            <label for="skills">Skills</label>
-            <textarea name="skills" id="skills" rows="4" placeholder="HTML, CSS, JavaScript, React..."></textarea>
+            <label for="skills">Skills <span style="font-weight:400;color:var(--muted);font-size:var(--text-xs);">comma separated</span></label>
+            <input type="text" id="skills" name="skills" placeholder="Go, Python, C++, Distributed Systems, Kubernetes">
           </div>
         </div>
 
-        <!-- Save resume section (only shown when logged in) -->
+        <!-- Save -->
         <% if (user) { %>
         <div class="save-section section">
           <div class="sectionHeader" style="margin-bottom:var(--space-3);">
@@ -118,7 +141,7 @@
           </div>
           <div class="field">
             <label for="resumeTitle">Resume Title</label>
-            <input type="text" id="resumeTitle" placeholder="e.g. Google SWE Application">
+            <input type="text" id="resumeTitle" placeholder="e.g. Google L4 Application">
           </div>
           <div class="save-actions">
             <button type="button" class="btn btn-primary" id="saveResumeBtn" style="width:100%;justify-content:center;">
@@ -136,103 +159,101 @@
           </div>
         </div>
         <% } %>
+
       </form>
     </div>
 
-    <div class="resume">
-      <div class="heading">
-        <h1 id="resName">John Doe</h1>
-        <p id="resTagline">Backend Developer, proficient in DSA, guardian on LeetCode.</p>
-        <hr>
-        <div class="contact">
-          <p id="resPhone" class="contactUtils">+91 8247624764</p>
-          <p id="resEmail" class="contactUtils">johndoe1997@gmail.com</p>
-          <p id="resLinkedin" class="contactUtils">linkedin.com/in/johndoe</p>
+    <!-- RESUME PREVIEW -->
+    <div class="resume g-resume" id="resumePreview">
+
+      <div class="g-heading">
+        <h1 id="resName">Jane Smith</h1>
+        <p class="g-tagline" id="resTagline">Software Engineer · Mountain View, CA</p>
+        <div class="g-contact" id="resContact">
+          <span id="resPhone">+1 650 555 0100</span>
+          <span id="resEmail">jane@gmail.com</span>
+          <span id="resLinkedin">linkedin.com/in/jane</span>
+          <span id="resGithub">github.com/jane</span>
         </div>
-        <hr>
       </div>
-      <div class="sec">
-        <h2>Summary</h2>
-        <p id="resSummary">Write a short professional summary here. Example: Passionate software developer with experience in building scalable web applications.</p>
+
+      <div class="g-sec">
+        <div class="g-sec-title">Summary</div>
+        <p id="resSummary" class="g-body">Software engineer with experience building distributed systems at scale.</p>
       </div>
-      <hr>
-      <div class="sec">
-        <h2>Experience</h2>
+
+      <div class="g-sec">
+        <div class="g-sec-title">Experience</div>
         <div id="resExperience"></div>
       </div>
-      <hr>
-      <div class="sec">
-        <h2>Education</h2>
+
+      <div class="g-sec">
+        <div class="g-sec-title">Projects</div>
+        <div id="resProjects"></div>
+      </div>
+
+      <div class="g-sec">
+        <div class="g-sec-title">Education</div>
         <div id="resEducation"></div>
       </div>
-      <hr>
-      <div class="sec">
-        <h2>Skills</h2>
-        <div id="resSkills"><p>Technical Skills: HTML, CSS, JavaScript, React, Node.js, Git, REST APIs</p></div>
+
+      <div class="g-sec">
+        <div class="g-sec-title">Skills</div>
+        <div class="g-chips" id="resSkills">
+          <span class="g-chip">Go</span>
+          <span class="g-chip">Python</span>
+          <span class="g-chip">Distributed Systems</span>
+        </div>
       </div>
+
       <div class="resumeActions">
         <button class="btn btn-primary" onclick="window.print()">
           <i class="bi bi-download"></i> Download PDF
         </button>
       </div>
+
     </div>
   </main>
 
   <footer class="site-footer">
-  <div class="container">
-
-    <div class="footer-inner">
-
-      <!-- Col 1: Brand -->
-      <div class="footer-brand">
-        <a href="/user/" class="footer-logo">
-          <span class="logo-mark">R</span>
-          <span>ResumeBuilder</span>
-        </a>
-        <p class="footer-tagline">
-          Build a polished, ATS-ready resume in minutes.
-          Free forever, no credit card needed.
-        </p>
-        <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-tagline">Build a polished, ATS-ready resume in minutes. Free forever, no credit card needed.</p>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <nav class="footer-links">
+            <a href="/user/">Home</a>
+            <a href="/user/gallery">Templates</a>
+            <a href="/user/templates">Builder</a>
+            <% if (user) { %><a href="/user/dashboard">Dashboard</a><% } %>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <nav class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </nav>
+        </div>
       </div>
-
-      <!-- Col 2: Product -->
-      <div class="footer-col">
-        <h4>Product</h4>
-        <nav class="footer-links">
-          <a href="/user/">Home</a>
-          <a href="/user/gallery">Templates</a>
-          <a href="/user/templates">Builder</a>
-          <% if (user) { %>
-          <a href="/user/dashboard">Dashboard</a>
-          <% } %>
-        </nav>
-      </div>
-
-      <!-- Col 3: Company -->
-      <div class="footer-col">
-        <h4>Company</h4>
-        <nav class="footer-links">
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
           <a href="#">About</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </nav>
+        </div>
+        <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
       </div>
-
     </div>
-
-    <!-- Bottom bar -->
-    <div class="footer-bottom">
-      <div class="footer-bottom-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">About</a>
-      </div>
-      <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 
   <!-- Experience Modal -->
   <div class="overlay" id="overlayExp">
@@ -240,7 +261,7 @@
       <h3>Add Experience</h3>
       <div class="modalField">
         <label>Job Title</label>
-        <input type="text" id="expTitle" placeholder="Software Engineer">
+        <input type="text" id="expTitle" placeholder="L4 Software Engineer">
       </div>
       <div class="modalField">
         <label>Company</label>
@@ -249,7 +270,7 @@
       <div class="modalRow">
         <div class="modalField">
           <label>Start Date</label>
-          <input type="text" id="expStart" placeholder="Jan 2022">
+          <input type="text" id="expStart" placeholder="Aug 2021">
         </div>
         <div class="modalField">
           <label>End Date</label>
@@ -258,11 +279,38 @@
       </div>
       <div class="modalField">
         <label>Description</label>
-        <textarea id="expDesc" rows="4" placeholder="Describe your work... One point per line"></textarea>
+        <textarea id="expDesc" rows="4" placeholder="Use impact metrics — reduced latency by X%, served Y QPS..."></textarea>
       </div>
       <div class="modalActions">
         <button id="cancelExpBtn" type="button" class="cancelBtn">Cancel</button>
         <button id="saveExpBtn" type="button" class="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects Modal -->
+  <div class="overlay" id="overlayProj">
+    <div class="model">
+      <h3>Add Project</h3>
+      <div class="modalField">
+        <label>Project Name</label>
+        <input type="text" id="projName" placeholder="OpenCache">
+      </div>
+      <div class="modalField">
+        <label>Tech Stack</label>
+        <input type="text" id="projTech" placeholder="Go, Redis, gRPC">
+      </div>
+      <div class="modalField">
+        <label>Link (optional)</label>
+        <input type="text" id="projLink" placeholder="github.com/jane/opencache">
+      </div>
+      <div class="modalField">
+        <label>Description</label>
+        <textarea id="projDesc" rows="3" placeholder="What you built and its impact... One point per line"></textarea>
+      </div>
+      <div class="modalActions">
+        <button id="cancelProjBtn" type="button" class="cancelBtn">Cancel</button>
+        <button id="saveProjBtn" type="button" class="saveBtn">Save</button>
       </div>
     </div>
   </div>
@@ -273,25 +321,25 @@
       <h3>Add Education</h3>
       <div class="modalField">
         <label>Degree / Course</label>
-        <input type="text" id="eduDegree" placeholder="B.Tech in Computer Science">
+        <input type="text" id="eduDegree" placeholder="B.S. Computer Science">
       </div>
       <div class="modalField">
         <label>Institution</label>
-        <input type="text" id="eduInstitute" placeholder="ABC University">
+        <input type="text" id="eduInstitute" placeholder="Stanford University">
       </div>
       <div class="modalRow">
         <div class="modalField">
-          <label>Start Date</label>
-          <input type="text" id="eduStart" placeholder="2019">
+          <label>Start</label>
+          <input type="text" id="eduStart" placeholder="2017">
         </div>
         <div class="modalField">
-          <label>End Date</label>
-          <input type="text" id="eduEnd" placeholder="2023">
+          <label>End</label>
+          <input type="text" id="eduEnd" placeholder="2021">
         </div>
       </div>
       <div class="modalField">
         <label>Description</label>
-        <textarea id="eduDesc" rows="4" placeholder="Relevant coursework / achievements... One point per line"></textarea>
+        <textarea id="eduDesc" rows="3" placeholder="Relevant coursework, GPA, honours..."></textarea>
       </div>
       <div class="modalActions">
         <button id="cancelEduBtn" type="button" class="cancelBtn">Cancel</button>
@@ -300,11 +348,12 @@
     </div>
   </div>
 
-  <script src="/js/template.js"></script>
+  <script src="/js/template02.js"></script>
   <% if (user) { %>
-    <script src="/js/resumeSave.js"></script>
+    <script src="/js/resumeSave02.js"></script>
     <script src="/js/navbar.js" defer></script>
   <% } %>
   <script src="/js/darkmode.js"></script>
+
 </body>
 </html>

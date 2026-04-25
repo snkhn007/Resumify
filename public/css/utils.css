@@ -1,87 +1,5 @@
-/* =============================================================
-   utils.css — Design Tokens, Reset & Base Styles
-   Import this file FIRST on every page.
-   Usage: color: var(--primary);
-   ============================================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-
-/* ----- DESIGN TOKENS ----- */
-
-:root {
-
-  /* Brand */
-  --primary:        #2563eb;
-  --primary-dark:   #1d4ed8;
-  --primary-soft:   #dbeafe;
-
-  /* Backgrounds */
-  --bg:             #f5f7fb;
-  --surface:        #ffffff;
-  --surface-soft:   #f8fafc;
-
-  /* Borders */
-  --border:         #e5e7eb;
-  --border-soft:    #edf2f7;
-
-  /* Text */
-  --text:           #0f172a;
-  --muted:          #64748b;
-  --text-light:     #334155;
-
-  /* Feedback */
-  --success:        #16a34a;
-  --success-soft:   #dcfce7;
-  --error:          #dc2626;
-  --error-soft:     #fee2e2;
-  --warning:        #d97706;
-  --warning-soft:   #fef3c7;
-
-  /* Typography */
-  --font:           'Inter', sans-serif;
-  --text-xs:        0.80rem;
-  --text-sm:        0.88rem;
-  --text-base:      1rem;
-  --text-lg:        1.06rem;
-  --text-xl:        1.25rem;
-  --text-2xl:       1.8rem;
-  --text-hero:      clamp(2.4rem, 5vw, 4.3rem);
-
-  /* Spacing */
-  --space-1:   0.25rem;
-  --space-2:   0.5rem;
-  --space-3:   0.75rem;
-  --space-4:   1rem;
-  --space-5:   1.25rem;
-  --space-6:   1.5rem;
-  --space-8:   2rem;
-  --space-10:  2.5rem;
-  --space-12:  3rem;
-  --space-16:  4rem;
-
-  /* Border Radius */
-  --radius-xs:   8px;
-  --radius-sm:   12px;
-  --radius-md:   18px;
-  --radius-lg:   24px;
-  --radius-xl:   30px;
-  --radius-full: 999px;
-
-  /* Shadows */
-  --shadow-sm:  0 2px 8px  rgba(15, 23, 42, 0.05);
-  --shadow-md:  0 10px 30px rgba(15, 23, 42, 0.08);
-  --shadow-lg:  0 18px 36px rgba(15, 23, 42, 0.12);
-  --shadow-btn: 0 12px 24px rgba(37, 99, 235, 0.22);
-
-  /* Layout */
-  --max-width:     1200px;
-  --nav-height:    80px;
-  --section-py:    3.5rem;
-
-  /* Transitions */
-  --ease:          0.25s ease;
-}
 
 
 /* ----- RESET ----- */
@@ -151,9 +69,7 @@ main {
   font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
-  transition: transform var(--ease),
-              box-shadow var(--ease),
-              background var(--ease);
+  transition: transform var(--ease), box-shadow var(--ease), background var(--ease);
 }
 
 .btn-primary {
@@ -239,4 +155,79 @@ main {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: var(--space-6);
+}
+
+
+:root {
+
+  /* Brand */
+  --primary:        #2563eb;
+  --primary-dark:   #1d4ed8;
+  --primary-soft:   #dbeafe;
+
+  /* Backgrounds */
+  --bg:             #f5f7fb;
+  --surface:        #ffffff;
+  --surface-soft:   #f8fafc;
+
+  /* Borders */
+  --border:         #e5e7eb;
+  --border-soft:    #edf2f7;
+
+  /* Text */
+  --text:           #0f172a;
+  --muted:          #64748b;
+  --text-light:     #334155;
+
+  /* Feedback */
+  --success:        #16a34a;
+  --success-soft:   #dcfce7;
+  --error:          #dc2626;
+  --error-soft:     #fee2e2;
+  --warning:        #d97706;
+  --warning-soft:   #fef3c7;
+
+  /* Typography */
+  --font:           'Inter', sans-serif;
+  --text-xs:        0.80rem;
+  --text-sm:        0.88rem;
+  --text-base:      1rem;
+  --text-lg:        1.06rem;
+  --text-xl:        1.25rem;
+  --text-2xl:       1.8rem;
+  --text-hero:      clamp(2.4rem, 5vw, 4.3rem);
+
+  /* Spacing */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+
+  /* Border Radius */
+  --radius-xs:   8px;
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+  --radius-xl:   30px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px  rgba(15, 23, 42, 0.05);
+  --shadow-md:  0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-lg:  0 18px 36px rgba(15, 23, 42, 0.12);
+  --shadow-btn: 0 12px 24px rgba(37, 99, 235, 0.22);
+
+  /* Layout */
+  --max-width:     1200px;
+  --nav-height:    80px;
+  --section-py:    3.5rem;
+
+  /* Transitions */
+  --ease:          0.25s ease;
 }

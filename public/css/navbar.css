@@ -1,0 +1,167 @@
+/* =============================================================
+   navbar.css — User Avatar + Dropdown
+   Shared across all pages that show a logged-in user in the nav.
+   Requires: utils.css and header.css loaded before this file.
+
+   IMPORT ORDER in every EJS that has a logged-in user nav:
+     <link rel="stylesheet" href="/css/navbar.css">
+   ============================================================= */
+
+
+/* ----- User menu wrapper ----- */
+
+.user-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+
+/* ----- Avatar button ----- */
+
+.user-avatar-btn {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-2);
+  background:  transparent;
+  border:      1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding:     0.35rem 0.75rem 0.35rem 0.35rem;
+  cursor:      pointer;
+  font-family: var(--font);
+  font-size:   var(--text-sm);
+  font-weight: 600;
+  color:       var(--text);
+  transition:  background var(--ease), border-color var(--ease);
+}
+
+.user-avatar-btn:hover {
+  background:    var(--surface-soft);
+  border-color:  #93c5fd;
+}
+
+
+/* ----- Avatar circle (initial letter) ----- */
+
+.user-avatar {
+  width:            32px;
+  height:           32px;
+  border-radius:    var(--radius-full);
+  background:       var(--primary);
+  color:            #fff;
+  font-size:        var(--text-sm);
+  font-weight:      700;
+  display:          grid;
+  place-items:      center;
+  flex-shrink:      0;
+}
+
+
+/* ----- Name next to avatar (hidden on small screens) ----- */
+
+.user-name-nav {
+  max-width:    120px;
+  overflow:     hidden;
+  text-overflow:ellipsis;
+  white-space:  nowrap;
+}
+
+
+/* ----- Dropdown panel ----- */
+
+.user-dropdown {
+  display:       none;
+  position:      absolute;
+  top:           calc(100% + 8px);
+  right:         0;
+  min-width:     220px;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow:    var(--shadow-lg);
+  z-index:       200;
+  overflow:      hidden;
+}
+
+.user-dropdown.open {
+  display: block;
+}
+
+
+/* ----- Dropdown header (name + email) ----- */
+
+.dropdown-header {
+  padding:    var(--space-4) var(--space-4) var(--space-3);
+  display:    flex;
+  flex-direction: column;
+  gap:        2px;
+}
+
+.dropdown-header strong {
+  font-size:   var(--text-sm);
+  font-weight: 700;
+  color:       var(--text);
+}
+
+.dropdown-header span {
+  font-size: var(--text-xs);
+  color:     var(--muted);
+}
+
+
+/* ----- Divider ----- */
+
+.dropdown-divider {
+  border:     none;
+  border-top: 1px solid var(--border-soft);
+  margin:     0;
+}
+
+
+/* ----- Dropdown items ----- */
+
+.dropdown-item {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-3);
+  width:       100%;
+  padding:     0.7rem var(--space-4);
+  font-family: var(--font);
+  font-size:   var(--text-sm);
+  font-weight: 500;
+  color:       var(--text);
+  background:  transparent;
+  border:      none;
+  text-align:  left;
+  cursor:      pointer;
+  text-decoration: none;
+  transition:  background var(--ease), color var(--ease);
+}
+
+.dropdown-item:hover {
+  background: var(--surface-soft);
+  color:      var(--primary);
+}
+
+.dropdown-item.logout-btn:hover {
+  background: var(--error-soft);
+  color:      var(--error);
+}
+
+.dropdown-item i {
+  font-size:  1rem;
+  flex-shrink: 0;
+}
+
+
+/* ----- Responsive ----- */
+
+@media (max-width: 560px) {
+  .user-name-nav {
+    display: none;
+  }
+
+  .user-avatar-btn {
+    padding: 0.35rem;
+    border-radius: var(--radius-full);
+  }
+}

@@ -1,0 +1,255 @@
+/* =============================================================
+   template03.css — Amazon SWE Resume Preview Styles
+   Loads AFTER template.css — overrides .resume styles only.
+   ============================================================= */
+
+
+/* ── Resume panel ── */
+
+.a-resume {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-height: 900px;
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #111827;
+  overflow: hidden;
+  padding: 0;        /* header band handles top padding */
+}
+
+
+/* ── Dark header band ── */
+
+.a-header-band {
+  background: #232f3e;
+  padding: 32px 48px 24px;
+  color: #ffffff;
+}
+
+.a-resume h1 {
+  font-size: 23px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  margin-bottom: 3px;
+  line-height: 1.2;
+  font-family: 'Arial', sans-serif;
+}
+
+.a-tagline {
+  font-size: 11.5px;
+  color: #ff9900;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+
+.a-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+
+.a-contact span {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+
+/* ── Body ── */
+
+.a-body {
+  padding: 24px 48px 36px;
+}
+
+.a-sec {
+  margin-bottom: 18px;
+}
+
+.a-sec-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #232f3e;
+  border-left: 3px solid #ff9900;
+  padding-left: 8px;
+  margin-bottom: 10px;
+  line-height: 1.2;
+  border-radius: 0;
+}
+
+.a-body-text {
+  font-size: 10.5px;
+  color: #374151;
+  line-height: 1.65;
+}
+
+
+/* ── Entries ── */
+
+.a-entry {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.a-entry:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.a-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.a-entry-org {
+  font-size: 11px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.a-entry-date {
+  font-size: 9.5px;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.a-entry-role {
+  font-size: 10.5px;
+  color: #6b7280;
+  font-style: italic;
+  margin: 2px 0 4px;
+}
+
+.a-entry-link {
+  font-size: 9.5px;
+  color: #ff9900;
+  margin-bottom: 3px;
+}
+
+.a-entry-desc {
+  padding-left: 13px;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.a-entry-desc li {
+  font-size: 10px;
+  color: #374151;
+  line-height: 1.55;
+}
+
+
+/* ── Skill chips — Amazon orange ── */
+
+.a-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.a-chip {
+  background: #fff8ee;
+  color: #92400e;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 1px solid #fcd38a;
+  font-family: 'Arial', sans-serif;
+}
+
+
+/* ── Resume actions ── */
+
+.a-resume .resumeActions {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* ── Print ── */
+
+@media print {
+  .site-header,
+  .site-footer,
+  .formArea,
+  .resumeActions {
+    display: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  main {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .a-resume {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    min-height: unset;
+    width: 100%;
+    font-size: 10px;
+  }
+
+  .a-header-band {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+
+/* ── Dark mode ── */
+
+[data-theme="dark"] .a-resume {
+  background: #1a2332;
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .a-header-band {
+  background: #0f172a;
+}
+
+[data-theme="dark"] .a-resume h1   { color: #f1f5f9; }
+[data-theme="dark"] .a-tagline     { color: #fbbf24; }
+[data-theme="dark"] .a-contact span{ color: #64748b; }
+
+[data-theme="dark"] .a-body        { background: #1a2332; }
+[data-theme="dark"] .a-sec-title   { color: #f1f5f9; border-left-color: #fbbf24; }
+[data-theme="dark"] .a-body-text   { color: #cbd5e1; }
+
+[data-theme="dark"] .a-entry       { border-bottom-color: #1e293b; }
+[data-theme="dark"] .a-entry-org   { color: #f1f5f9; }
+[data-theme="dark"] .a-entry-date  { color: #64748b; }
+[data-theme="dark"] .a-entry-role  { color: #94a3b8; }
+[data-theme="dark"] .a-entry-link  { color: #fbbf24; }
+[data-theme="dark"] .a-entry-desc li{ color: #cbd5e1; }
+
+[data-theme="dark"] .a-chip {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+[data-theme="dark"] .a-resume .resumeActions { border-top-color: #334155; }
