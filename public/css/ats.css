@@ -1,0 +1,316 @@
+/* =============================================================
+   ats.css — ATS Score Checker Panel
+   Add <link rel="stylesheet" href="/css/ats.css"> to every
+   template page that uses the ATS checker.
+   ============================================================= */
+
+
+/* ----- PANEL WRAPPER ----- */
+
+.ats-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* ----- HEADER ROW ----- */
+
+.ats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.ats-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ats-title i {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.ats-role-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 160px;
+}
+
+.ats-role-input {
+  flex: 1;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  color: var(--text);
+  background: var(--surface-soft);
+  outline: none;
+  transition: border-color var(--ease);
+}
+
+.ats-role-input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.18);
+}
+
+.ats-check-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.5rem 1.1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--ease), transform var(--ease);
+  flex-shrink: 0;
+}
+
+.ats-check-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.ats-check-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ----- EMPTY STATE ----- */
+
+.ats-empty {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--muted);
+}
+
+.ats-empty-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.ats-empty p {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+
+/* ----- SPEEDOMETER GAUGE ----- */
+
+.ats-gauge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.ats-gauge-svg {
+  width: 200px;
+  height: 110px;
+  overflow: visible;
+}
+
+.ats-score-num {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  line-height: 1;
+  margin-top: calc(var(--space-1) * -1);
+}
+
+.ats-score-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-align: center;
+  margin-top: var(--space-1);
+}
+
+.ats-verdict {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-3);
+}
+
+.ats-verdict--great { background: var(--success-soft); color: var(--success); }
+.ats-verdict--good  { background: var(--warning-soft); color: var(--warning); }
+.ats-verdict--poor  { background: var(--error-soft);   color: var(--error); }
+
+.ats-summary {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-align: center;
+  margin-top: var(--space-3);
+  line-height: 1.6;
+  padding: 0 var(--space-2);
+}
+
+
+/* ----- SCORE BREAKDOWN ----- */
+
+.ats-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.ats-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ats-breakdown-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.ats-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border-soft);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.ats-bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.7s ease;
+}
+
+.ats-bar--high   { background: var(--success); }
+.ats-bar--mid    { background: var(--warning); }
+.ats-bar--low    { background: var(--error); }
+
+.ats-breakdown-val {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text);
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+
+/* ----- KEYWORDS + IMPROVEMENTS ----- */
+
+.ats-section-title {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.ats-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.ats-keyword {
+  background: var(--error-soft);
+  color: var(--error);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.ats-improvements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ats-improvement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.ats-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--warning);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.ats-improvement-item span {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.ats-divider {
+  border: none;
+  border-top: 1px solid var(--border-soft);
+  margin: var(--space-4) 0 0;
+}
+
+
+/* ----- ERROR STATE ----- */
+
+.ats-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--error-soft);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+
+/* ----- DARK MODE ----- */
+
+[data-theme="dark"] .ats-panel {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .ats-role-input {
+  background: var(--surface-soft);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .ats-bar-wrap {
+  background: var(--border);
+}

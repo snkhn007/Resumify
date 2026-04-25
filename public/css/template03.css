@@ -1,10 +1,228 @@
 /* =============================================================
    template03.css — Amazon SWE Resume Preview Styles
-   Loads AFTER template.css — overrides .resume styles only.
+   (merged with ats.css — no separate ats.css needed)
+   Loads AFTER template.css — overrides layout + resume styles.
    ============================================================= */
 
 
-/* ── Resume panel ── */
+/* ============================================================
+   RIGHT COLUMN WRAPPER
+   Stacks ATS panel above the resume preview in the grid's
+   second column. Defined here so template.css stays generic.
+   ============================================================ */
+
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0; /* prevent grid blowout */
+}
+
+
+/* ============================================================
+   ATS SCORE CHECKER PANEL
+   (previously ats.css — merged here)
+   ============================================================ */
+
+.ats-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.ats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.ats-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ats-title i { color: var(--primary); font-size: 1rem; }
+
+.ats-role-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 160px;
+}
+
+.ats-role-input {
+  flex: 1;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  color: var(--text);
+  background: var(--surface-soft);
+  outline: none;
+  transition: border-color var(--ease);
+}
+
+.ats-role-input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.18);
+}
+
+.ats-check-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.5rem 1.1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--ease), transform var(--ease);
+  flex-shrink: 0;
+}
+
+.ats-check-btn:hover    { background: var(--primary-dark); transform: translateY(-1px); }
+.ats-check-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+.ats-empty {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--muted);
+}
+
+.ats-empty-icon { font-size: 2rem; margin-bottom: var(--space-2); display: block; }
+.ats-empty p    { font-size: var(--text-sm); line-height: 1.6; }
+
+.ats-gauge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.ats-gauge-svg { width: 200px; height: 110px; overflow: visible; }
+
+.ats-score-num {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  line-height: 1;
+  margin-top: calc(var(--space-1) * -1);
+}
+
+.ats-score-label { font-size: var(--text-xs); color: var(--muted); text-align: center; margin-top: var(--space-1); }
+
+.ats-verdict {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-3);
+}
+
+.ats-verdict--great { background: var(--success-soft); color: var(--success); }
+.ats-verdict--good  { background: var(--warning-soft); color: var(--warning); }
+.ats-verdict--poor  { background: var(--error-soft);   color: var(--error); }
+
+.ats-summary {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-align: center;
+  margin-top: var(--space-3);
+  line-height: 1.6;
+  padding: 0 var(--space-2);
+}
+
+.ats-breakdown { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
+.ats-breakdown-row { display: flex; align-items: center; gap: var(--space-2); }
+
+.ats-breakdown-label { font-size: var(--text-xs); color: var(--muted); width: 140px; flex-shrink: 0; }
+
+.ats-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border-soft);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.ats-bar { height: 100%; border-radius: var(--radius-full); transition: width 0.7s ease; }
+
+.ats-bar--high { background: var(--success); }
+.ats-bar--mid  { background: var(--warning); }
+.ats-bar--low  { background: var(--error); }
+
+.ats-breakdown-val { font-size: var(--text-xs); font-weight: 700; color: var(--text); width: 36px; text-align: right; flex-shrink: 0; }
+
+.ats-section-title {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.ats-keywords     { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+
+.ats-keyword {
+  background: var(--error-soft);
+  color: var(--error);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.ats-improvements   { display: flex; flex-direction: column; gap: var(--space-2); }
+.ats-improvement-item { display: flex; align-items: flex-start; gap: var(--space-2); }
+
+.ats-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--warning);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.ats-improvement-item span { font-size: var(--text-xs); color: var(--muted); line-height: 1.55; }
+.ats-divider { border: none; border-top: 1px solid var(--border-soft); margin: var(--space-4) 0 0; }
+
+.ats-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--error-soft);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   AMAZON SWE RESUME PREVIEW
+   ============================================================ */
 
 .a-resume {
   background: #ffffff;
@@ -17,11 +235,10 @@
   line-height: 1.6;
   color: #111827;
   overflow: hidden;
-  padding: 0;        /* header band handles top padding */
+  padding: 0; /* header band handles top */
 }
 
-
-/* ── Dark header band ── */
+/* ----- Dark header band ----- */
 
 .a-header-band {
   background: #232f3e;
@@ -47,27 +264,14 @@
   letter-spacing: 0.01em;
 }
 
-.a-contact {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-}
+.a-contact { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.a-contact span { font-size: 10px; color: #9ca3af; }
 
-.a-contact span {
-  font-size: 10px;
-  color: #9ca3af;
-}
+/* ----- Body ----- */
 
+.a-body { padding: 24px 48px 36px; }
 
-/* ── Body ── */
-
-.a-body {
-  padding: 24px 48px 36px;
-}
-
-.a-sec {
-  margin-bottom: 18px;
-}
+.a-sec { margin-bottom: 18px; }
 
 .a-sec-title {
   font-size: 9.5px;
@@ -79,17 +283,11 @@
   padding-left: 8px;
   margin-bottom: 10px;
   line-height: 1.2;
-  border-radius: 0;
 }
 
-.a-body-text {
-  font-size: 10.5px;
-  color: #374151;
-  line-height: 1.65;
-}
+.a-body-text { font-size: 10.5px; color: #374151; line-height: 1.65; }
 
-
-/* ── Entries ── */
+/* ----- Entries ----- */
 
 .a-entry {
   margin-bottom: 12px;
@@ -97,11 +295,7 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
-.a-entry:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
+.a-entry:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 
 .a-entry-top {
   display: flex;
@@ -110,31 +304,10 @@
   gap: 12px;
 }
 
-.a-entry-org {
-  font-size: 11px;
-  font-weight: 700;
-  color: #111827;
-}
-
-.a-entry-date {
-  font-size: 9.5px;
-  color: #9ca3af;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.a-entry-role {
-  font-size: 10.5px;
-  color: #6b7280;
-  font-style: italic;
-  margin: 2px 0 4px;
-}
-
-.a-entry-link {
-  font-size: 9.5px;
-  color: #ff9900;
-  margin-bottom: 3px;
-}
+.a-entry-org  { font-size: 11px; font-weight: 700; color: #111827; }
+.a-entry-date { font-size: 9.5px; color: #9ca3af; white-space: nowrap; flex-shrink: 0; }
+.a-entry-role { font-size: 10.5px; color: #6b7280; font-style: italic; margin: 2px 0 4px; }
+.a-entry-link { font-size: 9.5px; color: #ff9900; margin-bottom: 3px; }
 
 .a-entry-desc {
   padding-left: 13px;
@@ -144,20 +317,11 @@
   gap: 2px;
 }
 
-.a-entry-desc li {
-  font-size: 10px;
-  color: #374151;
-  line-height: 1.55;
-}
+.a-entry-desc li { font-size: 10px; color: #374151; line-height: 1.55; }
 
+/* ----- Skill chips ----- */
 
-/* ── Skill chips — Amazon orange ── */
-
-.a-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
+.a-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 
 .a-chip {
   background: #fff8ee;
@@ -170,8 +334,7 @@
   font-family: 'Arial', sans-serif;
 }
 
-
-/* ── Resume actions ── */
+/* ----- Resume actions ----- */
 
 .a-resume .resumeActions {
   margin-top: var(--space-8);
@@ -182,18 +345,25 @@
 }
 
 
-/* ── Print ── */
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
 
 @media print {
+  .site-header,
+  .site-footer,
+  .formArea,
+  .ats-panel,
+  .resumeActions {
+    display: none !important;
+  }
+
   @page {
     size: A4;
     margin: 0;
   }
 
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
+  html, body { margin: 0 !important; padding: 0 !important; }
 
   main,
   .a-resume {
@@ -203,44 +373,35 @@
     padding: 0 !important;
   }
 
-  .a-resume {
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-  }
+  .a-resume { border: none; box-shadow: none; border-radius: 0; }
 }
 
 
-/* ── Dark mode ── */
+/* ============================================================
+   DARK MODE
+   ============================================================ */
 
-[data-theme="dark"] .a-resume {
-  background: #1a2332;
-  border-color: var(--border);
-}
+[data-theme="dark"] .ats-panel      { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .ats-role-input { background: var(--surface-soft); border-color: var(--border); color: var(--text); }
+[data-theme="dark"] .ats-bar-wrap   { background: var(--border); }
 
-[data-theme="dark"] .a-header-band {
-  background: #0f172a;
-}
-
-[data-theme="dark"] .a-resume h1   { color: #f1f5f9; }
-[data-theme="dark"] .a-tagline     { color: #fbbf24; }
-[data-theme="dark"] .a-contact span{ color: #64748b; }
-
-[data-theme="dark"] .a-body        { background: #1a2332; }
-[data-theme="dark"] .a-sec-title   { color: #f1f5f9; border-left-color: #fbbf24; }
-[data-theme="dark"] .a-body-text   { color: #cbd5e1; }
-
-[data-theme="dark"] .a-entry       { border-bottom-color: #1e293b; }
-[data-theme="dark"] .a-entry-org   { color: #f1f5f9; }
-[data-theme="dark"] .a-entry-date  { color: #64748b; }
-[data-theme="dark"] .a-entry-role  { color: #94a3b8; }
-[data-theme="dark"] .a-entry-link  { color: #fbbf24; }
-[data-theme="dark"] .a-entry-desc li{ color: #cbd5e1; }
-
+[data-theme="dark"] .a-resume        { background: #1a2332; border-color: var(--border); }
+[data-theme="dark"] .a-header-band   { background: #0f172a; }
+[data-theme="dark"] .a-resume h1     { color: #f1f5f9; }
+[data-theme="dark"] .a-tagline       { color: #fbbf24; }
+[data-theme="dark"] .a-contact span  { color: #64748b; }
+[data-theme="dark"] .a-body          { background: #1a2332; }
+[data-theme="dark"] .a-sec-title     { color: #f1f5f9; border-left-color: #fbbf24; }
+[data-theme="dark"] .a-body-text     { color: #cbd5e1; }
+[data-theme="dark"] .a-entry         { border-bottom-color: #1e293b; }
+[data-theme="dark"] .a-entry-org     { color: #f1f5f9; }
+[data-theme="dark"] .a-entry-date    { color: #64748b; }
+[data-theme="dark"] .a-entry-role    { color: #94a3b8; }
+[data-theme="dark"] .a-entry-link    { color: #fbbf24; }
+[data-theme="dark"] .a-entry-desc li { color: #cbd5e1; }
 [data-theme="dark"] .a-chip {
   background: rgba(251, 191, 36, 0.1);
   color: #fbbf24;
   border-color: rgba(251, 191, 36, 0.3);
 }
-
 [data-theme="dark"] .a-resume .resumeActions { border-top-color: #334155; }

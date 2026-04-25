@@ -25,10 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const pageRouter   = require('./routes/pageRoutes');
 const authRouter   = require('./routes/authRoutes');
 const resumeRouter = require('./routes/resumeRoutes');
+const atsRouter = require('./routes/atsRoutes');
 
 app.use('/user',        pageRouter);
 app.use('/api/auth',    authRouter);
 app.use('/api/resumes', resumeRouter);
+app.use('/api/ats', atsRouter);
 
 // Root redirect → /user/
 app.get('/', (req, res) => res.redirect('/user/'));

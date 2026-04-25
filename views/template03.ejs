@@ -61,6 +61,7 @@
   </header>
 
   <main>
+    <!-- ── LEFT COLUMN: Form ── -->
     <div class="formArea">
       <form id="myForm">
         <h2>Amazon SWE Resume</h2>
@@ -163,60 +164,167 @@
       </form>
     </div>
 
-    <!-- RESUME PREVIEW -->
-    <div class="resume a-resume" id="resumePreview">
+    <!-- ── RIGHT COLUMN: ATS panel + Resume preview ── -->
+    <div class="rightCol">
 
-      <div class="a-header-band">
-        <h1 id="resName">Jane Smith</h1>
-        <p class="a-tagline" id="resTagline">Software Development Engineer</p>
-        <div class="a-contact" id="resContact">
-          <span id="resPhone">+1 206 555 0100</span>
-          <span id="resEmail">jane@email.com</span>
-          <span id="resLinkedin">linkedin.com/in/jane</span>
-          <span id="resGithub">github.com/jane</span>
-        </div>
-      </div>
-
-      <div class="a-body">
-
-        <div class="a-sec">
-          <div class="a-sec-title">Summary</div>
-          <p id="resSummary" class="a-body-text">Results-driven SDE with experience building high-throughput microservices. Customer obsessed, data-driven, and passionate about ownership at scale.</p>
-        </div>
-
-        <div class="a-sec">
-          <div class="a-sec-title">Experience</div>
-          <div id="resExperience"></div>
-        </div>
-
-        <div class="a-sec">
-          <div class="a-sec-title">Projects</div>
-          <div id="resProjects"></div>
-        </div>
-
-        <div class="a-sec">
-          <div class="a-sec-title">Education</div>
-          <div id="resEducation"></div>
-        </div>
-
-        <div class="a-sec">
-          <div class="a-sec-title">Skills</div>
-          <div class="a-chips" id="resSkills">
-            <span class="a-chip">Java</span>
-            <span class="a-chip">Python</span>
-            <span class="a-chip">AWS</span>
-            <span class="a-chip">Microservices</span>
+      <!-- ATS Score Panel -->
+      <div class="ats-panel">
+        <div class="ats-header">
+          <div class="ats-title">
+            <i class="bi bi-patch-check-fill"></i>
+            ATS Score Checker
           </div>
-        </div>
-
-        <div class="resumeActions">
-          <button class="btn btn-primary" onclick="window.print()">
-            <i class="bi bi-download"></i> Download PDF
+          <div class="ats-role-input-wrap">
+            <input
+              type="text"
+              id="atsRoleInput"
+              class="ats-role-input"
+              placeholder="Target role e.g. Software Engineer"
+            >
+          </div>
+          <button class="ats-check-btn" id="atsCheckBtn">
+            <i class="bi bi-lightning-charge-fill"></i> Check Score
           </button>
         </div>
 
+        <!-- Error banner -->
+        <div class="ats-error" id="atsError" style="display:none;">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span id="atsErrorMsg"></span>
+        </div>
+
+        <!-- Empty state -->
+        <div class="ats-empty" id="atsEmpty">
+          <span class="ats-empty-icon">🎯</span>
+          <p>Fill in your resume details and click <strong>Check Score</strong> to analyse your ATS compatibility.</p>
+        </div>
+
+        <!-- Results -->
+        <div id="atsResults" style="display:none;">
+
+          <!-- Speedometer -->
+          <div class="ats-gauge-wrap">
+            <svg class="ats-gauge-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round"/>
+              <path id="atsScoreArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#22c55e" stroke-width="16" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/>
+              <text x="16"  y="112" font-size="9" fill="#94a3b8" font-family="Arial">0</text>
+              <text x="91"  y="18"  font-size="9" fill="#94a3b8" font-family="Arial" text-anchor="middle">50</text>
+              <text x="178" y="112" font-size="9" fill="#94a3b8" font-family="Arial">100</text>
+              <line id="atsNeedle" x1="100" y1="100" x2="100" y2="100" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="100" cy="100" r="5" fill="#0f172a"/>
+            </svg>
+            <div class="ats-score-num" id="atsScoreNum">—</div>
+            <div class="ats-score-label">ATS Compatibility Score</div>
+            <span class="ats-verdict" id="atsVerdict"></span>
+            <p class="ats-summary" id="atsSummary"></p>
+          </div>
+
+          <!-- Score breakdown bars -->
+          <div class="ats-breakdown">
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Keyword Match</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarKw" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarKwVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Skills Relevance</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarSk" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarSkVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Experience Quality</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarEx" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarExVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Achievements Impact</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarAch" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarAchVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Formatting</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarFmt" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarFmtVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Completeness</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarCmp" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarCmpVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Clarity</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarClr" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarClrVal">—</div>
+            </div>
+          </div>
+
+          <hr class="ats-divider">
+
+          <div class="ats-section-title">Missing Keywords</div>
+          <div class="ats-keywords" id="atsKeywords"></div>
+
+          <div class="ats-section-title">Improvements</div>
+          <div class="ats-improvements" id="atsImprovements"></div>
+
+        </div>
       </div>
-    </div>
+
+      <!-- RESUME PREVIEW -->
+      <div class="a-resume" id="resumePreview">
+
+        <div class="a-header-band">
+          <h1 id="resName">Jane Smith</h1>
+          <p class="a-tagline" id="resTagline">Software Development Engineer</p>
+          <div class="a-contact" id="resContact">
+            <span id="resPhone">+1 206 555 0100</span>
+            <span id="resEmail">jane@email.com</span>
+            <span id="resLinkedin">linkedin.com/in/jane</span>
+            <span id="resGithub">github.com/jane</span>
+          </div>
+        </div>
+
+        <div class="a-body">
+
+          <div class="a-sec">
+            <div class="a-sec-title">Summary</div>
+            <p id="resSummary" class="a-body-text">Results-driven SDE with experience building high-throughput microservices. Customer obsessed, data-driven, and passionate about ownership at scale.</p>
+          </div>
+
+          <div class="a-sec">
+            <div class="a-sec-title">Experience</div>
+            <div id="resExperience"></div>
+          </div>
+
+          <div class="a-sec">
+            <div class="a-sec-title">Projects</div>
+            <div id="resProjects"></div>
+          </div>
+
+          <div class="a-sec">
+            <div class="a-sec-title">Education</div>
+            <div id="resEducation"></div>
+          </div>
+
+          <div class="a-sec">
+            <div class="a-sec-title">Skills</div>
+            <div class="a-chips" id="resSkills">
+              <span class="a-chip">Java</span>
+              <span class="a-chip">Python</span>
+              <span class="a-chip">AWS</span>
+              <span class="a-chip">Microservices</span>
+            </div>
+          </div>
+
+          <div class="resumeActions">
+            <button class="btn btn-primary" onclick="window.print()">
+              <i class="bi bi-download"></i> Download PDF
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /.rightCol -->
   </main>
 
   <footer class="site-footer">
@@ -250,7 +358,9 @@
       </div>
       <div class="footer-bottom">
         <div class="footer-bottom-links">
-          <a href="#">Privacy</a><a href="#">Terms</a><a href="#">About</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">About</a>
         </div>
         <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
       </div>
@@ -356,6 +466,7 @@
     <script src="/js/navbar.js" defer></script>
   <% } %>
   <script src="/js/darkmode.js"></script>
+  <script src="/js/atsChecker.js"></script>
 
 </body>
 </html>

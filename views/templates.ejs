@@ -60,6 +60,7 @@
   </header>
 
   <main>
+    <!-- ── LEFT COLUMN: Form ── -->
     <div class="formArea">
       <form id="myForm">
         <h2>Resume Form</h2>
@@ -139,100 +140,229 @@
       </form>
     </div>
 
-    <div class="resume">
-      <div class="heading">
-        <h1 id="resName">John Doe</h1>
-        <p id="resTagline">Backend Developer, proficient in DSA, guardian on LeetCode.</p>
-        <hr>
-        <div class="contact">
-          <p id="resPhone" class="contactUtils">+91 8247624764</p>
-          <p id="resEmail" class="contactUtils">johndoe1997@gmail.com</p>
-          <p id="resLinkedin" class="contactUtils">linkedin.com/in/johndoe</p>
+    <!-- ── RIGHT COLUMN: ATS panel + Resume preview ── -->
+    <div class="rightCol">
+
+      <!-- ATS Score Panel -->
+      <div class="ats-panel">
+        <div class="ats-header">
+          <div class="ats-title">
+            <i class="bi bi-patch-check-fill"></i>
+            ATS Score Checker
+          </div>
+          <div class="ats-role-input-wrap">
+            <input
+              type="text"
+              id="atsRoleInput"
+              class="ats-role-input"
+              placeholder="Target role e.g. Software Engineer"
+            >
+          </div>
+          <button class="ats-check-btn" id="atsCheckBtn">
+            <i class="bi bi-lightning-charge-fill"></i> Check Score
+          </button>
+        </div>
+
+        <!-- Error banner -->
+        <div class="ats-error" id="atsError" style="display:none;">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span id="atsErrorMsg"></span>
+        </div>
+
+        <!-- Empty state -->
+        <div class="ats-empty" id="atsEmpty">
+          <span class="ats-empty-icon">🎯</span>
+          <p>Fill in your resume details and click <strong>Check Score</strong> to analyse your ATS compatibility.</p>
+        </div>
+
+        <!-- Results -->
+        <div id="atsResults" style="display:none;">
+
+          <!-- Speedometer -->
+          <div class="ats-gauge-wrap">
+            <svg class="ats-gauge-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background arc -->
+              <path
+                d="M 20 100 A 80 80 0 0 1 180 100"
+                fill="none"
+                stroke="#e5e7eb"
+                stroke-width="16"
+                stroke-linecap="round"
+              />
+              <!-- Coloured score arc -->
+              <path
+                id="atsScoreArc"
+                d="M 20 100 A 80 80 0 0 1 180 100"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-dasharray="251"
+                stroke-dashoffset="251"
+              />
+              <!-- Zone labels -->
+              <text x="16"  y="112" font-size="9" fill="#94a3b8" font-family="Arial">0</text>
+              <text x="91"  y="18"  font-size="9" fill="#94a3b8" font-family="Arial" text-anchor="middle">50</text>
+              <text x="178" y="112" font-size="9" fill="#94a3b8" font-family="Arial">100</text>
+              <!-- Needle -->
+              <line
+                id="atsNeedle"
+                x1="100" y1="100"
+                x2="100" y2="100"
+                stroke="#0f172a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <circle cx="100" cy="100" r="5" fill="#0f172a"/>
+            </svg>
+            <div class="ats-score-num" id="atsScoreNum">—</div>
+            <div class="ats-score-label">ATS Compatibility Score</div>
+            <span class="ats-verdict" id="atsVerdict"></span>
+            <p class="ats-summary" id="atsSummary"></p>
+          </div>
+
+          <!-- Score breakdown bars -->
+          <div class="ats-breakdown">
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Keyword Match</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarKw" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarKwVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Skills Relevance</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarSk" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarSkVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Experience Quality</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarEx" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarExVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Achievements Impact</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarAch" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarAchVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Formatting</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarFmt" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarFmtVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Completeness</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarCmp" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarCmpVal">—</div>
+            </div>
+            <div class="ats-breakdown-row">
+              <div class="ats-breakdown-label">Clarity</div>
+              <div class="ats-bar-wrap"><div class="ats-bar" id="atsBarClr" style="width:0%"></div></div>
+              <div class="ats-breakdown-val" id="atsBarClrVal">—</div>
+            </div>
+          </div>
+
+          <hr class="ats-divider">
+
+          <!-- Missing keywords -->
+          <div class="ats-section-title">Missing Keywords</div>
+          <div class="ats-keywords" id="atsKeywords"></div>
+
+          <!-- Improvements -->
+          <div class="ats-section-title">Improvements</div>
+          <div class="ats-improvements" id="atsImprovements"></div>
+
+        </div>
+      </div>
+
+      <!-- Resume Preview -->
+      <div class="resume">
+        <div class="heading">
+          <h1 id="resName">John Doe</h1>
+          <p id="resTagline">Backend Developer, proficient in DSA, guardian on LeetCode.</p>
+          <hr>
+          <div class="contact">
+            <p id="resPhone" class="contactUtils">+91 8247624764</p>
+            <p id="resEmail" class="contactUtils">johndoe1997@gmail.com</p>
+            <p id="resLinkedin" class="contactUtils">linkedin.com/in/johndoe</p>
+          </div>
+          <hr>
+        </div>
+        <div class="sec">
+          <h2>Summary</h2>
+          <p id="resSummary">Write a short professional summary here. Example: Passionate software developer with experience in building scalable web applications.</p>
         </div>
         <hr>
+        <div class="sec">
+          <h2>Experience</h2>
+          <div id="resExperience"></div>
+        </div>
+        <hr>
+        <div class="sec">
+          <h2>Education</h2>
+          <div id="resEducation"></div>
+        </div>
+        <hr>
+        <div class="sec">
+          <h2>Skills</h2>
+          <div id="resSkills"><p>Technical Skills: HTML, CSS, JavaScript, React, Node.js, Git, REST APIs</p></div>
+        </div>
+        <div class="resumeActions">
+          <button class="btn btn-primary" onclick="window.print()">
+            <i class="bi bi-download"></i> Download PDF
+          </button>
+        </div>
       </div>
-      <div class="sec">
-        <h2>Summary</h2>
-        <p id="resSummary">Write a short professional summary here. Example: Passionate software developer with experience in building scalable web applications.</p>
-      </div>
-      <hr>
-      <div class="sec">
-        <h2>Experience</h2>
-        <div id="resExperience"></div>
-      </div>
-      <hr>
-      <div class="sec">
-        <h2>Education</h2>
-        <div id="resEducation"></div>
-      </div>
-      <hr>
-      <div class="sec">
-        <h2>Skills</h2>
-        <div id="resSkills"><p>Technical Skills: HTML, CSS, JavaScript, React, Node.js, Git, REST APIs</p></div>
-      </div>
-      <div class="resumeActions">
-        <button class="btn btn-primary" onclick="window.print()">
-          <i class="bi bi-download"></i> Download PDF
-        </button>
-      </div>
-    </div>
+
+    </div><!-- /.rightCol -->
   </main>
 
   <footer class="site-footer">
-  <div class="container">
-
-    <div class="footer-inner">
-
-      <!-- Col 1: Brand -->
-      <div class="footer-brand">
-        <a href="/user/" class="footer-logo">
-          <span class="logo-mark">R</span>
-          <span>ResumeBuilder</span>
-        </a>
-        <p class="footer-tagline">
-          Build a polished, ATS-ready resume in minutes.
-          Free forever, no credit card needed.
-        </p>
-        <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+    <div class="container">
+      <div class="footer-inner">
+        <!-- Col 1: Brand -->
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-tagline">
+            Build a polished, ATS-ready resume in minutes.
+            Free forever, no credit card needed.
+          </p>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+        <!-- Col 2: Product -->
+        <div class="footer-col">
+          <h4>Product</h4>
+          <nav class="footer-links">
+            <a href="/user/">Home</a>
+            <a href="/user/gallery">Templates</a>
+            <a href="/user/templates">Builder</a>
+            <% if (user) { %>
+            <a href="/user/dashboard">Dashboard</a>
+            <% } %>
+          </nav>
+        </div>
+        <!-- Col 3: Company -->
+        <div class="footer-col">
+          <h4>Company</h4>
+          <nav class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </nav>
+        </div>
       </div>
-
-      <!-- Col 2: Product -->
-      <div class="footer-col">
-        <h4>Product</h4>
-        <nav class="footer-links">
-          <a href="/user/">Home</a>
-          <a href="/user/gallery">Templates</a>
-          <a href="/user/templates">Builder</a>
-          <% if (user) { %>
-          <a href="/user/dashboard">Dashboard</a>
-          <% } %>
-        </nav>
-      </div>
-
-      <!-- Col 3: Company -->
-      <div class="footer-col">
-        <h4>Company</h4>
-        <nav class="footer-links">
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
           <a href="#">About</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </nav>
+        </div>
+        <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
       </div>
-
     </div>
-
-    <!-- Bottom bar -->
-    <div class="footer-bottom">
-      <div class="footer-bottom-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">About</a>
-      </div>
-      <p class="footer-bottom-copy">Made with care for job seekers everywhere.</p>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 
   <!-- Experience Modal -->
   <div class="overlay" id="overlayExp">
@@ -306,5 +436,6 @@
     <script src="/js/navbar.js" defer></script>
   <% } %>
   <script src="/js/darkmode.js"></script>
+  <script src="/js/atsChecker.js"></script>
 </body>
 </html>
