@@ -185,37 +185,28 @@
 /* ── Print ── */
 
 @media print {
-  .site-header,
-  .site-footer,
-  .formArea,
-  .resumeActions {
-    display: none !important;
-  }
-
   @page {
     size: A4;
     margin: 0;
   }
 
-  main {
-    display: block;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main,
+  .a-resume {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .a-resume {
     border: none;
     box-shadow: none;
     border-radius: 0;
-    min-height: unset;
-    width: 100%;
-    font-size: 10px;
-  }
-
-  .a-header-band {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
   }
 }
 

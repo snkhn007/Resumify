@@ -50,13 +50,21 @@ authRouter.post('/signup', signupValidation, async (req, res) => {
       user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email }
     });
   } catch (err) {
-    return res.status(500).json({ message: 'Server error', error: err.message });
-  }
+  console.error("SIGNUP ERROR:", err);
+  return res.status(500).json({
+    message: "Server error",
+    error: err.message
+  });
+}
+  // }catch (err) {
+  //   return res.status(500).json({ message: 'Server error', error: err.message });
+  // }
 });
 
 // POST /api/auth/login
 authRouter.post('/login', loginValidation, async (req, res) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -65,16 +73,28 @@ authRouter.post('/login', loginValidation, async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({
+        message: 'Invalid email or password'
+      });
     }
 
-    if (password !== user.password) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+    const validPassword = await user.comparePassword(password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        message: 'Invalid email or password'
+      });
     }
 
     const token = jwt.sign(
-      { _id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName },
+      {
+        _id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+      },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -83,10 +103,19 @@ authRouter.post('/login', loginValidation, async (req, res) => {
 
     return res.status(200).json({
       message: 'Login successful',
-      user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email }
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      }
     });
+
   } catch (err) {
-    return res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(500).json({
+      message: 'Server error',
+      error: err.message
+    });
   }
 });
 

@@ -110,13 +110,14 @@
 }
 
 /* ── PREVIEW AREA ── */
-.tg-preview {
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: var(--space-6);
+.tg-preview{
+  height:280px;
+  padding:12px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
 }
 
 /* Each template gets a unique accent colour */
