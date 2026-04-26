@@ -24,6 +24,16 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  role: {
+    type: String,
+    enum: ['jobseeker', 'recruiter', 'coach', 'admin'],
+    default: 'jobseeker'
+  },
+  status: {
+    type: String,
+    enum: ['active', 'pending', 'rejected'],
+    default: 'active'   // jobseekers are active immediately
   }
 }, { timestamps: true });
 
@@ -39,20 +49,6 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, saltRounds);
 
 });
-// userSchema.pre("save", async function(next) {
-//   if (!this.isModified("password")) {
-//     return next();
-//   }
-
-//   try {
-//     const saltRounds = 10;
-//     this.password = await bcrypt.hash(this.password, saltRounds);
-//     next();
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 
 // helper for login password check
 userSchema.methods.comparePassword = function(password) {

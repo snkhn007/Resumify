@@ -59,7 +59,10 @@ pageRouter.get('/template02', (req, res) => {
 pageRouter.get('/template03', (req, res) => {
   res.render('template03', { user: req.user || null });
 });
-
+pageRouter.get('/admin', requireAuthPage, (req, res) => {
+  if (req.user?.role !== 'admin') return res.redirect('/user/dashboard');
+  res.render('admin', { user: req.user });
+});
 
 /* ----- Protected pages — redirect to login if no valid token ----- */
 
