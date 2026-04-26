@@ -45,6 +45,19 @@ function createResumeCard(resume) {
   card.className  = 'resume-card';
   card.dataset.id = resume._id;
 
+  const getTemplateRoute = (templateName) => {
+    switch (templateName) {
+      case 'Google SWE':
+        return '/user/template02';
+      case 'Amazon SWE':
+        return '/user/template03';
+      default:
+        return '/user/templates';
+    }
+  };
+
+  const templateRoute = getTemplateRoute(resume.templateName);
+
   card.innerHTML = `
     <div class="resume-card-preview">
       <div class="resume-card-initials">${getInitials(resume.fullName)}</div>
@@ -57,7 +70,7 @@ function createResumeCard(resume) {
     </div>
     <div class="resume-card-actions">
       <a
-        href="/user/templates?resumeId=${resume._id}"
+        href="${templateRoute}?resumeId=${resume._id}"
         class="btn btn-light resume-card-btn"
         title="Edit this resume"
       >
