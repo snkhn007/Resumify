@@ -1,0 +1,332 @@
+/* =============================================================
+   recruiterHome.css — Recruiter Home / Landing Page
+   Import order: utils.css → header.css → navbar.css →
+   footer.css → darkmode.css → transitions.css → recruiterHome.css
+   ============================================================= */
+
+
+/* ─── RECRUITER CHIP (reused from recruiter.css) ────────────── */
+
+.recruiter-chip {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           var(--space-2);
+  padding:       0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  background:    var(--primary-soft);
+  color:         var(--primary-dark);
+  font-size:     var(--text-sm);
+  font-weight:   700;
+  border:        1px solid #bfdbfe;
+}
+
+
+/* ─── HERO ───────────────────────────────────────────────────── */
+
+.rh-hero {
+  padding: var(--space-16) 0 var(--space-12);
+}
+
+.rh-hero-inner {
+  max-width: 640px;
+}
+
+.rh-welcome-badge {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           var(--space-2);
+  padding:       0.45rem 0.9rem;
+  background:    var(--primary-soft);
+  color:         var(--primary-dark);
+  border-radius: var(--radius-full);
+  font-size:     var(--text-sm);
+  font-weight:   600;
+  margin-bottom: var(--space-5);
+}
+
+.rh-hero-inner h1 {
+  font-size:      clamp(2.2rem, 5vw, 3.6rem);
+  font-weight:    800;
+  line-height:    1.08;
+  letter-spacing: -0.04em;
+  color:          var(--text);
+  margin-bottom:  var(--space-4);
+}
+
+.rh-highlight {
+  color: var(--primary);
+}
+
+.rh-hero-inner p {
+  color:         var(--muted);
+  font-size:     var(--text-lg);
+  max-width:     520px;
+  line-height:   1.7;
+  margin-bottom: var(--space-6);
+}
+
+.rh-hero-actions {
+  display:   flex;
+  gap:       var(--space-3);
+  flex-wrap: wrap;
+}
+
+
+/* ─── STATS SECTION ──────────────────────────────────────────── */
+
+.rh-stats-section {
+  padding:       var(--space-8) 0 var(--space-12);
+  border-top:    1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  background:    var(--surface-soft);
+}
+
+.rh-stats-grid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   var(--space-5);
+}
+
+.rh-stat-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding:       var(--space-6);
+  box-shadow:    var(--shadow-sm);
+  display:       flex;
+  flex-direction: column;
+  align-items:   flex-start;
+  gap:           var(--space-3);
+  transition:    transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rh-stat-card:hover {
+  transform:  translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.rh-stat-icon {
+  width:         44px;
+  height:        44px;
+  border-radius: var(--radius-sm);
+  display:       grid;
+  place-items:   center;
+  font-size:     1.2rem;
+}
+
+.rh-stat-icon--blue   { background: var(--primary-soft);  color: var(--primary-dark); }
+.rh-stat-icon--green  { background: var(--success-soft);  color: var(--success); }
+.rh-stat-icon--yellow { background: var(--warning-soft);  color: var(--warning); }
+
+.rh-stat-val {
+  font-size:      1.8rem;
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.03em;
+  line-height:    1;
+}
+
+.rh-stat-label {
+  font-size:  var(--text-sm);
+  color:      var(--muted);
+  font-weight: 500;
+}
+
+
+/* ─── HOW IT WORKS ───────────────────────────────────────────── */
+
+.rh-how {
+  padding: var(--space-16) 0;
+}
+
+.rh-how-header {
+  margin-bottom: var(--space-10);
+}
+
+.rh-eyebrow {
+  display:        inline-block;
+  background:     var(--primary-soft);
+  color:          var(--primary-dark);
+  font-size:      var(--text-xs);
+  font-weight:    700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding:        0.3rem 0.9rem;
+  border-radius:  var(--radius-full);
+  margin-bottom:  var(--space-3);
+}
+
+.rh-how-header h2 {
+  font-size:      var(--text-2xl);
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.03em;
+  margin:         0;
+}
+
+.rh-steps {
+  display:     flex;
+  align-items: flex-start;
+  gap:         var(--space-4);
+}
+
+.rh-step {
+  flex:          1;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding:       var(--space-6);
+  box-shadow:    var(--shadow-sm);
+  transition:    transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.rh-step:hover {
+  transform:    translateY(-4px);
+  box-shadow:   var(--shadow-md);
+  border-color: #bfdbfe;
+}
+
+.rh-step-num {
+  width:         28px;
+  height:        28px;
+  border-radius: var(--radius-full);
+  background:    var(--primary-soft);
+  color:         var(--primary-dark);
+  font-size:     var(--text-sm);
+  font-weight:   800;
+  display:       grid;
+  place-items:   center;
+  margin-bottom: var(--space-3);
+}
+
+.rh-step-icon {
+  font-size:     1.5rem;
+  color:         var(--primary);
+  margin-bottom: var(--space-3);
+}
+
+.rh-step h3 {
+  font-size:     var(--text-base);
+  font-weight:   700;
+  color:         var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.rh-step p {
+  font-size:   var(--text-sm);
+  color:       var(--muted);
+  line-height: 1.7;
+  margin:      0;
+}
+
+/* Arrow between steps */
+.rh-step-arrow {
+  color:      var(--border);
+  font-size:  1.3rem;
+  flex-shrink: 0;
+  margin-top: var(--space-10);
+}
+
+
+/* ─── CTA SECTION ────────────────────────────────────────────── */
+
+.rh-cta {
+  padding: var(--space-12) 0 var(--space-16);
+}
+
+.rh-cta-inner {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding:       var(--space-12) var(--space-8);
+  text-align:    center;
+  box-shadow:    var(--shadow-md);
+}
+
+.rh-cta-inner h2 {
+  font-size:      var(--text-2xl);
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom:  var(--space-3);
+}
+
+.rh-cta-inner p {
+  color:         var(--muted);
+  font-size:     var(--text-base);
+  margin-bottom: var(--space-6);
+}
+
+
+/* ─── DARK MODE ──────────────────────────────────────────────── */
+
+[data-theme="dark"] .rh-welcome-badge {
+  background: rgba(59, 130, 246, 0.18);
+  color:      #93c5fd;
+}
+
+[data-theme="dark"] .rh-stats-section {
+  background:   var(--bg);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .rh-stat-card {
+  background:   var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .rh-stat-icon--blue   { background: rgba(59,  130, 246, 0.15); color: #93c5fd; }
+[data-theme="dark"] .rh-stat-icon--green  { background: rgba(74,  222, 128, 0.13); color: #4ade80; }
+[data-theme="dark"] .rh-stat-icon--yellow { background: rgba(251, 191, 36,  0.13); color: #fbbf24; }
+
+[data-theme="dark"] .rh-eyebrow {
+  background: rgba(59, 130, 246, 0.18);
+  color:      #93c5fd;
+}
+
+[data-theme="dark"] .rh-step {
+  background:   var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .rh-step:hover { border-color: var(--primary); }
+
+[data-theme="dark"] .rh-step-num {
+  background: rgba(59, 130, 246, 0.18);
+  color:      #93c5fd;
+}
+
+[data-theme="dark"] .rh-cta-inner {
+  background:   var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .recruiter-chip {
+  background:   rgba(59, 130, 246, 0.18);
+  color:        #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+
+@media (max-width: 820px) {
+  .rh-stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .rh-steps {
+    flex-direction: column;
+    gap:            var(--space-4);
+  }
+
+  .rh-step-arrow {
+    display:   none;
+  }
+}
+
+@media (max-width: 560px) {
+  .rh-hero        { padding: var(--space-12) 0 var(--space-8); }
+  .rh-stats-grid  { grid-template-columns: 1fr; }
+  .rh-hero-actions { flex-direction: column; }
+  .rh-hero-actions .btn { width: 100%; justify-content: center; }
+  .rh-cta-inner   { padding: var(--space-8) var(--space-5); }
+}

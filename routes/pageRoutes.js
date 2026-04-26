@@ -25,18 +25,18 @@ pageRouter.get('/home', (req, res) => {
 
 pageRouter.get('/login', (req, res) => {
   if (req.user) {
-    return req.user.role === 'admin'
-      ? res.redirect('/user/admin')
-      : res.redirect('/user/dashboard');
+    if (req.user.role === 'admin') return res.redirect('/user/admin');
+    if (['recruiter', 'coach'].includes(req.user.role)) return res.redirect('/user/home');
+    return res.redirect('/user/dashboard');
   }
   res.render('login', { user: null });
 });
 
 pageRouter.get('/signup', (req, res) => {
   if (req.user) {
-    return req.user.role === 'admin'
-      ? res.redirect('/user/admin')
-      : res.redirect('/user/dashboard');
+    if (req.user.role === 'admin') return res.redirect('/user/admin');
+    if (['recruiter', 'coach'].includes(req.user.role)) return res.redirect('/user/home');
+    return res.redirect('/user/dashboard');
   }
   res.render('signup', { user: null });
 });
@@ -70,7 +70,7 @@ pageRouter.get('/template03', blockAdmin, (req, res) => {
 // Dashboard — job seekers only
 pageRouter.get('/dashboard', requireAuthPage, (req, res) => {
   if (req.user.role === 'admin') return res.redirect('/user/admin');
-  if (req.user.role === 'recruiter' || req.user.role === 'coach') return res.redirect('/user/recruiter');
+  if (['recruiter', 'coach'].includes(req.user.role)) return res.redirect('/user/home');
   res.render('dashboard', { user: req.user });
 });
 
@@ -84,8 +84,16 @@ pageRouter.get('/profile', requireAuthPage, (req, res) => {
   if (req.user.role === 'admin') return res.redirect('/user/admin');
   res.render('profile', { user: req.user });
 });
+
+// Recruiter home page — NEW
+pageRouter.get('/home', requireAuthPage, (req, res) => {
+  if (!['recruiter', 'coach'].includes(req.user.role)) return res.redirect('/user/dashboard');
+  res.render('recruiterHome', { user: req.user });
+});
+
+// Recruiter candidate pool — existing
 pageRouter.get('/recruiter', requireAuthPage, (req, res) => {
-  if (!['recruiter','coach'].includes(req.user.role)) return res.redirect('/user/dashboard');
+  if (!['recruiter', 'coach'].includes(req.user.role)) return res.redirect('/user/dashboard');
   res.render('recruiter', { user: req.user });
 });
 

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recruiter Home — ResumeHub</title>
+
+  <%# ── Fonts ── %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <%# ── Shared stylesheets ── %>
+  <link rel="stylesheet" href="/css/all/utils.css">
+  <link rel="stylesheet" href="/css/all/header.css">
+  <link rel="stylesheet" href="/css/all/navbar.css">
+  <link rel="stylesheet" href="/css/all/footer.css">
+  <link rel="stylesheet" href="/css/all/darkmode.css">
+  <link rel="stylesheet" href="/css/transitions.css">
+
+  <%# ── Page-specific stylesheet ── %>
+  <link rel="stylesheet" href="/css/recruiterHome.css">
+</head>
+
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+
+        <a href="/" class="logo">
+          <div class="logo-mark">R</div>
+          ResumeHub
+        </a>
+
+        <div class="nav-links">
+          <a href="/user/recruiter">Browse Candidates</a>
+        </div>
+
+        <div class="nav-actions">
+          <div class="recruiter-chip">
+            <i class="bi bi-briefcase-fill"></i>
+            <span>Recruiter</span>
+          </div>
+
+          <button class="btn-theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+            <i class="bi bi-sun-fill"></i>
+          </button>
+
+          <a href="#" class="btn btn-light" onclick="logout(); return false;">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </div>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main>
+
+    <!-- Hero -->
+    <section class="rh-hero">
+      <div class="container">
+        <div class="rh-hero-inner reveal">
+
+          <div class="rh-welcome-badge">
+            <i class="bi bi-briefcase-fill"></i>
+            Welcome back, <%= user.firstName %>
+          </div>
+
+          <h1>Find Your Next<br><span class="rh-highlight">Top Hire</span></h1>
+          <p>Browse resumes submitted by job seekers, filter by skills and template, and shortlist the candidates that matter most to you.</p>
+
+          <div class="rh-hero-actions">
+            <a href="/user/recruiter" class="btn btn-primary">
+              <i class="bi bi-grid-3x3-gap"></i> Browse Candidates
+            </a>
+            <a href="/user/recruiter#shortlist" class="btn btn-light" onclick="goShortlist(); return false;">
+              <i class="bi bi-bookmark-star"></i> My Shortlist
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="rh-stats-section">
+      <div class="container">
+        <div class="rh-stats-grid reveal" data-delay="1">
+
+          <div class="rh-stat-card">
+            <div class="rh-stat-icon rh-stat-icon--blue">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="rh-stat-val" id="stat-total">—</div>
+            <div class="rh-stat-label">Total Candidates</div>
+          </div>
+
+          <div class="rh-stat-card">
+            <div class="rh-stat-icon rh-stat-icon--green">
+              <i class="bi bi-bookmark-star-fill"></i>
+            </div>
+            <div class="rh-stat-val" id="stat-shortlisted">—</div>
+            <div class="rh-stat-label">Shortlisted</div>
+          </div>
+
+          <div class="rh-stat-card">
+            <div class="rh-stat-icon rh-stat-icon--yellow">
+              <i class="bi bi-person-check-fill"></i>
+            </div>
+            <div class="rh-stat-val" id="stat-role"><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></div>
+            <div class="rh-stat-label">Your Role</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="rh-how">
+      <div class="container">
+        <div class="rh-how-header reveal">
+          <span class="rh-eyebrow">How it works</span>
+          <h2>Three steps to your next hire</h2>
+        </div>
+
+        <div class="rh-steps reveal" data-delay="1">
+
+          <div class="rh-step">
+            <div class="rh-step-num">1</div>
+            <div class="rh-step-icon"><i class="bi bi-funnel-fill"></i></div>
+            <h3>Filter Candidates</h3>
+            <p>Search by name, skills, tagline, or resume template to narrow down the pool instantly.</p>
+          </div>
+
+          <div class="rh-step-arrow"><i class="bi bi-chevron-right"></i></div>
+
+          <div class="rh-step">
+            <div class="rh-step-num">2</div>
+            <div class="rh-step-icon"><i class="bi bi-eye-fill"></i></div>
+            <h3>Review Resumes</h3>
+            <p>Open any resume in a detailed modal view — experience, education, projects, and contact info all in one place.</p>
+          </div>
+
+          <div class="rh-step-arrow"><i class="bi bi-chevron-right"></i></div>
+
+          <div class="rh-step">
+            <div class="rh-step-num">3</div>
+            <div class="rh-step-icon"><i class="bi bi-bookmark-check-fill"></i></div>
+            <h3>Shortlist the Best</h3>
+            <p>Bookmark top candidates to your personal shortlist and revisit them anytime.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="rh-cta reveal">
+      <div class="container">
+        <div class="rh-cta-inner">
+          <h2>Ready to find great talent?</h2>
+          <p>Jump straight into the candidate pool and start discovering.</p>
+          <a href="/user/recruiter" class="btn btn-primary">
+            <i class="bi bi-arrow-right-circle-fill"></i> Go to Candidate Pool
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            <div class="logo-mark">R</div>
+            ResumeHub
+          </a>
+          <p class="footer-tagline">Build beautiful resumes in minutes. Stand out and get hired.</p>
+          <p class="footer-copy">&copy; <%= new Date().getFullYear() %> ResumeHub. All rights reserved.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Recruiter</h4>
+          <div class="footer-links">
+            <a href="/user/recruiter">Browse Candidates</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account</h4>
+          <div class="footer-links">
+            <a href="#" onclick="logout(); return false;">Logout</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <span class="footer-bottom-copy">Made with ♥ for job seekers everywhere</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  'use strict';
+
+  /* ── Theme ── */
+  (function applyTheme() {
+    const saved = localStorage.getItem('resumify-theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+  })();
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('resumify-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('resumify-theme', 'dark');
+    }
+    updateIcon();
+  });
+
+  function updateIcon() {
+    const icon = document.querySelector('#theme-toggle i');
+    icon.className = document.documentElement.getAttribute('data-theme') === 'dark'
+      ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+  }
+
+  /* ── Load stats ── */
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(el => {
+        if (el.isIntersecting) { el.target.classList.add('is-visible'); observer.unobserve(el.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Fetch total candidates count
+    try {
+      const res  = await fetch('/api/recruiter/resumes?page=1&limit=1');
+      const data = await res.json();
+      if (data.pagination?.total !== undefined) {
+        document.getElementById('stat-total').textContent = data.pagination.total;
+      }
+    } catch {}
+
+    // Fetch shortlist count
+    try {
+      const res  = await fetch('/api/recruiter/shortlist');
+      const data = await res.json();
+      document.getElementById('stat-shortlisted').textContent = (data.resumes || []).length;
+    } catch {}
+  });
+
+  /* ── Navigate to recruiter page shortlist tab ── */
+  function goShortlist() {
+    window.location.href = '/user/recruiter';
+    // switchView('shortlist') will need to be called on that page —
+    // pass via sessionStorage so recruiter.js can pick it up
+    sessionStorage.setItem('recruiter-open-tab', 'shortlist');
+  }
+
+  /* ── Logout ── */
+  async function logout() {
+    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
+    window.location.href = '/user/login';
+  }
+  </script>
+
+</body>
+</html>

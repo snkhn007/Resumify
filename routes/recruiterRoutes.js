@@ -10,7 +10,6 @@ const requireRecruiter = async (req, res, next) => {
     if (!['recruiter', 'coach', 'admin'].includes(req.user?.role)) {
       return res.status(403).json({ message: 'Recruiter access required' });
     }
-    // DB se fresh status check karo (token mein status field nahi hoti)
     const user = await User.findById(req.user._id).select('status');
     if (!user || user.status !== 'active') {
       return res.status(403).json({ message: 'Your account is pending approval.' });
@@ -25,21 +24,26 @@ recruiterRouter.use(requireAuth, requireRecruiter);
 
 
 /* ── GET /api/recruiter/resumes
-   Browse all job seeker resumes with optional filters
-   Query params: search, skills, industry, template
-   ── */
+   Browse all job seeker resumes with optional filters.
+   Query params: search, skill (singular — matches frontend), template, page, limit
+── */
 recruiterRouter.get('/resumes', async (req, res) => {
   try {
-    const { search, skills, template, page = 1, limit = 12 } = req.query;
+    // FIX 1: frontend sends 'skill' (singular) — was 'skills' before, caused filter mismatch
+    const { search, skill, template, page = 1, limit = 9 } = req.query;
 
-    // Build pipeline
-    const matchStage = {};
+    // Only show resumes belonging to jobseekers (not other recruiters/admins)
+    const jobseekerIds = await User.find({ role: 'jobseeker', status: 'active' }).distinct('_id');
+    const matchStage = { userId: { $in: jobseekerIds } };
 
-    if (template) matchStage.templateName = template;
+    // FIX 2: template filter is case-insensitive regex so "Classic" matches "classic" etc.
+    if (template) {
+      matchStage.templateName = { $regex: `^${template}$`, $options: 'i' };
+    }
 
-    // skills filter — check if any skill keyword appears in skills field
-    if (skills) {
-      matchStage.skills = { $regex: skills, $options: 'i' };
+    // skill filter — matches anywhere in the comma-separated skills string
+    if (skill) {
+      matchStage.skills = { $regex: skill, $options: 'i' };
     }
 
     // text search across name, tagline, summary, skills
@@ -52,25 +56,30 @@ recruiterRouter.get('/resumes', async (req, res) => {
       ];
     }
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const total = await Resume.countDocuments(matchStage);
+    const pageNum  = Math.max(1, parseInt(page));
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
+    const skip     = (pageNum - 1) * limitNum;
 
-    const resumes = await Resume.find(matchStage)
-      .populate('userId', 'firstName lastName email role')
-      .sort({ updatedAt: -1 })
-      .skip(skip)
-      .limit(parseInt(limit))
-      .select('-__v');
+    const [resumes, total] = await Promise.all([
+      Resume.find(matchStage)
+        .populate('userId', 'firstName lastName email role')
+        .sort({ updatedAt: -1 })
+        .skip(skip)
+        .limit(limitNum)
+        .select('-__v'),
+      Resume.countDocuments(matchStage)
+    ]);
 
     return res.json({
       resumes,
       pagination: {
         total,
-        page: parseInt(page),
-        pages: Math.ceil(total / parseInt(limit))
+        page:  pageNum,
+        pages: Math.ceil(total / limitNum)
       }
     });
   } catch (err) {
+    console.error('GET /resumes error:', err);
     return res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
@@ -89,41 +98,47 @@ recruiterRouter.get('/resumes/:id', async (req, res) => {
 });
 
 
-/* ── Shortlist model (in-memory per recruiter via a simple sub-doc approach)
-   We store shortlists on the User model — add a shortlist field if not present,
-   or use a separate collection. Here we use a lightweight approach:
-   PATCH /api/recruiter/shortlist/:resumeId  — toggle shortlist
-   GET  /api/recruiter/shortlist             — get my shortlist
-── */
+/* ── PATCH /api/recruiter/shortlist/:resumeId — toggle shortlist ── */
 recruiterRouter.patch('/shortlist/:resumeId', async (req, res) => {
   try {
     const recruiterId = req.user._id;
     const { resumeId } = req.params;
 
-    const recruiter = await User.findById(recruiterId);
+    // FIX 3: Use $addToSet / $pull atomic operators instead of .save()
+    // This avoids the shortlist field being silently dropped if it's not
+    // defined in the User schema (Mongoose ignores unknown fields on save).
+    const recruiter = await User.findById(recruiterId).select('shortlist');
     if (!recruiter) return res.status(404).json({ message: 'Recruiter not found' });
 
-    // Ensure shortlist array exists
-    if (!recruiter.shortlist) recruiter.shortlist = [];
+    const shortlist = recruiter.shortlist || [];
+    const alreadySaved = shortlist.some(id => id.toString() === resumeId);
 
-    const idx = recruiter.shortlist.findIndex(id => id.toString() === resumeId);
-    let action;
-    if (idx === -1) {
-      recruiter.shortlist.push(resumeId);
-      action = 'added';
+    let updatedUser;
+    if (alreadySaved) {
+      // Remove from shortlist
+      updatedUser = await User.findByIdAndUpdate(
+        recruiterId,
+        { $pull: { shortlist: resumeId } },
+        { new: true }
+      ).select('shortlist');
+      return res.json({ message: 'Shortlist removed', shortlist: updatedUser.shortlist });
     } else {
-      recruiter.shortlist.splice(idx, 1);
-      action = 'removed';
+      // Add to shortlist
+      updatedUser = await User.findByIdAndUpdate(
+        recruiterId,
+        { $addToSet: { shortlist: resumeId } },
+        { new: true }
+      ).select('shortlist');
+      return res.json({ message: 'Shortlist added', shortlist: updatedUser.shortlist });
     }
-
-    await recruiter.save();
-    return res.json({ message: `Shortlist ${action}`, shortlist: recruiter.shortlist });
   } catch (err) {
+    console.error('PATCH /shortlist error:', err);
     return res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
 
+/* ── GET /api/recruiter/shortlist — get this recruiter's shortlisted resumes ── */
 recruiterRouter.get('/shortlist', async (req, res) => {
   try {
     const recruiter = await User.findById(req.user._id).select('shortlist');
@@ -135,6 +150,7 @@ recruiterRouter.get('/shortlist', async (req, res) => {
 
     return res.json({ resumes });
   } catch (err) {
+    console.error('GET /shortlist error:', err);
     return res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
