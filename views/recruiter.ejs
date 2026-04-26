@@ -77,7 +77,7 @@
       <!-- ==================== BROWSE VIEW ==================== -->
       <div class="view active" id="view-browse">
 
-        <div class="page-header reveal">
+        <div class="page-header">
           <h1>Candidate Pool</h1>
           <p>Discover and shortlist top talent from submitted resumes.</p>
         </div>
@@ -338,9 +338,6 @@
       document.getElementById('stat-shortlisted').textContent = shortlistIds.size;
       document.getElementById('statsRow').style.display       = 'flex';
 
-      console.log('[Recruiter] API response:', data);
-      console.log('[Recruiter] Resumes count:', resumes.length);
-      if (resumes.length > 0) console.log('[Recruiter] First resume sample:', resumes[0]);
       renderCards(resumes, container);
       renderPagination();
     } catch (err) {
