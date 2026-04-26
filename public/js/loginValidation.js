@@ -1,24 +1,26 @@
-const myForm = document.getElementById('myForm');
-const submitBtn = document.getElementById('submitBtn');
-const submitText = document.getElementById('submitText');
-const submitSpinner = document.getElementById('submitSpinner');
-const serverError = document.getElementById('serverError');
+'use strict';
+
+const myForm         = document.getElementById('myForm');
+const submitBtn      = document.getElementById('submitBtn');
+const submitText     = document.getElementById('submitText');
+const submitSpinner  = document.getElementById('submitSpinner');
+const serverError    = document.getElementById('serverError');
 const serverErrorMsg = document.getElementById('serverErrorMsg');
 
 function showServerError(msg) {
   serverErrorMsg.textContent = msg;
-  serverError.style.display = 'flex';
+  serverError.style.display  = 'flex';
   serverError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function hideServerError() {
-  serverError.style.display = 'none';
+  serverError.style.display  = 'none';
   serverErrorMsg.textContent = '';
 }
 
 function setLoading(loading) {
-  submitBtn.disabled = loading;
-  submitText.style.display = loading ? 'none' : 'inline';
+  submitBtn.disabled          = loading;
+  submitText.style.display    = loading ? 'none'   : 'inline';
   submitSpinner.style.display = loading ? 'inline' : 'none';
 }
 
@@ -33,7 +35,7 @@ myForm.addEventListener('submit', async (e) => {
   const mailErr       = document.getElementById('mailErr');
   const passErr       = document.getElementById('passErr');
 
-  // Reset field errors
+  // Reset errors
   mailErr.textContent = '';
   mailErr.classList.remove('show');
   passErr.textContent = '';
@@ -42,7 +44,7 @@ myForm.addEventListener('submit', async (e) => {
   passwordInput.classList.remove('input-error');
   hideServerError();
 
-  // Client-side validation
+  // Validate
   if (mailInp.length === 0) {
     mailErr.textContent = "Can't be left empty";
     mailErr.classList.add('show');
@@ -69,19 +71,18 @@ myForm.addEventListener('submit', async (e) => {
 
   if (errorFlag) return;
 
-  // Send to backend
   setLoading(true);
+
   try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
+    const res  = await fetch('/api/auth/login', {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: mailInp, password: passInp })
+      body:    JSON.stringify({ email: mailInp, password: passInp })
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      // Handle express-validator array errors
       if (data.errors && Array.isArray(data.errors)) {
         showServerError(data.errors.map(e => e.msg).join(' · '));
       } else {
@@ -91,8 +92,13 @@ myForm.addEventListener('submit', async (e) => {
       return;
     }
 
-    // Success — redirect to dashboard
-    window.location.href = '/user/dashboard';
+    // ✅ Redirect based on role
+    if (data.user?.role === 'admin') {
+      window.location.href = '/user/admin';
+    } else {
+      window.location.href = '/user/dashboard';
+    }
+
   } catch (err) {
     showServerError('Network error. Please check your connection and try again.');
     setLoading(false);

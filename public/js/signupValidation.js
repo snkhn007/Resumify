@@ -1,7 +1,3 @@
-/* =============================================================
-   signupValidation.js — Updated to include role field
-   ============================================================= */
-
 'use strict';
 
 const myForm        = document.getElementById('myForm');
@@ -132,15 +128,15 @@ myForm.addEventListener('submit', async (e) => {
         lastName:  lastNameVal,
         email:     mailInp,
         password:  passInp,
-        role:      roleVal          // ← role sent to backend
+        role:      roleVal
       })
     });
 
     const data = await res.json();
 
+    // Recruiter pending — show banner
     if (res.status === 403 && data.message?.includes('pending')) {
-      // Recruiter pending — show banner instead of redirecting
-      myForm.style.display            = 'none';
+      myForm.style.display = 'none';
       if (pendingBanner) pendingBanner.style.display = 'flex';
       setLoading(false);
       return;
@@ -156,7 +152,12 @@ myForm.addEventListener('submit', async (e) => {
       return;
     }
 
-    window.location.href = '/user/dashboard';
+    // ✅ Redirect based on role
+    if (data.user?.role === 'admin') {
+      window.location.href = '/user/admin';
+    } else {
+      window.location.href = '/user/dashboard';
+    }
 
   } catch (err) {
     showServerError('Network error. Please check your connection and try again.');
