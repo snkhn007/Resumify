@@ -1,200 +1,1353 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recruiter Portal</title>
+  <title>Recruiter Portal — ResumeHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <!-- Global Styles -->
-  <link rel="stylesheet" href="/css/utils.css" />
-  <link rel="stylesheet" href="/css/header.css" />
-  <link rel="stylesheet" href="/css/footer.css" />
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --bg:           #F5F3EE;
+  --surface:      #FFFFFF;
+  --surface-2:    #EFEDE8;
+  --border:       #E0DCCC;
+  --border-strong:#C8C2AE;
+  --text:         #1A1814;
+  --text-2:       #5C5649;
+  --muted:        #9A9285;
 
-  <!-- Page Styles -->
-  <link rel="stylesheet" href="/css/recruiter.css" />
+  --accent:       #2A5C45;
+  --accent-soft:  #D4E8DF;
+  --accent-hover: #1E4432;
+
+  --gold:         #B8860B;
+  --gold-soft:    #FAF3DC;
+
+  --danger:       #C0392B;
+  --danger-soft:  #FDECEA;
+
+  --radius-sm:    6px;
+  --radius-md:    12px;
+  --radius-lg:    18px;
+  --radius-full:  999px;
+
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:    0 4px 16px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+  --shadow-lg:    0 12px 40px rgba(0,0,0,.13);
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+  --ease:         cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="dark"] {
+  --bg:           #131210;
+  --surface:      #1E1C19;
+  --surface-2:    #262320;
+  --border:       #302D28;
+  --border-strong:#403C35;
+  --text:         #F0EDE6;
+  --text-2:       #A89F93;
+  --muted:        #6B6358;
+  --accent-soft:  #1A3328;
+  --gold-soft:    #2A2208;
+  --danger-soft:  #2A1210;
+}
+
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { text-decoration: none; color: inherit; }
+button, select, input { font-family: var(--font-body); font-size: 14px; }
+img { display: block; max-width: 100%; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+main { flex: 1; padding: 40px 0 80px; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+.logo-mark {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  font-size: 1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+}
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  margin-left: 12px;
+}
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.nav-tab:hover { background: var(--surface-2); color: var(--text); }
+.nav-tab.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.nav-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.recruiter-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--gold-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+}
+.btn-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--text-2);
+  transition: all .2s var(--ease);
+}
+.btn-icon:hover { background: var(--surface-2); color: var(--text); }
+.btn-logout {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-2);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.btn-logout:hover { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+.page-header {
+  margin-bottom: 32px;
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.page-header p { color: var(--text-2); }
+
+/* ============================================================
+   FILTERS BAR
+   ============================================================ */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.search-wrap {
+  flex: 1;
+  min-width: 220px;
+  position: relative;
+}
+.search-wrap i {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap input::placeholder { color: var(--muted); }
+
+select.filter-select {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+select.filter-select:focus { border-color: var(--accent); }
+
+.filter-divider { width: 1px; height: 28px; background: var(--border); }
+
+.btn-primary {
+  padding: 9px 20px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .2s var(--ease), transform .1s;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(.97); }
+
+.btn-ghost {
+  padding: 9px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+
+/* ============================================================
+   STATS ROW
+   ============================================================ */
+.stats-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  color: var(--text-2);
+  box-shadow: var(--shadow-sm);
+}
+.stat-chip strong { color: var(--text); }
+
+/* ============================================================
+   CARDS GRID
+   ============================================================ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.resume-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: cardIn .35s var(--ease) both;
+}
+.resume-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #4CAF82);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.resume-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.resume-card:hover::before { opacity: 1; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.avatar-wrap { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), #4CAF82);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  flex-shrink: 0;
+}
+.card-name { font-weight: 600; font-size: 1rem; line-height: 1.3; }
+.card-tagline { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+
+.shortlist-btn {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: all .2s var(--ease);
+  flex-shrink: 0;
+}
+.shortlist-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+.shortlist-btn.saved { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+
+.skills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  min-height: 28px;
+}
+.skill-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+.skill-tag.overflow {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.card-meta {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.card-meta i { font-size: 11px; }
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-card-view {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all .2s var(--ease);
+  font-size: 13px;
+}
+.btn-card-view:hover { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
+
+.btn-card-shortlist {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background .2s;
+}
+.btn-card-shortlist:hover { background: var(--accent-hover); }
+.btn-card-shortlist.saved { background: var(--gold); }
+.btn-card-shortlist.saved:hover { background: #9a6e09; }
+
+/* ============================================================
+   EMPTY / LOADING / ERROR STATES
+   ============================================================ */
+.state-box {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--muted);
+}
+.state-box .state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+  opacity: .5;
+}
+.state-box h3 { font-size: 1.1rem; color: var(--text-2); margin-bottom: 8px; }
+.state-box p { font-size: 14px; max-width: 300px; margin: 0 auto; }
+
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 40px;
+}
+.page-btn {
+  min-width: 36px; height: 36px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  display: grid; place-items: center;
+}
+.page-btn:hover { background: var(--surface-2); color: var(--text); }
+.page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+.page-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ============================================================
+   SHORTLIST VIEW
+   ============================================================ */
+.shortlist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.shortlist-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+  animation: fadeIn .2s var(--ease);
+}
+.modal-overlay.open { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 680px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  animation: slideUp .25s var(--ease);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+.modal-close {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--muted);
+  transition: all .2s;
+  font-size: 1rem;
+}
+.modal-close:hover { background: var(--danger-soft); color: var(--danger); border-color: var(--danger); }
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* Modal resume content */
+.modal-resume-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-avatar {
+  width: 56px; height: 56px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), #4CAF82);
+  color: #fff;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-style: italic;
+  flex-shrink: 0;
+}
+.modal-name { font-family: var(--font-display); font-size: 1.3rem; }
+.modal-contact { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.modal-contact a {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 13px; color: var(--text-2);
+  transition: color .2s;
+}
+.modal-contact a:hover { color: var(--accent); }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.modal-summary { font-size: 14px; color: var(--text-2); line-height: 1.7; }
+.modal-skills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--text);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  animation: toastIn .3s var(--ease);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toast.success { background: var(--accent); }
+.toast.error   { background: var(--danger); color: #fff; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  .nav-tabs { gap: 2px; }
+  .nav-tab span { display: none; }
+  .recruiter-chip span { display: none; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .filters-bar { gap: 8px; }
+  .filter-divider { display: none; }
+}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <div class="container navbar">
+<!-- ============================================================
+     NAVBAR — recruiter-only, no links to home/other pages
+     ============================================================ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
 
-    <a href="/" class="logo">
+    <div class="logo">
       <div class="logo-mark">R</div>
       ResumeHub
-    </a>
-
-    <div class="nav-links">
-      <a href="#" class="active" onclick="switchView('browse')">Browse</a>
-      <a href="#" onclick="switchView('shortlist')">
-        Shortlist <span class="badge" id="shortlist-count">0</span>
-      </a>
     </div>
 
-    <div class="nav-actions">
-      <button class="btn btn-light" onclick="logout()">Logout</button>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-browse" onclick="switchView('browse')">
+        <i class="bi bi-grid-3x3-gap"></i>
+        <span>Browse</span>
+      </button>
+      <button class="nav-tab" id="tab-shortlist" onclick="switchView('shortlist')">
+        <i class="bi bi-bookmark-star"></i>
+        <span>Shortlist</span>
+        <span class="nav-badge" id="shortlist-count">0</span>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <div class="recruiter-chip">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>Recruiter</span>
+      </div>
+      <button class="btn-icon" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <i class="bi bi-sun-fill"></i>
+      </button>
+      <button class="btn-logout" onclick="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
     </div>
 
   </div>
-</header>
+</nav>
 
-<!-- MAIN -->
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
 <main>
   <div class="container">
 
-    <!-- BROWSE VIEW -->
+    <!-- ===================== BROWSE VIEW ===================== -->
     <div class="view active" id="view-browse">
+
+      <div class="page-header">
+        <h1>Candidate Pool</h1>
+        <p>Discover and shortlist top talent from submitted resumes.</p>
+      </div>
 
       <!-- Filters -->
       <div class="filters-bar">
         <div class="search-wrap">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input type="text" id="searchInput" placeholder="Search resumes..." />
+          <i class="bi bi-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by name, skill, tagline…" />
         </div>
 
-        <select id="skillFilter">
+        <select class="filter-select" id="skillFilter">
           <option value="">All Skills</option>
           <option>JavaScript</option>
           <option>Python</option>
           <option>React</option>
+          <option>Node.js</option>
+          <option>Java</option>
+          <option>CSS</option>
+          <option>SQL</option>
         </select>
 
-        <select id="templateFilter">
+        <select class="filter-select" id="templateFilter">
           <option value="">All Templates</option>
           <option>Classic</option>
           <option>Modern</option>
+          <option>Minimal</option>
         </select>
 
-        <button class="btn btn-primary" onclick="fetchResumes(1)">Search</button>
-        <button class="btn btn-light" onclick="clearFilters()">Clear</button>
+        <div class="filter-divider"></div>
+
+        <button class="btn-primary" onclick="fetchResumes(1)">
+          <i class="bi bi-funnel-fill"></i> Filter
+        </button>
+        <button class="btn-ghost" onclick="clearFilters()">
+          Clear
+        </button>
       </div>
 
-      <!-- Cards -->
+      <!-- Stats -->
+      <div class="stats-row" id="statsRow" style="display:none">
+        <div class="stat-chip">
+          <i class="bi bi-people"></i>
+          <strong id="stat-total">0</strong> candidates
+        </div>
+        <div class="stat-chip">
+          <i class="bi bi-bookmark-star"></i>
+          <strong id="stat-shortlisted">0</strong> shortlisted
+        </div>
+      </div>
+
+      <!-- Cards container -->
       <div id="cards-container"></div>
 
       <!-- Pagination -->
       <div class="pagination" id="pagination"></div>
     </div>
 
-    <!-- SHORTLIST -->
+    <!-- ===================== SHORTLIST VIEW ===================== -->
     <div class="view" id="view-shortlist">
-      <h2 class="section-title">Shortlisted Candidates</h2>
-      <p class="text-muted">Candidates you've saved</p>
+      <div class="shortlist-header">
+        <div>
+          <h2>Shortlisted Candidates</h2>
+          <p style="color:var(--text-2);font-size:14px;margin-top:4px;">Candidates you've saved for review.</p>
+        </div>
+        <button class="btn-ghost" onclick="switchView('browse')">
+          <i class="bi bi-arrow-left"></i> Back to Browse
+        </button>
+      </div>
       <div id="shortlist-container"></div>
     </div>
 
   </div>
 </main>
 
-<!-- MODAL -->
+<!-- ============================================================
+     RESUME MODAL
+     ============================================================ -->
 <div class="modal-overlay" id="resumeModal">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-header">
       <h3 id="modal-title">Resume</h3>
-      <button onclick="closeModal()">×</button>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
     </div>
-    <div id="modal-body"></div>
+    <div class="modal-body" id="modal-body"></div>
     <div class="modal-footer">
-      <button class="btn btn-light" onclick="closeModal()">Close</button>
-      <button class="btn btn-primary" id="modal-shortlist-btn">Shortlist</button>
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn-card-shortlist" id="modal-shortlist-btn">
+        <i class="bi bi-bookmark-plus"></i> Shortlist
+      </button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div id="toast" class="toast"></div>
+<!-- Toast container -->
+<div class="toast-wrap" id="toastWrap"></div>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
 <script>
-let currentPage = 1;
-let shortlistIds = new Set();
+'use strict';
 
-/* INIT */
-document.addEventListener('DOMContentLoaded', () => {
+/* ---- State ---- */
+let currentPage   = 1;
+let totalPages    = 1;
+let shortlistIds  = new Set();
+let currentModalId = null;
+
+/* ---- Init ---- */
+document.addEventListener('DOMContentLoaded', async () => {
+  applyTheme();
+  document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+  await loadShortlistIds();
   fetchResumes(1);
-  loadShortlistIds();
+
+  // Search on enter
+  document.getElementById('searchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') fetchResumes(1);
+  });
 });
 
-/* SWITCH VIEW */
-function switchView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
+/* ============================================================
+   THEME
+   ============================================================ */
+function applyTheme() {
+  const saved = localStorage.getItem('resumify-theme');
+  const root  = document.documentElement;
+  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
+  updateThemeIcon();
+}
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    root.removeAttribute('data-theme');
+    localStorage.setItem('resumify-theme', 'light');
+  } else {
+    root.setAttribute('data-theme', 'dark');
+    localStorage.setItem('resumify-theme', 'dark');
+  }
+  updateThemeIcon();
+}
+function updateThemeIcon() {
+  const btn  = document.getElementById('theme-toggle');
+  const icon = btn.querySelector('i');
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  icon.className = dark ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
 }
 
-/* FETCH */
+/* ============================================================
+   VIEW SWITCH
+   ============================================================ */
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+
+  if (name === 'shortlist') loadShortlistView();
+}
+
+/* ============================================================
+   FETCH RESUMES
+   ============================================================ */
 async function fetchResumes(page = 1) {
+  currentPage = page;
   const container = document.getElementById('cards-container');
-  container.innerHTML = 'Loading...';
+  container.innerHTML = `<div class="state-box"><div class="spinner"></div><p>Loading candidates…</p></div>`;
+  document.getElementById('pagination').innerHTML = '';
+  document.getElementById('statsRow').style.display = 'none';
+
+  const search   = document.getElementById('searchInput').value.trim();
+  const skill    = document.getElementById('skillFilter').value;
+  const template = document.getElementById('templateFilter').value;
+
+  const params = new URLSearchParams({ page, limit: 9 });
+  if (search)   params.set('search', search);
+  if (skill)    params.set('skill', skill);
+  if (template) params.set('template', template);
 
   try {
-    const res = await fetch('/api/recruiter/resumes');
+    const res  = await fetch('/api/recruiter/resumes?' + params.toString());
     const data = await res.json();
 
-    renderCards(data.resumes || [], container);
-  } catch {
-    container.innerHTML = 'Error loading resumes';
+    if (!res.ok) {
+      if (res.status === 401) { window.location.href = '/user/login'; return; }
+      throw new Error(data.message || 'Failed to load resumes');
+    }
+
+    const resumes = data.resumes || [];
+    totalPages    = data.pagination?.pages || 1;
+
+    // Stats
+    document.getElementById('stat-total').textContent = data.pagination?.total ?? resumes.length;
+    document.getElementById('stat-shortlisted').textContent = shortlistIds.size;
+    document.getElementById('statsRow').style.display = 'flex';
+
+    renderCards(resumes, container);
+    renderPagination();
+  } catch (err) {
+    container.innerHTML = `
+      <div class="state-box">
+        <span class="state-icon"><i class="bi bi-exclamation-circle"></i></span>
+        <h3>Something went wrong</h3>
+        <p>${err.message}</p>
+      </div>`;
   }
 }
 
-/* RENDER */
+/* ============================================================
+   RENDER CARDS
+   ============================================================ */
 function renderCards(resumes, container) {
   if (!resumes.length) {
-    container.innerHTML = '<p>No resumes found</p>';
+    container.innerHTML = `
+      <div class="state-box">
+        <span class="state-icon"><i class="bi bi-person-x"></i></span>
+        <h3>No candidates found</h3>
+        <p>Try adjusting your filters or search terms.</p>
+      </div>`;
     return;
   }
 
-  let html = '<div class="cards-grid">';
-  resumes.forEach(r => {
-    html += `
-      <div class="resume-card">
-        <div class="card-header">
-          <div class="avatar">${(r.fullName || 'U')[0]}</div>
-          <button onclick="toggleShortlist('${r._id}', this)">☆</button>
-        </div>
+  const grid = document.createElement('div');
+  grid.className = 'cards-grid';
 
-        <h4>${r.fullName || 'Unknown'}</h4>
+  resumes.forEach((r, idx) => {
+    const isSaved = shortlistIds.has(r._id);
+    const skills  = (r.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+    const visibleSkills  = skills.slice(0, 4);
+    const overflowCount  = skills.length - 4;
+    const initials = getInitials(r.fullName);
 
-        <div class="skills-wrap">
-          ${(r.skills || '').split(',').map(s => `<span class="skill-tag">${s}</span>`).join('')}
+    const card = document.createElement('div');
+    card.className = 'resume-card';
+    card.style.animationDelay = `${idx * 0.04}s`;
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="avatar-wrap">
+          <div class="avatar">${initials}</div>
+          <div>
+            <div class="card-name">${r.fullName || 'Unknown Candidate'}</div>
+            <div class="card-tagline">${r.tagline || r.templateName || 'Resume'}</div>
+          </div>
         </div>
+        <button
+          class="shortlist-btn ${isSaved ? 'saved' : ''}"
+          title="${isSaved ? 'Remove from shortlist' : 'Add to shortlist'}"
+          onclick="event.stopPropagation(); quickToggleShortlist('${r._id}', this)"
+        >
+          <i class="bi ${isSaved ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
+        </button>
+      </div>
 
-        <div class="card-actions">
-          <button class="btn btn-primary btn-sm">View</button>
-        </div>
+      <div class="skills-wrap">
+        ${visibleSkills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        ${overflowCount > 0 ? `<span class="skill-tag overflow">+${overflowCount}</span>` : ''}
+      </div>
+
+      <div class="card-meta">
+        ${r.email    ? `<span><i class="bi bi-envelope"></i> ${r.email}</span>` : ''}
+        ${r.linkedin ? `<span><i class="bi bi-linkedin"></i> LinkedIn</span>` : ''}
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-card-view" onclick="event.stopPropagation(); openModal('${r._id}')">
+          <i class="bi bi-eye"></i> View Resume
+        </button>
+        <button
+          class="btn-card-shortlist ${isSaved ? 'saved' : ''}"
+          onclick="event.stopPropagation(); toggleShortlist('${r._id}', this)"
+        >
+          <i class="bi ${isSaved ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'}"></i>
+          ${isSaved ? 'Saved' : 'Shortlist'}
+        </button>
       </div>
     `;
+
+    grid.appendChild(card);
   });
 
-  html += '</div>';
-  container.innerHTML = html;
+  container.innerHTML = '';
+  container.appendChild(grid);
 }
 
-/* SHORTLIST */
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+function renderPagination() {
+  const wrap = document.getElementById('pagination');
+  wrap.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const makeBtn = (label, page, active, disabled) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (active ? ' active' : '');
+    btn.textContent = label;
+    btn.disabled = disabled;
+    if (!disabled && !active) btn.onclick = () => fetchResumes(page);
+    return btn;
+  };
+
+  wrap.appendChild(makeBtn('‹', currentPage - 1, false, currentPage === 1));
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {
+      if (i === 3 || i === totalPages - 2) {
+        const dots = document.createElement('span');
+        dots.textContent = '…';
+        dots.style.cssText = 'padding:0 4px;color:var(--muted);display:grid;align-items:center';
+        wrap.appendChild(dots);
+      }
+      continue;
+    }
+    wrap.appendChild(makeBtn(i, i, i === currentPage, false));
+  }
+
+  wrap.appendChild(makeBtn('›', currentPage + 1, false, currentPage === totalPages));
+}
+
+/* ============================================================
+   CLEAR FILTERS
+   ============================================================ */
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('skillFilter').value = '';
+  document.getElementById('templateFilter').value = '';
+  fetchResumes(1);
+}
+
+/* ============================================================
+   SHORTLIST
+   ============================================================ */
 async function loadShortlistIds() {
   try {
-    const res = await fetch('/api/recruiter/shortlist');
+    const res  = await fetch('/api/recruiter/shortlist');
     const data = await res.json();
-    shortlistIds = new Set(data.resumes.map(r => r._id));
-    document.getElementById('shortlist-count').textContent = shortlistIds.size;
+    shortlistIds = new Set((data.resumes || []).map(r => r._id));
+    updateShortlistBadge();
   } catch {}
 }
 
-async function toggleShortlist(id, btn) {
-  await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
-  btn.textContent = btn.textContent === '☆' ? '★' : '☆';
+function updateShortlistBadge() {
+  document.getElementById('shortlist-count').textContent = shortlistIds.size;
+  const stat = document.getElementById('stat-shortlisted');
+  if (stat) stat.textContent = shortlistIds.size;
 }
 
-/* MODAL */
+async function toggleShortlist(id, btn) {
+  const wasSaved = shortlistIds.has(id);
+  try {
+    const res = await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
+    if (!res.ok) throw new Error();
+
+    if (wasSaved) {
+      shortlistIds.delete(id);
+      btn.innerHTML = '<i class="bi bi-bookmark-plus"></i> Shortlist';
+      btn.classList.remove('saved');
+      // also update the icon button in card-top
+      const card = btn.closest('.resume-card');
+      const iconBtn = card?.querySelector('.shortlist-btn');
+      if (iconBtn) { iconBtn.classList.remove('saved'); iconBtn.querySelector('i').className = 'bi bi-bookmark'; }
+      showToast('Removed from shortlist', 'default');
+    } else {
+      shortlistIds.add(id);
+      btn.innerHTML = '<i class="bi bi-bookmark-check-fill"></i> Saved';
+      btn.classList.add('saved');
+      const card = btn.closest('.resume-card');
+      const iconBtn = card?.querySelector('.shortlist-btn');
+      if (iconBtn) { iconBtn.classList.add('saved'); iconBtn.querySelector('i').className = 'bi bi-bookmark-fill'; }
+      showToast('Added to shortlist!', 'success');
+    }
+    updateShortlistBadge();
+  } catch {
+    showToast('Action failed. Try again.', 'error');
+  }
+}
+
+async function quickToggleShortlist(id, btn) {
+  const wasSaved = shortlistIds.has(id);
+  try {
+    await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
+    if (wasSaved) {
+      shortlistIds.delete(id);
+      btn.classList.remove('saved');
+      btn.querySelector('i').className = 'bi bi-bookmark';
+    } else {
+      shortlistIds.add(id);
+      btn.classList.add('saved');
+      btn.querySelector('i').className = 'bi bi-bookmark-fill';
+    }
+    updateShortlistBadge();
+  } catch {}
+}
+
+async function loadShortlistView() {
+  const container = document.getElementById('shortlist-container');
+  container.innerHTML = `<div class="state-box"><div class="spinner"></div><p>Loading…</p></div>`;
+
+  try {
+    const res  = await fetch('/api/recruiter/shortlist');
+    const data = await res.json();
+    const resumes = data.resumes || [];
+
+    if (!resumes.length) {
+      container.innerHTML = `
+        <div class="state-box">
+          <span class="state-icon"><i class="bi bi-bookmark"></i></span>
+          <h3>No shortlisted candidates</h3>
+          <p>Browse candidates and bookmark those you want to revisit.</p>
+        </div>`;
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+    resumes.forEach((r, idx) => {
+      const card = document.createElement('div');
+      card.className = 'resume-card';
+      card.style.animationDelay = `${idx * 0.04}s`;
+      const skills = (r.skills || '').split(',').map(s => s.trim()).filter(Boolean).slice(0, 4);
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="avatar-wrap">
+            <div class="avatar">${getInitials(r.fullName)}</div>
+            <div>
+              <div class="card-name">${r.fullName || 'Unknown'}</div>
+              <div class="card-tagline">${r.tagline || r.templateName || ''}</div>
+            </div>
+          </div>
+        </div>
+        <div class="skills-wrap">
+          ${skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        </div>
+        <div class="card-actions">
+          <button class="btn-card-view" style="flex:1" onclick="openModal('${r._id}')">
+            <i class="bi bi-eye"></i> View Resume
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+  } catch {
+    container.innerHTML = `<div class="state-box"><h3>Failed to load shortlist.</h3></div>`;
+  }
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+async function openModal(id) {
+  currentModalId = id;
+  const overlay = document.getElementById('resumeModal');
+  const body    = document.getElementById('modal-body');
+  body.innerHTML = `<div class="state-box"><div class="spinner"></div></div>`;
+  overlay.classList.add('open');
+
+  try {
+    const res  = await fetch('/api/recruiter/resumes/' + id);
+    const data = await res.json();
+    const r    = data.resume || data;
+
+    document.getElementById('modal-title').textContent = r.title || 'Resume';
+
+    const isSaved = shortlistIds.has(id);
+    const modalBtn = document.getElementById('modal-shortlist-btn');
+    modalBtn.innerHTML = isSaved
+      ? '<i class="bi bi-bookmark-check-fill"></i> Saved'
+      : '<i class="bi bi-bookmark-plus"></i> Shortlist';
+    modalBtn.className = 'btn-card-shortlist' + (isSaved ? ' saved' : '');
+    modalBtn.onclick   = () => modalToggleShortlist(id, modalBtn);
+
+    const skills = (r.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+
+    body.innerHTML = `
+      <div class="modal-resume-header">
+        <div class="modal-avatar">${getInitials(r.fullName)}</div>
+        <div>
+          <div class="modal-name">${r.fullName || 'Unknown'}</div>
+          <div class="modal-contact">
+            ${r.email    ? `<a href="mailto:${r.email}"><i class="bi bi-envelope"></i>${r.email}</a>` : ''}
+            ${r.phone    ? `<a href="tel:${r.phone}"><i class="bi bi-telephone"></i>${r.phone}</a>` : ''}
+            ${r.linkedin ? `<a href="${r.linkedin}" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i>LinkedIn</a>` : ''}
+            ${r.github   ? `<a href="${r.github}" target="_blank" rel="noopener"><i class="bi bi-github"></i>GitHub</a>` : ''}
+          </div>
+        </div>
+      </div>
+
+      ${r.summary ? `
+        <div class="section-label">Summary</div>
+        <p class="modal-summary">${r.summary}</p>
+      ` : ''}
+
+      ${skills.length ? `
+        <div class="section-label">Skills</div>
+        <div class="modal-skills">
+          ${skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        </div>
+      ` : ''}
+
+      ${r.experience?.length ? `
+        <div class="section-label">Experience</div>
+        ${r.experience.map(exp => `
+          <div style="margin-bottom:14px;padding:14px;background:var(--surface-2);border-radius:var(--radius-md)">
+            <div style="font-weight:600">${exp.title || ''}</div>
+            <div style="font-size:13px;color:var(--text-2)">${exp.company || ''} · ${exp.start || ''} – ${exp.end || 'Present'}</div>
+            ${exp.desc ? `<p style="font-size:13px;margin-top:8px;color:var(--text-2)">${exp.desc}</p>` : ''}
+          </div>
+        `).join('')}
+      ` : ''}
+
+      ${r.education?.length ? `
+        <div class="section-label">Education</div>
+        ${r.education.map(edu => `
+          <div style="margin-bottom:12px;padding:14px;background:var(--surface-2);border-radius:var(--radius-md)">
+            <div style="font-weight:600">${edu.degree || ''}</div>
+            <div style="font-size:13px;color:var(--text-2)">${edu.institute || ''} · ${edu.start || ''} – ${edu.end || ''}</div>
+          </div>
+        `).join('')}
+      ` : ''}
+
+      ${r.projects?.length ? `
+        <div class="section-label">Projects</div>
+        ${r.projects.map(p => `
+          <div style="margin-bottom:12px;padding:14px;background:var(--surface-2);border-radius:var(--radius-md)">
+            <div style="font-weight:600">${p.name || ''} ${p.link ? `<a href="${p.link}" target="_blank" style="font-size:12px;color:var(--accent);margin-left:8px"><i class="bi bi-box-arrow-up-right"></i> View</a>` : ''}</div>
+            ${p.tech ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">${p.tech}</div>` : ''}
+            ${p.desc ? `<p style="font-size:13px;margin-top:8px;color:var(--text-2)">${p.desc}</p>` : ''}
+          </div>
+        `).join('')}
+      ` : ''}
+    `;
+  } catch {
+    body.innerHTML = `<div class="state-box"><h3>Failed to load resume.</h3></div>`;
+  }
+}
+
+async function modalToggleShortlist(id, btn) {
+  const wasSaved = shortlistIds.has(id);
+  try {
+    await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
+    if (wasSaved) {
+      shortlistIds.delete(id);
+      btn.innerHTML = '<i class="bi bi-bookmark-plus"></i> Shortlist';
+      btn.classList.remove('saved');
+      showToast('Removed from shortlist');
+    } else {
+      shortlistIds.add(id);
+      btn.innerHTML = '<i class="bi bi-bookmark-check-fill"></i> Saved';
+      btn.classList.add('saved');
+      showToast('Added to shortlist!', 'success');
+    }
+    updateShortlistBadge();
+  } catch {
+    showToast('Action failed.', 'error');
+  }
+}
+
 function closeModal() {
   document.getElementById('resumeModal').classList.remove('open');
+  currentModalId = null;
 }
 
-/* LOGOUT */
+document.getElementById('resumeModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('resumeModal')) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type = 'default') {
+  const wrap = document.getElementById('toastWrap');
+  const t    = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = `<i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'error' ? 'bi-x-circle' : 'bi-info-circle'}"></i> ${msg}`;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function getInitials(name) {
+  if (!name) return 'U';
+  const parts = name.trim().split(' ');
+  return parts.length > 1
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0][0].toUpperCase();
+}
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
 async function logout() {
-  await fetch('/api/auth/logout', { method: 'POST' });
+  try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
   window.location.href = '/user/login';
 }
 </script>

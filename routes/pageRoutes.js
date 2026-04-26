@@ -70,6 +70,7 @@ pageRouter.get('/template03', blockAdmin, (req, res) => {
 // Dashboard — job seekers only
 pageRouter.get('/dashboard', requireAuthPage, (req, res) => {
   if (req.user.role === 'admin') return res.redirect('/user/admin');
+  if (req.user.role === 'recruiter' || req.user.role === 'coach') return res.redirect('/user/recruiter');
   res.render('dashboard', { user: req.user });
 });
 
