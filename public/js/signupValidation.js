@@ -1,24 +1,42 @@
-const myForm       = document.getElementById('myForm');
-const submitBtn    = document.getElementById('submitBtn');
-const submitText   = document.getElementById('submitText');
+/* =============================================================
+   signupValidation.js — Updated to include role field
+   ============================================================= */
+
+'use strict';
+
+const myForm        = document.getElementById('myForm');
+const submitBtn     = document.getElementById('submitBtn');
+const submitText    = document.getElementById('submitText');
 const submitSpinner = document.getElementById('submitSpinner');
-const serverError  = document.getElementById('serverError');
-const serverErrorMsg = document.getElementById('serverErrorMsg');
+const serverError   = document.getElementById('serverError');
+const serverErrorMsg= document.getElementById('serverErrorMsg');
+const pendingBanner = document.getElementById('pendingBanner');
+const roleSelect    = document.getElementById('role');
+const recruiterNote = document.getElementById('recruiterNote');
+
+/* Show recruiter note when recruiter is selected */
+if (roleSelect) {
+  roleSelect.addEventListener('change', () => {
+    if (recruiterNote) {
+      recruiterNote.style.display = roleSelect.value === 'recruiter' ? 'flex' : 'none';
+    }
+  });
+}
 
 function showServerError(msg) {
   serverErrorMsg.textContent = msg;
-  serverError.style.display = 'flex';
+  serverError.style.display  = 'flex';
   serverError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function hideServerError() {
-  serverError.style.display = 'none';
+  serverError.style.display  = 'none';
   serverErrorMsg.textContent = '';
 }
 
 function setLoading(loading) {
-  submitBtn.disabled = loading;
-  submitText.style.display = loading ? 'none' : 'inline';
+  submitBtn.disabled          = loading;
+  submitText.style.display    = loading ? 'none'   : 'inline';
   submitSpinner.style.display = loading ? 'inline' : 'none';
 }
 
@@ -35,13 +53,14 @@ myForm.addEventListener('submit', async (e) => {
   const lastNameVal  = lastNameInput.value.trim();
   const mailInp      = emailInput.value.trim();
   const passInp      = passwordInput.value.trim();
+  const roleVal      = roleSelect ? roleSelect.value : 'jobseeker';
 
   const fnameErr = document.getElementById('fnameErr');
   const lnameErr = document.getElementById('lnameErr');
   const mailErr  = document.getElementById('mailErr');
   const passErr  = document.getElementById('passErr');
 
-  // Reset all errors
+  // Reset errors
   [fnameErr, lnameErr, mailErr, passErr].forEach(el => {
     el.textContent = '';
     el.classList.remove('show');
@@ -51,7 +70,7 @@ myForm.addEventListener('submit', async (e) => {
   );
   hideServerError();
 
-  // Client-side validation
+  // Validate
   if (firstNameVal.length === 0) {
     fnameErr.textContent = "Can't be left empty";
     fnameErr.classList.add('show');
@@ -103,19 +122,29 @@ myForm.addEventListener('submit', async (e) => {
   if (errorFlag) return;
 
   setLoading(true);
+
   try {
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
+    const res  = await fetch('/api/auth/signup', {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      body:    JSON.stringify({
         firstName: firstNameVal,
-        lastName: lastNameVal,
-        email: mailInp,
-        password: passInp
+        lastName:  lastNameVal,
+        email:     mailInp,
+        password:  passInp,
+        role:      roleVal          // ← role sent to backend
       })
     });
 
     const data = await res.json();
+
+    if (res.status === 403 && data.message?.includes('pending')) {
+      // Recruiter pending — show banner instead of redirecting
+      myForm.style.display            = 'none';
+      if (pendingBanner) pendingBanner.style.display = 'flex';
+      setLoading(false);
+      return;
+    }
 
     if (!res.ok) {
       if (data.errors && Array.isArray(data.errors)) {
@@ -127,8 +156,8 @@ myForm.addEventListener('submit', async (e) => {
       return;
     }
 
-    // Success — redirect to dashboard
     window.location.href = '/user/dashboard';
+
   } catch (err) {
     showServerError('Network error. Please check your connection and try again.');
     setLoading(false);

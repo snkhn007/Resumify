@@ -258,3 +258,92 @@
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* =============================================================
+   Add these styles to the bottom of auth.css
+   ============================================================= */
+
+/* ----- Role select dropdown ----- */
+
+.auth-select {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem var(--space-4);
+  font-family: var(--font);
+  font-size: var(--text-base);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--ease), box-shadow var(--ease);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+}
+
+.auth-select:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.2);
+}
+
+[data-theme="dark"] .auth-select {
+  background-color: var(--surface-soft);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+
+/* ----- Recruiter info note ----- */
+
+.recruiter-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-3);
+}
+
+.recruiter-note i {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+
+/* ----- Pending approval banner ----- */
+
+.pending-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.pending-banner i {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pending-banner strong {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.pending-banner p {
+  color: var(--primary-dark);
+  opacity: 0.85;
+  line-height: 1.5;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — ResumeBuilder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/utils.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/darkmode.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="/user/" class="logo">
+        <span class="logo-mark">R</span>
+        <span>ResumeBuilder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/user/">Home</a>
+        <a href="/user/admin" class="active">Admin</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i class="bi bi-circle-half"></i></span>
+        </button>
+        <div class="user-menu">
+          <button class="user-avatar-btn" id="userMenuBtn">
+            <span class="user-avatar"><%= user.firstName.charAt(0).toUpperCase() %></span>
+            <span class="user-name-nav"><%= user.firstName %></span>
+            <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <strong><%= user.firstName %> <%= user.lastName %></strong>
+              <span><%= user.email %></span>
+            </div>
+            <hr class="dropdown-divider">
+            <button class="dropdown-item logout-btn" id="logoutBtn">
+              <i class="bi bi-box-arrow-right"></i> Log out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <section class="admin-hero">
+      <div class="container">
+        <div class="admin-hero-inner">
+          <div>
+            <h1>Admin Dashboard</h1>
+            <p>Manage user registrations and access requests</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="admin-stats-section">
+      <div class="container">
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <strong id="statPending">—</strong>
+            <span>Pending approval</span>
+          </div>
+          <div class="admin-stat">
+            <strong id="statTotal">—</strong>
+            <span>Total users</span>
+          </div>
+          <div class="admin-stat">
+            <strong id="statRejected">—</strong>
+            <span>Rejected</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS + CONTENT -->
+    <section class="admin-content">
+      <div class="container">
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="pending">
+            Pending <span class="tab-count" id="tabPendingCount"></span>
+          </button>
+          <button class="admin-tab" data-tab="all">
+            All Users <span class="tab-count" id="tabAllCount"></span>
+          </button>
+          <button class="admin-tab" data-tab="rejected">
+            Rejected <span class="tab-count" id="tabRejectedCount"></span>
+          </button>
+        </div>
+
+        <!-- Loading -->
+        <div class="admin-loading" id="adminLoading">
+          <i class="bi bi-arrow-repeat spin"></i> Loading users...
+        </div>
+
+        <!-- Error -->
+        <div class="admin-error" id="adminError" style="display:none;">
+          <i class="bi bi-exclamation-circle"></i>
+          <span id="adminErrorMsg">Could not load users.</span>
+        </div>
+
+        <!-- User grid -->
+        <div class="admin-grid" id="adminGrid" style="display:none;"></div>
+
+        <!-- Empty state -->
+        <div class="admin-empty" id="adminEmpty" style="display:none;">
+          <i class="bi bi-people admin-empty-icon"></i>
+          <h3 id="adminEmptyTitle">No users here</h3>
+          <p id="adminEmptyMsg">Nothing to show in this tab.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIRM MODAL -->
+  <div class="overlay" id="confirmOverlay">
+    <div class="model" style="max-width:400px;">
+      <h3 id="confirmTitle">Confirm Action</h3>
+      <p id="confirmMsg" style="color:var(--muted);font-size:var(--text-sm);"></p>
+      <div class="modalActions">
+        <button class="cancelBtn" id="confirmCancelBtn">Cancel</button>
+        <button class="btn" id="confirmOkBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/user/" class="footer-logo">
+            <span class="logo-mark">R</span>
+            <span>ResumeBuilder</span>
+          </a>
+          <p class="footer-copy">© 2026 ResumeBuilder. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/admin.js"></script>
+  <script src="/js/navbar.js" defer></script>
+  <script src="/js/darkmode.js"></script>
+
+</body>
+</html>
