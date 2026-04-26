@@ -39,30 +39,33 @@ main {
 }
 
 
-/* ─── NAV TABS (Browse / Shortlist) ─────────────────────────── */
+/* ─── NAV TABS (Browse / Shortlist) ──────────────────── */
 
-.nav-tab {
-  display:       inline-flex;
-  align-items:   center;
-  gap:           var(--space-2);
-  background:    transparent;
-  border:        none;
-  padding:       0.45rem 0.9rem;
-  border-radius: var(--radius-full);
-  font-family:   var(--font);
-  font-size:     var(--text-sm);
-  font-weight:   600;
-  color:         var(--muted);
-  cursor:        pointer;
-  transition:    background var(--ease), color var(--ease);
+/* Scoped to .nav-links to cleanly override header.css button defaults */
+.nav-links .nav-tab {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             var(--space-2);
+  background:      transparent;
+  border:          none;
+  padding:         0.45rem 0.9rem;
+  border-radius:   var(--radius-full);
+  font-family:     var(--font);
+  font-size:       var(--text-sm);
+  font-weight:     600;
+  color:           var(--muted);
+  cursor:          pointer;
+  transition:      background var(--ease), color var(--ease);
+  line-height:     1;
+  text-decoration: none;
 }
 
-.nav-tab:hover {
+.nav-links .nav-tab:hover {
   background: var(--surface-soft);
   color:      var(--text);
 }
 
-.nav-tab.active {
+.nav-links .nav-tab.active {
   background: var(--primary-soft);
   color:      var(--primary-dark);
 }
@@ -990,7 +993,7 @@ main {
 [data-theme="dark"] .modal-block-title   { color: var(--text); }
 [data-theme="dark"] .modal-name          { color: var(--text); }
 
-[data-theme="dark"] .nav-tab.active {
+[data-theme="dark"] .nav-links .nav-tab.active {
   background: rgba(59, 130, 246, 0.18);
   color:      #93c5fd;
 }
