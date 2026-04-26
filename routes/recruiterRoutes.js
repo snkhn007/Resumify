@@ -5,14 +5,20 @@ const Resume = require('../model/resume');
 const User = require('../model/user');
 
 /* ── Recruiter-only middleware ── */
-const requireRecruiter = (req, res, next) => {
-  if (!['recruiter', 'coach', 'admin'].includes(req.user?.role)) {
-    return res.status(403).json({ message: 'Recruiter access required' });
+const requireRecruiter = async (req, res, next) => {
+  try {
+    if (!['recruiter', 'coach', 'admin'].includes(req.user?.role)) {
+      return res.status(403).json({ message: 'Recruiter access required' });
+    }
+    // DB se fresh status check karo (token mein status field nahi hoti)
+    const user = await User.findById(req.user._id).select('status');
+    if (!user || user.status !== 'active') {
+      return res.status(403).json({ message: 'Your account is pending approval.' });
+    }
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error', error: err.message });
   }
-  if (req.user?.status !== 'active') {
-    return res.status(403).json({ message: 'Your account is pending approval.' });
-  }
-  next();
 };
 
 recruiterRouter.use(requireAuth, requireRecruiter);
