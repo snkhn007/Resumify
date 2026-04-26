@@ -23,9 +23,9 @@ const cookieOptions = {
 };
 
 
-/* ════════════════════════════════════════
-   POST /api/auth/signup
-   ════════════════════════════════════════ */
+// ==========================
+// POST /api/auth/signup
+// ==========================
 authRouter.post('/signup', signupValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -45,6 +45,7 @@ authRouter.post('/signup', signupValidation, async (req, res) => {
       ? 'pending'
       : 'active';
 
+    // Hash password before saving
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const user = await User.create({
@@ -56,9 +57,10 @@ authRouter.post('/signup', signupValidation, async (req, res) => {
       status:   assignedStatus
     });
 
+    // Block pending users — they must wait for admin approval
     if (user.status === 'pending') {
       return res.status(403).json({
-        message: 'Your account is pending admin approval. You will be notified once approved.'
+        message: 'Your account is pending admin approval.'
       });
     }
 
@@ -95,9 +97,9 @@ authRouter.post('/signup', signupValidation, async (req, res) => {
 });
 
 
-/* ════════════════════════════════════════
-   POST /api/auth/login
-   ════════════════════════════════════════ */
+// ==========================
+// POST /api/auth/login
+// ==========================
 authRouter.post('/login', loginValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -113,18 +115,21 @@ authRouter.post('/login', loginValidation, async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
+    // Block pending users
     if (user.status === 'pending') {
       return res.status(403).json({
         message: 'Your account is pending admin approval.'
       });
     }
 
+    // Block rejected users
     if (user.status === 'rejected') {
       return res.status(403).json({
         message: 'Your account application was not approved.'
       });
     }
 
+    // Compare password against bcrypt hash
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
@@ -142,6 +147,7 @@ authRouter.post('/login', loginValidation, async (req, res) => {
       { expiresIn: '7d' }
     );
 
+    // ✅ token is included as second argument
     res.cookie('token', token, cookieOptions);
 
     return res.status(200).json({
@@ -163,9 +169,9 @@ authRouter.post('/login', loginValidation, async (req, res) => {
 });
 
 
-/* ════════════════════════════════════════
-   POST /api/auth/logout
-   ════════════════════════════════════════ */
+// ==========================
+// POST /api/auth/logout
+// ==========================
 authRouter.post('/logout', (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
@@ -176,9 +182,9 @@ authRouter.post('/logout', (req, res) => {
 });
 
 
-/* ════════════════════════════════════════
-   GET /api/auth/me
-   ════════════════════════════════════════ */
+// ==========================
+// GET /api/auth/me
+// ==========================
 authRouter.get('/me', requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
