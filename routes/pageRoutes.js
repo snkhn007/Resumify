@@ -83,6 +83,10 @@ pageRouter.get('/profile', requireAuthPage, (req, res) => {
   if (req.user.role === 'admin') return res.redirect('/user/admin');
   res.render('profile', { user: req.user });
 });
+pageRouter.get('/recruiter', requireAuthPage, (req, res) => {
+  if (!['recruiter','coach'].includes(req.user.role)) return res.redirect('/user/dashboard');
+  res.render('recruiter', { user: req.user });
+});
 
 
 /* ════════════════════════════════════

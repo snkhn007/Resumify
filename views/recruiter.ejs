@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recruiter Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0f14;
+      --surface:  #161a23;
+      --card:     #1c2130;
+      --border:   #2a3045;
+      --accent:   #5b7fff;
+      --accent2:  #ff6b6b;
+      --gold:     #f5c842;
+      --text:     #e8eaf0;
+      --muted:    #6b7280;
+      --success:  #34d399;
+      --radius:   14px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── TOP NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .nav-brand span { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; padding: 8px 14px; border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      color: var(--text); background: var(--card);
+    }
+    .tab-btn.active { color: var(--accent); }
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent2); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      border-radius: 50%; width: 18px; height: 18px;
+      margin-left: 4px; vertical-align: middle;
+    }
+    .logout-btn {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); padding: 7px 14px;
+      border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 32px 40px; }
+
+    /* ── VIEWS ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── SEARCH & FILTERS ── */
+    .filters-bar {
+      display: flex; gap: 12px; margin-bottom: 28px;
+      flex-wrap: wrap; align-items: center;
+    }
+    .search-wrap {
+      flex: 1; min-width: 220px; position: relative;
+    }
+    .search-wrap input {
+      width: 100%; background: var(--card);
+      border: 1px solid var(--border); color: var(--text);
+      padding: 11px 16px 11px 40px;
+      border-radius: 10px; font-size: 0.9rem; outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-wrap svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted);
+    }
+    select {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); padding: 11px 14px;
+      border-radius: 10px; font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif; cursor: pointer; outline: none;
+    }
+    select:focus { border-color: var(--accent); }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border: none; padding: 11px 22px;
+      border-radius: 10px; cursor: pointer;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+      font-size: 0.9rem; transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .resume-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .resume-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .resume-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 30px rgba(91,127,255,0.15); }
+    .resume-card:hover::before { opacity: 1; }
+
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+    .avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem;
+      color: #fff; flex-shrink: 0;
+    }
+    .card-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+    .card-tagline { font-size: 0.8rem; color: var(--muted); }
+    .shortlist-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: 1.3rem;
+      transition: color 0.2s; padding: 2px;
+      line-height: 1;
+    }
+    .shortlist-btn.bookmarked { color: var(--gold); }
+    .shortlist-btn:hover { color: var(--gold); }
+
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+    .skill-tag {
+      background: rgba(91,127,255,0.12); color: var(--accent);
+      padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;
+      border: 1px solid rgba(91,127,255,0.2);
+    }
+
+    .card-meta { display: flex; gap: 12px; margin-top: 14px; }
+    .meta-item { font-size: 0.78rem; color: var(--muted); }
+    .meta-item strong { color: var(--text); }
+
+    .card-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .btn-sm {
+      flex: 1; padding: 8px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      border: none; font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-view { background: var(--accent); color: #fff; }
+    .btn-view:hover { opacity: 0.85; }
+    .btn-contact { background: var(--border); color: var(--text); }
+    .btn-contact:hover { background: var(--success); color: #000; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center; padding: 80px 20px;
+      color: var(--muted);
+    }
+    .empty-state .emoji { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 { font-family: 'Syne', sans-serif; color: var(--text); margin-bottom: 8px; }
+
+    /* ── LOADER ── */
+    .loader {
+      display: flex; justify-content: center; align-items: center;
+      padding: 60px; gap: 8px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); animation: bounce 1.2s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+    /* ── PAGINATION ── */
+    .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
+    .page-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); padding: 8px 14px; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
+    }
+    .page-btn.active { background: var(--accent); border-color: var(--accent); }
+    .page-btn:hover:not(.active) { border-color: var(--accent); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; width: 100%; max-width: 680px;
+      max-height: 88vh; overflow-y: auto;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px 0;
+    }
+    .modal-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.2rem; }
+    .modal-close {
+      background: none; border: none; color: var(--muted);
+      font-size: 1.5rem; cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--accent2); }
+    .modal-body { padding: 20px 28px 28px; }
+
+    .modal-section { margin-bottom: 20px; }
+    .modal-section h4 {
+      font-family: 'Syne', sans-serif; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--accent); margin-bottom: 10px;
+      padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
+    .modal-section p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    .exp-item, .edu-item, .proj-item {
+      background: var(--card); border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 8px;
+    }
+    .exp-item h5 { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.95rem; }
+    .exp-item .sub { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+    .exp-item .desc { font-size: 0.85rem; color: var(--text); margin-top: 8px; line-height: 1.5; }
+
+    .contact-box {
+      background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.25);
+      border-radius: 12px; padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .contact-box .email-icon { font-size: 1.4rem; }
+    .contact-box .email-addr { font-size: 0.95rem; color: var(--success); font-weight: 500; }
+    .btn-copy {
+      margin-left: auto; background: var(--success); color: #000;
+      border: none; padding: 6px 14px; border-radius: 7px;
+      cursor: pointer; font-size: 0.8rem; font-weight: 700;
+      transition: opacity 0.2s;
+    }
+    .btn-copy:hover { opacity: 0.8; }
+
+    .modal-footer {
+      padding: 0 28px 24px;
+      display: flex; gap: 10px; justify-content: flex-end;
+    }
+    .btn-outline {
+      background: none; border: 1px solid var(--border); color: var(--text);
+      padding: 9px 18px; border-radius: 9px; cursor: pointer;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SHORTLIST VIEW ── */
+    .section-title {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+    .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 12px 20px; border-radius: 10px;
+      font-size: 0.85rem; z-index: 999;
+      transform: translateY(20px); opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--success); color: var(--success); }
+    .toast.info    { border-color: var(--accent);  color: var(--accent);  }
+
+    /* ── STATS ROW ── */
+    .stats-row { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+    .stat-card {
+      flex: 1; min-width: 130px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 20px;
+    }
+    .stat-card .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-card .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .container { padding: 20px; }
+      .filters-bar { flex-direction: column; }
+      .search-wrap { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Resume<span>Hub</span></div>
+  <div class="nav-right">
+    <button class="tab-btn active" onclick="switchView('browse')">🔍 Browse</button>
+    <button class="tab-btn" onclick="switchView('shortlist')" id="shortlist-tab">
+      ⭐ Shortlist <span class="badge" id="shortlist-count">0</span>
+    </button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- BROWSE VIEW -->
+<div class="container">
+  <div class="view active" id="view-browse">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">–</div>
+        <div class="stat-label">Total Resumes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-shortlisted">0</div>
+        <div class="stat-label">Shortlisted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-pages">–</div>
+        <div class="stat-label">Pages</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <div class="search-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search name, skills, summary…" />
+      </div>
+      <select id="skillFilter">
+        <option value="">All Skills</option>
+        <option>JavaScript</option><option>Python</option><option>React</option>
+        <option>Node.js</option><option>Java</option><option>SQL</option>
+        <option>Machine Learning</option><option>UI/UX</option><option>Marketing</option>
+        <option>Finance</option><option>Sales</option><option>HR</option>
+      </select>
+      <select id="templateFilter">
+        <option value="">All Templates</option>
+        <option>Classic</option><option>Modern</option><option>Creative</option>
+      </select>
+      <button class="btn-primary" onclick="fetchResumes(1)">Search</button>
+      <button class="btn-outline" onclick="clearFilters()">Clear</button>
+    </div>
+
+    <!-- Cards -->
+    <div id="cards-container">
+      <div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- SHORTLIST VIEW -->
+  <div class="view" id="view-shortlist">
+    <div class="section-title">⭐ Shortlisted Candidates</div>
+    <div class="section-sub">Candidates you've bookmarked for review</div>
+    <div id="shortlist-container">
+      <div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME DETAIL MODAL -->
+<div class="modal-overlay" id="resumeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Resume</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal()">Close</button>
+      <button class="btn-primary" id="modal-shortlist-btn">⭐ Shortlist</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let currentPage = 1;
+  let shortlistIds = new Set();
+  let currentResumeId = null;
+
+  /* ── INIT ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchResumes(1);
+    loadShortlistIds();
+
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') fetchResumes(1);
+    });
+  });
+
+  /* ── VIEWS ── */
+  function switchView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+
+    if (name === 'shortlist') loadShortlistResumes();
+  }
+
+  /* ── FETCH RESUMES ── */
+  async function fetchResumes(page = 1) {
+    currentPage = page;
+    const container = document.getElementById('cards-container');
+    container.innerHTML = '<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+
+    const search   = document.getElementById('searchInput').value.trim();
+    const skills   = document.getElementById('skillFilter').value;
+    const template = document.getElementById('templateFilter').value;
+
+    const params = new URLSearchParams({ page, limit: 12 });
+    if (search)   params.append('search', search);
+    if (skills)   params.append('skills', skills);
+    if (template) params.append('template', template);
+
+    try {
+      const res  = await fetch('/api/recruiter/resumes?' + params);
+      const data = await res.json();
+
+      if (!res.ok) { container.innerHTML = `<div class="empty-state"><div class="emoji">⚠️</div><h3>${data.message}</h3></div>`; return; }
+
+      document.getElementById('stat-total').textContent  = data.pagination.total;
+      document.getElementById('stat-pages').textContent  = data.pagination.pages;
+
+      renderCards(data.resumes, container);
+      renderPagination(data.pagination);
+    } catch (err) {
+      container.innerHTML = '<div class="empty-state"><div class="emoji">🔌</div><h3>Failed to load resumes</h3><p>Check your connection</p></div>';
+    }
+  }
+
+  /* ── RENDER CARDS ── */
+  function renderCards(resumes, container) {
+    if (!resumes.length) {
+      container.innerHTML = '<div class="empty-state"><div class="emoji">🗂️</div><h3>No resumes found</h3><p>Try adjusting your search or filters</p></div>';
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+
+    resumes.forEach(r => {
+      const initials = (r.fullName || 'U').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      const isShortlisted = shortlistIds.has(r._id);
+      const skillsArr = (r.skills || '').split(',').map(s => s.trim()).filter(Boolean).slice(0,4);
+
+      grid.innerHTML += `
+        <div class="resume-card" onclick="openModal('${r._id}')">
+          <div class="card-header">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div class="avatar">${initials}</div>
+              <div>
+                <div class="card-name">${r.fullName || 'Unknown'}</div>
+                <div class="card-tagline">${r.tagline || 'No tagline'}</div>
+              </div>
+            </div>
+            <button class="shortlist-btn ${isShortlisted ? 'bookmarked' : ''}"
+              onclick="event.stopPropagation(); toggleShortlist('${r._id}', this)"
+              title="${isShortlisted ? 'Remove from shortlist' : 'Add to shortlist'}">
+              ${isShortlisted ? '★' : '☆'}
+            </button>
+          </div>
+
+          <div class="skills-wrap">
+            ${skillsArr.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+            ${skillsArr.length === 0 ? '<span style="color:var(--muted);font-size:0.8rem">No skills listed</span>' : ''}
+          </div>
+
+          <div class="card-meta">
+            <div class="meta-item">🗂️ <strong>${r.templateName || 'Classic'}</strong></div>
+            <div class="meta-item">📅 <strong>${new Date(r.updatedAt).toLocaleDateString()}</strong></div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-sm btn-view" onclick="event.stopPropagation(); openModal('${r._id}')">View Resume</button>
+            <button class="btn-sm btn-contact" onclick="event.stopPropagation(); contactSeeker('${r.userId?.email}', '${r.fullName}')">Contact</button>
+          </div>
+        </div>`;
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+  }
+
+  /* ── PAGINATION ── */
+  function renderPagination({ total, page, pages }) {
+    const el = document.getElementById('pagination');
+    if (pages <= 1) { el.innerHTML = ''; return; }
+    let html = '';
+    if (page > 1)    html += `<button class="page-btn" onclick="fetchResumes(${page-1})">‹ Prev</button>`;
+    for (let i = 1; i <= pages; i++) {
+      html += `<button class="page-btn ${i===page?'active':''}" onclick="fetchResumes(${i})">${i}</button>`;
+    }
+    if (page < pages) html += `<button class="page-btn" onclick="fetchResumes(${page+1})">Next ›</button>`;
+    el.innerHTML = html;
+  }
+
+  /* ── MODAL ── */
+  async function openModal(id) {
+    currentResumeId = id;
+    document.getElementById('resumeModal').classList.add('open');
+    document.getElementById('modal-body').innerHTML = '<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+
+    try {
+      const res  = await fetch('/api/recruiter/resumes/' + id);
+      const data = await res.json();
+      if (!res.ok) { document.getElementById('modal-body').innerHTML = `<p style="color:var(--accent2)">${data.message}</p>`; return; }
+
+      const r = data.resume;
+      document.getElementById('modal-title').textContent = r.fullName || 'Resume';
+
+      const isS = shortlistIds.has(id);
+      const btn = document.getElementById('modal-shortlist-btn');
+      btn.textContent = isS ? '★ Shortlisted' : '☆ Shortlist';
+      btn.onclick = () => toggleShortlistById(id);
+
+      document.getElementById('modal-body').innerHTML = `
+        ${r.tagline ? `<p style="color:var(--muted);margin-bottom:16px">${r.tagline}</p>` : ''}
+
+        <!-- Contact -->
+        <div class="modal-section">
+          <h4>Contact</h4>
+          <div class="contact-box">
+            <span class="email-icon">✉️</span>
+            <span class="email-addr">${r.userId?.email || r.email || 'N/A'}</span>
+            <button class="btn-copy" onclick="copyEmail('${r.userId?.email || r.email}')">Copy</button>
+          </div>
+          ${r.linkedin ? `<p style="margin-top:10px;font-size:0.85rem">🔗 <a href="${r.linkedin}" target="_blank" style="color:var(--accent)">${r.linkedin}</a></p>` : ''}
+          ${r.github   ? `<p style="font-size:0.85rem;margin-top:4px">💻 <a href="${r.github}" target="_blank" style="color:var(--accent)">${r.github}</a></p>` : ''}
+          ${r.phone    ? `<p style="font-size:0.85rem;margin-top:4px">📞 ${r.phone}</p>` : ''}
+        </div>
+
+        <!-- Summary -->
+        ${r.summary ? `
+        <div class="modal-section">
+          <h4>Summary</h4>
+          <p>${r.summary}</p>
+        </div>` : ''}
+
+        <!-- Skills -->
+        ${r.skills ? `
+        <div class="modal-section">
+          <h4>Skills</h4>
+          <div class="skills-wrap" style="margin:0">
+            ${r.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+          </div>
+        </div>` : ''}
+
+        <!-- Experience -->
+        ${r.experience?.length ? `
+        <div class="modal-section">
+          <h4>Experience</h4>
+          ${r.experience.map(e => `
+            <div class="exp-item">
+              <h5>${e.title || ''} ${e.company ? `@ ${e.company}` : ''}</h5>
+              <div class="sub">${[e.start, e.end].filter(Boolean).join(' – ')}</div>
+              ${e.desc ? `<div class="desc">${e.desc}</div>` : ''}
+            </div>`).join('')}
+        </div>` : ''}
+
+        <!-- Education -->
+        ${r.education?.length ? `
+        <div class="modal-section">
+          <h4>Education</h4>
+          ${r.education.map(e => `
+            <div class="exp-item">
+              <h5>${e.degree || ''}</h5>
+              <div class="sub">${e.institute || ''} ${[e.start, e.end].filter(Boolean).join(' – ')}</div>
+              ${e.desc ? `<div class="desc">${e.desc}</div>` : ''}
+            </div>`).join('')}
+        </div>` : ''}
+
+        <!-- Projects -->
+        ${r.projects?.length ? `
+        <div class="modal-section">
+          <h4>Projects</h4>
+          ${r.projects.map(p => `
+            <div class="exp-item">
+              <h5>${p.name || ''} ${p.tech ? `<span style="color:var(--muted);font-weight:400;font-size:0.82rem">(${p.tech})</span>` : ''}</h5>
+              ${p.link ? `<div class="sub"><a href="${p.link}" target="_blank" style="color:var(--accent)">${p.link}</a></div>` : ''}
+              ${p.desc ? `<div class="desc">${p.desc}</div>` : ''}
+            </div>`).join('')}
+        </div>` : ''}
+      `;
+    } catch {
+      document.getElementById('modal-body').innerHTML = '<p style="color:var(--accent2)">Failed to load resume.</p>';
+    }
+  }
+
+  function closeModal() {
+    document.getElementById('resumeModal').classList.remove('open');
+    currentResumeId = null;
+  }
+
+  /* ── SHORTLIST ── */
+  async function loadShortlistIds() {
+    try {
+      const res  = await fetch('/api/recruiter/shortlist');
+      const data = await res.json();
+      shortlistIds = new Set((data.resumes || []).map(r => r._id));
+      updateShortlistCount();
+    } catch {}
+  }
+
+  async function loadShortlistResumes() {
+    const container = document.getElementById('shortlist-container');
+    container.innerHTML = '<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+    try {
+      const res  = await fetch('/api/recruiter/shortlist');
+      const data = await res.json();
+      if (!data.resumes?.length) {
+        container.innerHTML = '<div class="empty-state"><div class="emoji">⭐</div><h3>No candidates shortlisted yet</h3><p>Bookmark candidates while browsing resumes</p></div>';
+        return;
+      }
+      renderCards(data.resumes, container);
+    } catch {
+      container.innerHTML = '<div class="empty-state"><div class="emoji">⚠️</div><h3>Failed to load shortlist</h3></div>';
+    }
+  }
+
+  async function toggleShortlist(id, btn) {
+    try {
+      const res  = await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
+      const data = await res.json();
+      const isAdded = data.shortlist.includes(id) || data.message.includes('added');
+
+      if (isAdded) { shortlistIds.add(id); btn.textContent = '★'; btn.classList.add('bookmarked'); showToast('Added to shortlist ⭐', 'success'); }
+      else         { shortlistIds.delete(id); btn.textContent = '☆'; btn.classList.remove('bookmarked'); showToast('Removed from shortlist', 'info'); }
+
+      updateShortlistCount();
+    } catch { showToast('Failed to update shortlist', ''); }
+  }
+
+  async function toggleShortlistById(id) {
+    try {
+      const res  = await fetch('/api/recruiter/shortlist/' + id, { method: 'PATCH' });
+      const data = await res.json();
+      const isAdded = data.message.includes('added');
+      if (isAdded) { shortlistIds.add(id); showToast('Added to shortlist ⭐', 'success'); }
+      else         { shortlistIds.delete(id); showToast('Removed from shortlist', 'info'); }
+
+      const btn = document.getElementById('modal-shortlist-btn');
+      btn.textContent = isAdded ? '★ Shortlisted' : '☆ Shortlist';
+      updateShortlistCount();
+    } catch {}
+  }
+
+  function updateShortlistCount() {
+    document.getElementById('shortlist-count').textContent = shortlistIds.size;
+    document.getElementById('stat-shortlisted').textContent = shortlistIds.size;
+  }
+
+  /* ── CONTACT ── */
+  function contactSeeker(email, name) {
+    if (!email || email === 'undefined') { showToast('Email not available', ''); return; }
+    window.open(`mailto:${email}?subject=Opportunity for ${name || 'You'}&body=Hi ${name || 'there'},%0D%0A%0D%0AI came across your resume on ResumeHub and would like to connect.`);
+  }
+
+  function copyEmail(email) {
+    if (!email || email === 'undefined') { showToast('No email to copy', ''); return; }
+    navigator.clipboard.writeText(email).then(() => showToast('Email copied! 📋', 'success'));
+  }
+
+  /* ── UTILS ── */
+  function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('skillFilter').value = '';
+    document.getElementById('templateFilter').value = '';
+    fetchResumes(1);
+  }
+
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  async function logout() {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    window.location.href = '/user/login';
+  }
+
+  // Close modal on overlay click
+  document.getElementById('resumeModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>

@@ -27,7 +27,9 @@ const authRouter   = require('./routes/authRoutes');
 const resumeRouter = require('./routes/resumeRoutes');
 const atsRouter = require('./routes/atsRoutes');
 const adminRouter = require('./routes/adminRoutes');
+const recruiterRouter = require('./routes/recruiterRoutes');
 
+app.use('/api/recruiter', recruiterRouter);
 app.use('/api/admin', adminRouter);
 app.use('/user',        pageRouter);
 app.use('/api/auth',    authRouter);

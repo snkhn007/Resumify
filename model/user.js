@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'pending', 'rejected'],
     default: 'active'   // jobseekers are active immediately
-  }
+  },
+  shortlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Resume' }]
 }, { timestamps: true });
 
 
