@@ -1,14 +1,12 @@
 const express    = require('express');
 const authRouter = express.Router();
 const jwt        = require('jsonwebtoken');
-const bcrypt     = require('bcrypt');
 const { validationResult } = require('express-validator');
 const { signupValidation, loginValidation } = require('../middleware/backendValidation');
 const { requireAuth } = require('../middleware/authMiddleware');
 const User = require('../model/user');
 
-const JWT_SECRET  = process.env.JWT_SECRET;
-const SALT_ROUNDS = 10;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
   console.error('FATAL ERROR: JWT_SECRET environment variable is not set.');
@@ -45,19 +43,17 @@ authRouter.post('/signup', signupValidation, async (req, res) => {
       ? 'pending'
       : 'active';
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
+    // ✅ Pass plain password — model's pre-save hook hashes it automatically
     const user = await User.create({
       firstName,
       lastName,
       email,
-      password: hashedPassword,
-      role:     assignedRole,
-      status:   assignedStatus
+      password,          // plain text — pre-save hook handles hashing
+      role:   assignedRole,
+      status: assignedStatus
     });
 
-    // Block pending users — they must wait for admin approval
+    // Block pending users
     if (user.status === 'pending') {
       return res.status(403).json({
         message: 'Your account is pending admin approval.'
@@ -129,8 +125,8 @@ authRouter.post('/login', loginValidation, async (req, res) => {
       });
     }
 
-    // Compare password against bcrypt hash
-    const isMatch = await bcrypt.compare(password, user.password);
+    // ✅ Use model's comparePassword method — handles bcrypt.compare correctly
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
@@ -147,7 +143,6 @@ authRouter.post('/login', loginValidation, async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    // ✅ token is included as second argument
     res.cookie('token', token, cookieOptions);
 
     return res.status(200).json({
