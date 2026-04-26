@@ -5,6 +5,7 @@
    ============================================================= */
 
 'use strict';
+window.editingResumeId = null;
 
 const saveResumeBtn = document.getElementById('saveResumeBtn');
 const saveStatus    = document.getElementById('saveStatus');

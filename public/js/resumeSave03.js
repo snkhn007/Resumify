@@ -3,6 +3,7 @@
    ============================================================= */
 
 'use strict';
+window.editingResumeId = null;
 
 const TEMPLATE_NAME = 'Amazon SWE';
 

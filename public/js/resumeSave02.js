@@ -11,6 +11,7 @@
    ---------------------------------------- */
 
 'use strict';
+window.editingResumeId = null;
 
 const TEMPLATE_NAME = 'Google SWE'; // change to 'Amazon SWE' in resumeSave03.js
 
