@@ -95,6 +95,8 @@ myForm.addEventListener('submit', async (e) => {
     // ✅ Redirect based on role
     if (data.user?.role === 'admin') {
       window.location.href = '/user/admin';
+    } else if (data.user?.role === 'recruiter' || data.user?.role === 'coach') {
+      window.location.href = '/user/recruiter';
     } else {
       window.location.href = '/user/dashboard';
     }

@@ -1,17 +1,16 @@
 /* =============================================================
-   recruiter.css — Unified with Global Design System
-   Uses: utils.css + mainIndex.css tokens
+   recruiter.css — CLEAN VERSION (Aligned with utils.css theme)
    ============================================================= */
 
 
-/* ─── BASE ───────────────────────────────────────── */
+/* ─── LAYOUT ───────────────────────────────────────────────── */
 
 main {
   padding: 40px 0 80px;
 }
 
 
-/* ─── NAV TABS ───────────────────────────────────── */
+/* ─── NAV TABS ─────────────────────────────────────────────── */
 
 .nav-tab {
   display: flex;
@@ -19,13 +18,12 @@ main {
   gap: 7px;
   padding: 7px 16px;
   border-radius: var(--radius-full);
-  border: none;
   background: transparent;
   color: var(--muted);
   font-weight: 500;
   font-size: var(--text-base);
   cursor: pointer;
-  transition: all .2s var(--ease);
+  transition: all var(--ease);
 }
 
 .nav-tab:hover {
@@ -35,7 +33,7 @@ main {
 
 .nav-tab.active {
   background: var(--primary-soft);
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 .nav-badge {
@@ -46,32 +44,13 @@ main {
   min-width: 18px;
   height: 18px;
   border-radius: 999px;
-  display: grid;
-  place-items: center;
-}
-
-
-/* ─── CHIP ───────────────────────────────────────── */
-
-.recruiter-chip {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: var(--primary-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--primary-dark);
+  justify-content: center;
 }
 
 
-/* ─── HEADER ─────────────────────────────────────── */
-
-.page-header {
-  margin-bottom: 32px;
-}
+/* ─── HEADER ───────────────────────────────────────────────── */
 
 .page-header h1 {
   font-size: 2rem;
@@ -84,7 +63,7 @@ main {
 }
 
 
-/* ─── FILTER BAR ─────────────────────────────────── */
+/* ─── FILTER BAR ───────────────────────────────────────────── */
 
 .filters-bar {
   display: flex;
@@ -100,42 +79,58 @@ main {
 
 .search-wrap {
   flex: 1;
-  min-width: 220px;
   position: relative;
-}
-
-.search-wrap i {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
 }
 
 .search-wrap input {
   width: 100%;
-  padding: 9px 14px 9px 34px;
+  padding: 9px 14px 9px 36px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border);
   background: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
 }
 
 .search-wrap input:focus {
   border-color: var(--primary);
 }
 
-select {
+select.filter-select {
   padding: 9px 14px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border);
   background: var(--bg);
+}
+
+.filters-bar .btn-primary {
+  background: var(--primary);
+}
+
+.filters-bar .btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+
+/* ─── STATS ───────────────────────────────────────────────── */
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  color: var(--muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-chip strong {
   color: var(--text);
 }
 
 
-/* ─── GRID ───────────────────────────────────────── */
+/* ─── CARDS GRID ───────────────────────────────────────────── */
 
 .cards-grid {
   display: grid;
@@ -143,43 +138,52 @@ select {
   gap: 20px;
 }
 
-
-/* ─── CARD ───────────────────────────────────────── */
-
 .resume-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  transition: var(--ease);
+  padding: 22px;
   cursor: pointer;
+  transition: all var(--ease);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.resume-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--primary), #60a5fa);
+  opacity: 0;
+  transition: opacity var(--ease);
 }
 
 .resume-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.resume-card:hover::before {
+  opacity: 1;
 }
 
 
-/* ─── CARD HEADER ────────────────────────────────── */
+/* ─── CARD CONTENT ─────────────────────────────────────────── */
 
 .card-top {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.avatar-wrap {
-  display: flex;
-  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .r-avatar {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #60a5fa);
+  color: white;
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -195,190 +199,95 @@ select {
 }
 
 
-/* ─── SKILLS ─────────────────────────────────────── */
-
-.skills-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 12px 0;
-}
+/* ─── SKILLS ───────────────────────────────────────────── */
 
 .skill-tag {
   background: var(--primary-soft);
-  color: var(--primary-dark);
+  color: var(--primary);
   padding: 4px 10px;
   border-radius: var(--radius-full);
   font-size: 12px;
 }
 
 
-/* ─── META ───────────────────────────────────────── */
+/* ─── BUTTONS ───────────────────────────────────────────── */
 
-.card-meta {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
-
-
-/* ─── ACTIONS ────────────────────────────────────── */
-
-.card-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-card-view {
-  flex: 1;
-  padding: 8px;
-  border-radius: var(--radius-md);
+.shortlist-btn {
   border: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
-  cursor: pointer;
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+}
+
+.shortlist-btn:hover {
+  border-color: var(--warning);
+  color: var(--warning);
+  background: var(--warning-soft);
+}
+
+.btn-card-view {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  padding: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .btn-card-view:hover {
   background: var(--surface-soft);
-  color: var(--text);
 }
 
 .btn-card-shortlist {
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
-  border: none;
   background: var(--primary);
-  color: #fff;
-  font-weight: 600;
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
 }
 
 .btn-card-shortlist:hover {
   background: var(--primary-dark);
 }
 
-
-/* ─── STATES ─────────────────────────────────────── */
-
-.state-box {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--muted);
-}
-
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  margin: 0 auto 16px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.btn-card-shortlist.saved {
+  background: var(--warning);
 }
 
 
-/* ─── PAGINATION ─────────────────────────────────── */
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 40px;
-}
-
-.page-btn {
-  min-width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.page-btn.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-}
-
-
-/* ─── MODAL ─────────────────────────────────────── */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-overlay.open {
-  display: flex;
-}
+/* ─── MODAL ───────────────────────────────────────────── */
 
 .modal {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  width: 100%;
-  max-width: 650px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
 }
 
-.modal-header,
-.modal-footer {
-  padding: 16px 20px;
+.modal-header {
   border-bottom: 1px solid var(--border);
 }
 
-.modal-body {
-  padding: 20px;
-}
-
-.modal-close {
-  border: 1px solid var(--border);
-  background: transparent;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-}
-
 .modal-close:hover {
+  background: var(--error-soft);
   color: var(--error);
 }
 
 
-/* ─── TOAST ─────────────────────────────────────── */
-
-.toast-wrap {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.toast {
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--text);
-  color: var(--bg);
-  margin-top: 8px;
-}
+/* ─── TOAST ───────────────────────────────────────────── */
 
 .toast.success {
-  background: var(--success);
+  background: var(--primary);
+  color: #fff;
 }
 
 .toast.error {
   background: var(--error);
+  color: #fff;
 }
 
 
-/* ─── RESPONSIVE ─────────────────────────────────── */
+/* ─── RESPONSIVE ───────────────────────────────────────── */
 
 @media (max-width: 640px) {
   .cards-grid {
