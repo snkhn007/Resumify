@@ -1,19 +1,10 @@
-/* =============================================================
-   atsChecker.js — ATS Score Checker (shared across all templates)
-   Load on every template page AFTER the template's own JS:
-   <script src="/js/atsChecker.js"></script>
-   ============================================================= */
-
 'use strict';
 
 (function () {
-
-  /* ── Collect resume text from the live preview DOM ── */
+  // Collecting data from prview 
   function collectResumeText() {
-    const preview = document.getElementById('resumePreview')
-                 || document.querySelector('.resume')
-                 || document.querySelector('.g-resume')
-                 || document.querySelector('.a-resume');
+    const preview = document.getElementById('resumePreview') || document.querySelector('.resume') 
+    || document.querySelector('.g-resume') || document.querySelector('.a-resume');
     if (!preview) return '';
 
     // Clone so we can strip the download button without affecting the page
@@ -26,28 +17,38 @@
 
 
   /* ── Draw the speedometer needle + arc ── */
-  function drawGauge(score) {
-    const arc    = document.getElementById('atsScoreArc');
-    const needle = document.getElementById('atsNeedle');
-    if (!arc || !needle) return;
+  // function drawGauge(score) {
+  //   const arc    = document.getElementById('atsScoreArc');
+  //   const needle = document.getElementById('atsNeedle');
+  //   if (!arc || !needle) return;
 
-    const total  = 251;                          // full arc length
-    const offset = total - (score / 100) * total;
-    arc.setAttribute('stroke-dashoffset', String(offset));
+  //   const total  = 251;                          // full arc length
+  //   const offset = total - (score / 100) * total;
+  //   arc.setAttribute('stroke-dashoffset', String(offset));
 
-    // colour by score
-    const colour = score >= 80 ? '#22c55e' : score >= 55 ? '#f59e0b' : '#ef4444';
-    arc.setAttribute('stroke', colour);
+  //   // colour by score
+  //   const colour = score >= 80 ? '#22c55e' : score >= 55 ? '#f59e0b' : '#ef4444';
+  //   arc.setAttribute('stroke', colour);
 
-    // needle angle: -90deg = 0, +90deg = 100
-    const angle = -90 + (score / 100) * 180;
-    const rad   = angle * Math.PI / 180;
-    const x2    = 100 + 72 * Math.sin(rad);
-    const y2    = 100 - 72 * Math.cos(rad);
-    needle.setAttribute('x2', String(x2));
-    needle.setAttribute('y2', String(y2));
-  }
+  //   // needle angle: -90deg = 0, +90deg = 100
+  //   const angle = -90 + (score / 100) * 180;
+  //   const rad   = angle * Math.PI / 180;
+  //   const x2    = 100 + 72 * Math.sin(rad);
+  //   const y2    = 100 - 72 * Math.cos(rad);
+  //   needle.setAttribute('x2', String(x2));
+  //   needle.setAttribute('y2', String(y2));
+  // }
+function drawGauge(score) {
+  const scoreEl = document.getElementById('atsScoreNum');
+  if (!scoreEl) return;
 
+  scoreEl.textContent = score;
+
+  const colour = score >= 80 ? '#22c55e'
+               : score >= 55 ? '#f59e0b'
+               :               '#ef4444';
+  scoreEl.style.color = colour;
+}
 
   /* ── Render results into the panel ── */
   function renderResults(data) {

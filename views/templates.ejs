@@ -179,43 +179,8 @@
         <!-- Results -->
         <div id="atsResults" style="display:none;">
 
-          <!-- Speedometer -->
+<!-- Score display (no gauge) -->
           <div class="ats-gauge-wrap">
-            <svg class="ats-gauge-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
-              <!-- Background arc -->
-              <path
-                d="M 20 100 A 80 80 0 0 1 180 100"
-                fill="none"
-                stroke="#e5e7eb"
-                stroke-width="16"
-                stroke-linecap="round"
-              />
-              <!-- Coloured score arc -->
-              <path
-                id="atsScoreArc"
-                d="M 20 100 A 80 80 0 0 1 180 100"
-                fill="none"
-                stroke="#22c55e"
-                stroke-width="16"
-                stroke-linecap="round"
-                stroke-dasharray="251"
-                stroke-dashoffset="251"
-              />
-              <!-- Zone labels -->
-              <text x="16"  y="112" font-size="9" fill="#94a3b8" font-family="Arial">0</text>
-              <text x="91"  y="18"  font-size="9" fill="#94a3b8" font-family="Arial" text-anchor="middle">50</text>
-              <text x="178" y="112" font-size="9" fill="#94a3b8" font-family="Arial">100</text>
-              <!-- Needle -->
-              <line
-                id="atsNeedle"
-                x1="100" y1="100"
-                x2="100" y2="100"
-                stroke="#0f172a"
-                stroke-width="2.5"
-                stroke-linecap="round"
-              />
-              <circle cx="100" cy="100" r="5" fill="#0f172a"/>
-            </svg>
             <div class="ats-score-num" id="atsScoreNum">—</div>
             <div class="ats-score-label">ATS Compatibility Score</div>
             <span class="ats-verdict" id="atsVerdict"></span>
