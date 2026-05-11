@@ -373,46 +373,6 @@ To create an admin account, insert a user document directly in MongoDB Atlas wit
 
 ---
 
-## Roadmap
-
-These are the planned features open for contribution in GSSoC 2026:
-
-- **Per-field AI suggestions** — Inline LLM-powered suggestions as the user types in each resume field (summary, experience descriptions, skills), triggered from the live preview editor
-- **More resume templates** — Additional company-specific and general-purpose templates (open for design contributions)
-- **PDF parsing** — Allow users to upload an existing PDF resume and auto-populate the builder fields
-- **AI cover letter generator** — Generate a tailored cover letter based on the saved resume and a job description input
-- **Coach role features** — Dedicated dashboard for coaches to annotate and give feedback on jobseeker resumes
-- **Stronger RBAC** — Fine-grained permission checks, audit logging for admin actions
-
----
-
-## Contributing (GSSoC 2026)
-
-Resumify is participating in **GSSoC 2026**. Contributions of all sizes are welcome.
-
-### Getting started
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Make your changes, following the existing code style
-4. Test locally before pushing
-5. Open a Pull Request with a clear description of what you changed and why
-
-### Good first issues to look for
-
-- Adding a new EJS resume template (HTML/CSS knowledge sufficient)
-- Improving client-side validation messages
-- Adding loading skeletons to the recruiter browse page
-- Writing missing API error handling on the frontend
-
-### Code style notes
-
-- Backend uses `async/await` throughout with `try/catch` error handling
-- Frontend JS uses vanilla ES6+ with IIFEs where scope isolation matters (`atsChecker.js`, `navbar.js`)
-- Validation happens on both client (immediate UX feedback) and server (security guarantee) — keep both in sync when modifying form fields
-
----
-
 <div align="center">
 
 Built with Node.js, MongoDB, and Groq AI · Deployed on Render
