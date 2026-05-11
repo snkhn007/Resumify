@@ -36,7 +36,6 @@ The project is live and deployed on Render: **[resumify-backend-oqq4.onrender.co
 - [Environment Variables](#environment-variables)
 - [Running Locally](#running-locally)
 - [Roadmap](#roadmap)
-- [Contributing (GSSoC 2026)](#contributing-gssoc-2026)
 
 ---
 
